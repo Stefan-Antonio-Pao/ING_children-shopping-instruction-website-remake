@@ -1,1 +1,24 @@
-# ING_children-shopping-instruction-website-remake
+# Children Shopping Instruction Website (Remake)
+- [ ] Quest 1: UI Redesigning
+  - [x] Home Page
+  - [x] Setting Page
+  - [ ] Catalogs Page
+  - [ ] Course Page
+  - [ ] Reward Page
+  - [ ] Contact Page
+- [ ] Quest 2: Service Reimage
+  - [x] Home Page
+  - [x] Setting Page
+  - [x] Catalog Page
+- [ ] Quest 3: New Feature
+  - [ ] Courses Page
+    - [ ] Teaching Page
+      - [ ] RMB Recognition has more content on color, numbers, and background.
+    - [ ] Exercise Page
+      - [ ] According to RMB Recognition, there are more exercises on color, numbers, and background.
+      - [ ] RMB Exchange is also important, which needs to be various exercises. E.g., 5*10 RMB = ? RMB, 50 RNB = ?*10 RMB, etc.
+      - [ ] Shopping Page
+        - [ ] Delete something unrelated under the shopping page.
+        - [ ] Add chosen number of goods to the goods straightly, instead of adding one by one.
+  - [ ] Reward Page
+  - [ ] Contact Page

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>导览角色设置｜儿童购物游戏教学网站</title>
+    <!-- Import CSS Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="../../css/general/page-settings.css">
+    <link rel="stylesheet" type="text/css" href="../../css/general/card-layout.css">
+    <link rel="stylesheet" type="text/css" href="../../css/sections/settings/director-settings.css">
+    <!-- Import JavaScript -->
+    <script src="../../javascript/general/page-cleaner.js"></script>
+    <script src="../../javascript/voice-setting/voice-core.js"></script>
+    <script src="../../javascript/general/page-reader.js"></script>
+    <script src="../../javascript/director-settings.js"></script>
+</head>
+
+<body>
+<!-- Accessibility: Page Reader Text -->
+<reader style="display: none" id="page-reader-text">
+    欢迎来到导览角色设置！
+    你可以通过左侧选择不同的角色来陪伴你学习。
+    每个角色都有独特的个性，选择你最喜欢的角色吧！
+</reader>
+
+<div class="page-container">
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <button id="clear-data-btn" class="toolbar-btn" title="清除数据">X</button>
+        <button id="play-page-btn" class="toolbar-btn" title="朗读页面">读</button>
+    </div>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <a href="../homepage.html" class="nav-item">首页</a>
+        <a href="../settings.html" class="nav-item active">设置</a>
+        <a href="../catalog.html" class="nav-item">课程目录</a>
+        <a href="../rewards.html" class="nav-item">奖励</a>
+        <a href="../contact-us.html" class="nav-item">联系我们</a>
+    </nav>
+
+    <!-- Title -->
+    <h1 class="main-title">导览角色设置</h1>
+
+    <!-- Description -->
+    <div class="settings-description">
+        你可以通过左侧选择不同的角色来陪伴你学习。
+        每个角色都有独特的个性，选择你最喜欢的角色吧！
+    </div>
+
+    <!-- Main -->
+    <main class="content-card">
+        <!-- Director Settings Content - Centered -->
+        <div class="director-settings-content">
+            <!-- Character Selection Sidebar -->
+            <div class="character-selection-sidebar">
+                <div class="character-grid">
+                    <!-- Characters will be dynamically added by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Video Playback Area -->
+            <div class="video-playback-area">
+                <!-- <h3 style="color: #2c4a7c; margin: 0 0 15px 0; font-size: 1.2rem;">角色介绍</h3> -->
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <div>
+                            <div style="font-size: 2.5rem; margin-bottom: 10px;">🎬</div>
+                            <div>选择一个角色开始观看介绍</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <button class="end-btn" onclick="window.location.href='../settings.html'">返回设置</button>
+    </footer>
+</div>
+</body>
+</html>

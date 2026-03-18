@@ -1,0 +1,278 @@
+/* Voice Settings Panel */
+.voice-settings-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.voice-settings-panel h2 {
+    color: #2c4a7c;
+    font-size: 1.2rem;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+/* Voice Selector */
+.voice-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.voice-selector label {
+    color: #334e68;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.voice-selector select {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    border: 2px solid #d0d0d0;
+    border-radius: 10px;
+    background-color: white;
+    color: #334e68;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+.voice-selector select:hover {
+    border-color: #76c893;
+}
+
+.voice-selector select:focus {
+    outline: none;
+    border-color: #76c893;
+    box-shadow: 0 0 0 3px rgba(118, 200, 147, 0.1);
+}
+
+/* Control Panel (Rate & Pitch) */
+.control-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.control-panel label {
+    color: #334e68;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.control-panel-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.control-panel input[type="range"] {
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right, #d0d0d0 0%, #d0d0d0 100%);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+}
+
+.control-panel input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #76c893;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.control-panel input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #76c893;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.control-value {
+    min-width: 45px;
+    text-align: center;
+    font-weight: bold;
+    color: #76c893;
+    font-size: 0.95rem;
+    background: white;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Button Group */
+.voice-button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.voice-button-group button {
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.voice-button-group .toggle-btn {
+    background-color: #76c893;
+    color: white;
+}
+
+.voice-button-group .toggle-btn:hover {
+    background-color: #5ba67a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(118, 200, 147, 0.3);
+}
+
+.voice-button-group .toggle-btn.off {
+    background-color: #ccc;
+    color: #666;
+}
+
+.voice-button-group .toggle-btn.off:hover {
+    background-color: #bbb;
+}
+
+.voice-button-group .reset-btn {
+    background-color: #f0ad4e;
+    color: white;
+}
+
+.voice-button-group .reset-btn:hover {
+    background-color: #ec971f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(240, 173, 78, 0.3);
+}
+
+/* Test Area */
+.test-area {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.test-area h2 {
+    color: #2c4a7c;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.test-area p {
+    color: #334e68;
+    line-height: 1.5;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.test-area button {
+    align-self: flex-start;
+    padding: 10px 20px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    background-color: #76c893;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.test-area button:hover {
+    background-color: #5ba67a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(118, 200, 147, 0.3);
+}
+
+.test-area button:active {
+    transform: translateY(0px);
+}
+
+/* Settings Content Container */
+.settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.settings-description {
+    color: #334e68;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    background: #f0f8ff;
+    padding: 12px 15px;
+    border-left: 4px solid #76c893;
+    border-radius: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .voice-settings-panel,
+    .test-area {
+        padding: 20px;
+    }
+
+    .voice-settings-panel h2,
+    .test-area h2 {
+        font-size: 1.3rem;
+    }
+
+    .control-panel label,
+    .voice-selector label {
+        font-size: 1rem;
+    }
+
+    .voice-button-group button {
+        font-size: 1rem;
+        padding: 12px 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .voice-settings-panel,
+    .test-area {
+        padding: 15px;
+        gap: 20px;
+    }
+
+    .voice-settings-panel h2,
+    .test-area h2 {
+        font-size: 1.2rem;
+    }
+
+    .control-panel-content {
+        gap: 10px;
+    }
+
+    .control-value {
+        min-width: 40px;
+        font-size: 1rem;
+        padding: 4px 8px;
+    }
+
+    .voice-button-group button {
+        font-size: 0.95rem;
+        padding: 10px 20px;
+    }
+}
+

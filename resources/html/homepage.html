@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>首页｜儿童购物游戏教学网站</title>
+    <!-- Import CSS Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="../css/general/page-settings.css">
+    <link rel="stylesheet" type="text/css" href="../css/sections/homepage.css">
+    <!-- Import JavaScript -->
+    <script src="../javascript/general/page-cleaner.js"></script>
+    <script src="../javascript/voice-setting/voice-core.js"></script>
+    <script src="../javascript/general/page-reader.js"></script>
+</head>
+
+<body>
+<!-- Accessibility: Page Reader Text -->
+<reader style="display: none" id="page-reader-text">
+    欢迎来到儿童购物游戏教学网站!
+    亲爱的小朋友，我们将一起学习如何购物！
+    你将会学习认识人民币、学会支付、挑选商品，最后成功购物！
+</reader>
+
+<div class="page-container">
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <button id="clear-data-btn" class="toolbar-btn" title="清除数据">️X</button>
+        <button id="play-page-btn" class="toolbar-btn" title="朗读页面">读</button>
+    </div>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <a href="homepage.html" class="nav-item active">首页</a>
+        <a href="settings.html" class="nav-item">设置</a>
+        <a href="catalog.html" class="nav-item">课程目录</a>
+        <a href="rewards.html" class="nav-item">奖励</a>
+        <a href="contact-us.html" class="nav-item">联系我们</a>
+    </nav>
+
+    <!-- Title -->
+    <h1 class="main-title">儿童购物游戏教学网站</h1>
+
+    <!-- Main -->
+    <main class="content-card">
+        <div class="intro-flex">
+            <div class="character-box">
+                <img src="../assets/images/sundry/bear-uncle.png" alt="熊叔叔" class="bear-img">
+            </div>
+
+            <div class="speech-box">
+                <div class="speech-bubble">
+                    <p>亲爱的小朋友，我们将一起学习如何购物！</p>
+                    <p>你将会学习认识人民币、学会支付、挑选商品，最后成功购物！</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <button class="end-btn" onclick="window.location.href='catalog.html'">开始学习</button>
+    </footer>
+</div>
+
+<script>
+    // Add smooth navigation behavior if needed
+</script>
+</body>
+</html>

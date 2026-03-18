@@ -1,0 +1,209 @@
+/* Director Settings - Character Selection and Video Playback */
+
+/* Description - positioned at top, not affected by flex */
+.settings-description {
+    color: #334e68;
+    line-height: 1.6;
+    font-size: 1rem;
+    background: #f0f8ff;
+    padding: 15px 20px;
+    border-left: 4px solid #76c893;
+    border-radius: 8px;
+    /*text-align: center;*/
+    margin-bottom: 10px;
+    flex-shrink: 0;
+}
+
+/* Main Layout - Left sidebar for characters (2x2), right for video - both vertically centered */
+.director-settings-content {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Character Selection Sidebar */
+.character-selection-sidebar {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Character Selection Grid - 2x2 layout */
+.character-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: auto;
+}
+
+/* Character Avatar */
+.character-avatar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
+    border: 3px solid transparent;
+    width: 180px;
+    height: 180px;
+}
+
+.character-avatar:hover {
+    transform: scale(1.05);
+    background: #f0f0f0;
+}
+
+.character-avatar.selected {
+    border-color: #76c893;
+    background: #e8f5ea;
+    box-shadow: 0 4px 12px rgba(118, 200, 147, 0.3);
+}
+
+.character-avatar img {
+    width: 125px;
+    height: 125px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+.character-avatar.selected img {
+    border-color: #76c893;
+}
+
+/* Video Playback Area */
+.video-playback-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+    background: #f9f9f9;
+    border-radius: 15px;
+    flex: 0 0 auto;
+    width: 600px;
+    height: 450px;
+    overflow: hidden;
+}
+
+.video-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background: #000;
+}
+
+.video-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    color: #666;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.video-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    opacity: 0.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .director-settings-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .character-selection-sidebar {
+        flex: none;
+    }
+
+    .character-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    .character-avatar {
+        padding: 12px;
+    }
+
+    .character-avatar img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .video-playback-area {
+        padding: 15px;
+        min-height: 250px;
+    }
+
+    .video-container {
+        max-width: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .character-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        max-width: 300px;
+    }
+
+    .character-avatar {
+        padding: 10px;
+    }
+
+    .character-avatar img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .video-playback-area {
+        padding: 12px;
+        min-height: 200px;
+    }
+
+    .video-container {
+        max-width: 280px;
+    }
+
+    .video-placeholder {
+        height: 180px;
+        font-size: 1rem;
+    }
+
+    .video-placeholder i {
+        font-size: 2.5rem;
+    }
+}

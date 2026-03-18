@@ -1,0 +1,328 @@
+/* Course Catalog Layout - General styles for course and exercise catalogs */
+
+/* Main layout container */
+.course-catalog-content {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
+    margin-top: 20px;
+}
+
+/* Left sidebar - Course list */
+.course-sidebar {
+    flex: 0 0 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 100%;
+    overflow-y: auto;
+    margin: 0 20px;
+}
+
+/* Course item card */
+.course-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
+    border: 3px solid transparent;
+}
+
+.course-item:hover {
+    transform: scale(1.05);
+    /*box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);*/
+}
+
+.course-item.selected {
+    border-color: #76c893;
+    background: #e8f5ea;
+    /*box-shadow: 0 4px 12px rgba(118, 200, 147, 0.3);*/
+}
+
+.course-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+.course-item.selected .course-icon {
+    border-color: #76c893;
+}
+
+.course-name {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #334e68;
+    text-align: center;
+    margin: 0;
+}
+
+.course-description {
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Right content area - Difficulty levels */
+.difficulty-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 100%;
+}
+
+/* Difficulty grid */
+.difficulty-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+/* Difficulty card */
+.difficulty-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    min-height: 150px;
+    margin: 20px;
+}
+
+.difficulty-card:hover {
+    transform: scale(1.05);
+    /*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);*/
+}
+
+.difficulty-card.selected {
+    border: 2px solid #333;
+    /*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);*/
+}
+
+/* Difficulty colors - using lighter solid colors for better readability */
+.difficulty-easy {
+    background: #f0f8f0;
+    border-color: #4caf50;
+}
+
+.difficulty-easy:hover {
+    background: #e8f5e8;
+}
+
+.difficulty-medium {
+    background: #fff8e1;
+    border-color: #ff9800;
+}
+
+.difficulty-medium:hover {
+    background: #fff3c4;
+}
+
+.difficulty-hard {
+    background: #ffebee;
+    border-color: #f44336;
+}
+
+.difficulty-hard:hover {
+    background: #ffcdd2;
+}
+
+.difficulty-expert {
+    background: #f8f5ff;
+    border-color: #9c27b0;
+}
+
+.difficulty-expert:hover {
+    background: #f3e5f5;
+}
+
+.difficulty-level {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    text-shadow: none;
+}
+
+.difficulty-name {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin: 0;
+}
+
+/* Difficulty description */
+.difficulty-description {
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+    line-height: 1.4;
+    margin: 0;
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+/* Course info display */
+.course-info-display {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 15px;
+    border-left: 4px solid #76c893;
+}
+
+.course-info-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #2c4a7c;
+    margin: 0 0 10px 0;
+}
+
+.course-info-text {
+    font-size: 1rem;
+    color: #334e68;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Difficulty description container */
+.difficulty-description-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 15px;
+    border-left: 4px solid #76c893;
+    margin-top: 20px;
+}
+
+.difficulty-description-box {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+}
+
+.selected-difficulty-description {
+    font-size: 1rem;
+    color: #334e68;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.start-course-btn {
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: bold;
+    background-color: #76c893;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-self: flex-start;
+}
+
+.start-course-btn:hover {
+    background-color: #5ba67a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(118, 200, 147, 0.3);
+}
+
+.start-course-btn:active {
+    transform: translateY(0);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .course-catalog-content {
+        gap: 20px;
+    }
+
+    .course-sidebar {
+        flex: 0 0 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .course-catalog-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .course-sidebar {
+        flex: none;
+        max-height: 200px;
+    }
+
+    .difficulty-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+    }
+
+    .difficulty-card {
+        padding: 15px;
+        min-height: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .course-sidebar {
+        max-height: 150px;
+    }
+
+    .course-item {
+        padding: 15px;
+        gap: 8px;
+    }
+
+    .course-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .course-name {
+        font-size: 1rem;
+    }
+
+    .course-description {
+        font-size: 0.85rem;
+    }
+
+    .difficulty-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .difficulty-card {
+        padding: 12px;
+        min-height: 80px;
+    }
+
+    .difficulty-level {
+        font-size: 1.1rem;
+    }
+
+    .difficulty-name {
+        font-size: 0.9rem;
+    }
+}

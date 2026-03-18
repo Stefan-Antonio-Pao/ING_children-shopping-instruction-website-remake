@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>智能语音设置｜儿童购物游戏教学网站</title>
+    <!-- Import CSS Stylesheet -->
+    <link rel="stylesheet" type="text/css" href="../../css/general/page-settings.css">
+    <link rel="stylesheet" type="text/css" href="../../css/sections/settings.css">
+    <link rel="stylesheet" type="text/css" href="../../css/sections/settings/voice-settings.css">
+    <!-- Import JavaScript -->
+    <script src="../../javascript/general/page-cleaner.js"></script>
+    <script src="../../javascript/voice-setting/voice-core.js"></script>
+    <script src="../../javascript/general/page-reader.js"></script>
+    <script src="../../javascript/voice-setting/voice-settings.js"></script>
+</head>
+
+<body>
+<!-- Accessibility: Page Reader Text -->
+<reader style="display: none" id="page-reader-text">
+    欢迎来到智能语音设置！
+    你可以通过菜单来选择不同的语音，通过调整下方的滑块调整语速和音调，
+    点击自动朗读按钮来决定是否自动朗读，点击朗读文字来调试你设置的语音效果。
+    如果效果不满意，可以点击重置按钮还原设置。
+</reader>
+
+<div class="page-container">
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <button id="clear-data-btn" class="toolbar-btn" title="清除数据">X</button>
+        <button id="play-page-btn" class="toolbar-btn" title="朗读页面">读</button>
+    </div>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <a href="../homepage.html" class="nav-item">首页</a>
+        <a href="../settings.html" class="nav-item active">设置</a>
+        <a href="../catalog.html" class="nav-item">课程目录</a>
+        <a href="../rewards.html" class="nav-item">奖励</a>
+        <a href="../contact-us.html" class="nav-item">联系我们</a>
+    </nav>
+
+    <!-- Title -->
+    <h1 class="main-title">智能语音语音设置</h1>
+
+    <!-- Main -->
+    <main class="content-card">
+        <div class="settings-content">
+            <!-- Description -->
+            <div class="settings-description">
+                你可以通过菜单来选择不同的语音，通过调整下方的滑块调整语速和音调，
+                点击自动朗读按钮来决定是否自动朗读，点击朗读文字来调试你设置的语音效果。
+                如果效果不满意，可以点击重置按钮还原设置。
+            </div>
+
+            <!-- Voice Settings Panel -->
+            <div class="voice-settings-panel">
+                <!-- Voice Selector -->
+                <div class="voice-selector">
+                    <label for="voice-select">选择语音：</label>
+                    <select id="voice-select"></select>
+                </div>
+
+                <!-- Rate Control -->
+                <div class="control-panel">
+                    <label for="rate">语速：</label>
+                    <div class="control-panel-content">
+                        <input type="range" id="rate" min="0.5" max="2" value="1" step="0.1">
+                        <span class="control-value" id="rate-value">1</span>
+                    </div>
+                </div>
+
+                <!-- Pitch Control -->
+                <div class="control-panel">
+                    <label for="pitch">音调：</label>
+                    <div class="control-panel-content">
+                        <input type="range" id="pitch" min="0.5" max="2" value="1" step="0.1">
+                        <span class="control-value" id="pitch-value">1</span>
+                    </div>
+                </div>
+
+                <!-- Button Group -->
+                <div class="voice-button-group">
+                    <button id="ai-voice-btn" class="toggle-btn">自动朗读：开启</button>
+                    <button id="ai-voice-reset" class="reset-btn">重置语音设置</button>
+                </div>
+            </div>
+
+            <!-- Test Area -->
+            <div class="test-area">
+                <h2>测试区域</h2>
+                <p>这是新语音的播放效果。如果对该语音效果不满意，你可以在上方继续调整。</p>
+                <button class="test-btn">播放测试语句</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <button class="end-btn" onclick="window.location.href='../settings.html'">返回设置</button>
+    </footer>
+</div>
+</body>
+</html>

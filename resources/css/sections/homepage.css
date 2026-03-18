@@ -1,0 +1,41 @@
+/* Container Layout: Center */
+.intro-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* vertically center */
+    gap: 40px;           /* gap between image and bubble */
+    margin: 40px 0;
+}
+
+/* Set the Size of Image */
+.bear-img {
+    height: 400px;
+    width: auto;
+}
+
+/* Right Side Bubble */
+.speech-bubble {
+    background: #ffffff;
+    border: 4px solid #f0f0f0;
+    border-radius: 40px;
+    padding: 30px 40px;
+    position: relative;
+    max-width: 450px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    font-size: 1.4rem;
+    color: #334e68;
+    font-weight: bold;
+    line-height: 1.8;
+}
+
+/* Triangle of Left Side of Bubble */
+.speech-bubble::before {
+    content: '';
+    position: absolute;
+    left: -20px; /* move to left side */
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 20px solid #f0f0f0; /* keep the color same */
+}
