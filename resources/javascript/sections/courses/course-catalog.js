@@ -6,21 +6,16 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "教学课程",
             courses: [
                 {
-                    id: "money-recognition",
+                    id: "rmb-currency-recognition",
                     name: "认识人民币",
                     icon: "../../../assets/images/rmbs/elements/portraits/yuan-100.jpg",
                     description: "学习人民币的面值、图案等信息",
                     difficulties: [
                         {
                             level: "easy",
-                            name: "基础认识",
-                            description: "通过颜色认识人民币的不同面值",
+                            name: "认识纸币",
+                            description: "通过颜色与元素认识人民币的不同面值",
                             url: "rmb-easy-template.html"
-                        },
-                        {
-                            level: "medium",
-                            name: "进阶辨识",
-                            description: "通过各个组成部分认识人民币的不同面值"
                         },
                         {
                             level: "medium",
@@ -37,36 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     difficulties: [
                         {
                             level: "easy",
+                            name: "电子支付",
+                            description: "了解手机支付的基本操作"
+                        },
+                        {
+                            level: "medium",
                             name: "现金支付",
                             description: "学习如何使用现金进行购物支付"
-                        },
-                        {
-                            level: "medium",
-                            name: "电子支付",
-                            description: "了解手机支付和银行卡支付的基本操作"
-                        }
-                    ]
-                },
-                {
-                    id: "shopping-skills",
-                    name: "购物技巧",
-                    icon: "../../../assets/images/study-tools/notebook.jpg",
-                    description: "掌握挑选商品、比较价格的购物技能",
-                    difficulties: [
-                        {
-                            level: "easy",
-                            name: "商品挑选",
-                            description: "学习如何根据需求挑选合适的商品"
-                        },
-                        {
-                            level: "medium",
-                            name: "价格比较",
-                            description: "掌握比较不同商品价格和性价比的方法"
-                        },
-                        {
-                            level: "hard",
-                            name: "预算规划",
-                            description: "学习制定购物预算和控制消费"
                         }
                     ]
                 }
@@ -77,75 +49,52 @@ document.addEventListener('DOMContentLoaded', () => {
             courses: [
                 {
                     id: "money-practice",
-                    name: "人民币练习",
+                    name: "兑钱练习",
                     icon: "../../../assets/images/rmbs/elements/portraits/yuan-100.jpg",
-                    description: "通过游戏练习人民币的识别和计算",
+                    description: "练习人民币间的等额兑换",
                     difficulties: [
                         {
                             level: "easy",
-                            name: "简单计算",
-                            description: "练习1-10元人民币的加减运算"
+                            name: "纸币兑换（一）",
+                            description: "练习10元至100元纸币的货币兑换"
                         },
                         {
                             level: "medium",
-                            name: "找零练习",
-                            description: "学习购物找零和金额计算"
+                            name: "纸币兑换（二）",
+                            description: "练习1元至100元纸币的货币兑换"
                         },
                         {
                             level: "hard",
-                            name: "综合应用",
-                            description: "综合运用人民币知识解决实际问题"
-                        },
-                        {
-                            level: "expert",
-                            name: "挑战模式",
-                            description: "高难度人民币计算和应用挑战"
-                        }
-                    ]
-                },
-                {
-                    id: "payment-exercise",
-                    name: "支付练习",
-                    icon: "../../../assets/images/sundry/online-payment.png",
-                    description: "模拟真实购物场景进行支付练习",
-                    difficulties: [
-                        {
-                            level: "easy",
-                            name: "模拟购物",
-                            description: "在虚拟商店中练习支付流程"
-                        },
-                        {
-                            level: "medium",
-                            name: "支付选择",
-                            description: "根据不同情况选择合适的支付方式"
-                        },
-                        {
-                            level: "hard",
-                            name: "问题解决",
-                            description: "处理支付过程中的各种问题和异常情况"
+                            name: "综合兑换",
+                            description: "练习硬币及1元至100元纸币的货币兑换"
                         }
                     ]
                 },
                 {
                     id: "shopping-challenge",
-                    name: "购物挑战",
+                    name: "应用：购物模拟",
                     icon: "../../../assets/images/study-tools/pencil.jpg",
                     description: "综合购物技能的挑战练习",
                     difficulties: [
                         {
-                            level: "medium",
-                            name: "预算挑战",
-                            description: "在限定预算内完成购物任务"
+                            level: "easy",
+                            name: "购物模拟（一）",
+                            description: "简易的商品价格计算，支付足够金额以完成交易"
                         },
                         {
-                            level: "hard",
-                            name: "时间挑战",
-                            description: "在时间限制内完成购物规划"
+                            level: "medium",
+                            name: "购物模拟（二）",
+                            description: "简易的商品价格计算，支付精准金额以完成交易"
+                        },
+                        {
+                            level: "medium",
+                            name: "购物挑战（一）",
+                            description: "复杂的商品价格计算，支付精准金额以完成交易"
                         },
                         {
                             level: "expert",
-                            name: "综合挑战",
-                            description: "综合运用所有购物技能的终极挑战"
+                            name: "购物挑战（二）",
+                            description: "更复杂的商品价格计算，在满足消费金额限制的情况下完成交易"
                         }
                     ]
                 }
@@ -267,7 +216,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // TODO: Navigate to actual course content page
             // For now, show confirmation
-            alert(`开始课程：${course.name}\n难度：${difficulty.name}\n\n${difficulty.description}`);
+            // alert(`开始课程：${course.name}\n难度：${difficulty.name}\n\n${difficulty.description}`);
+            alert(`课程正在开发中，敬请期待！\n\n课程：${course.name}\n难度：${difficulty.name}`);
             // window.location.href = `course-content.html?course=${course.id}&difficulty=${difficulty.level}`;
         }
     }

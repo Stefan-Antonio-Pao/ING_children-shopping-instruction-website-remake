@@ -12,6 +12,9 @@
     function updateButtonState(newState) {
         // Core: If speaking is explicitly canceled, ended, or error occurred, revert to 'Read'
         if (newState === 0 || newState === 'end' || newState === 'error') {
+            if (state === 1) {
+                console.log('朗读成功完成');
+            }
             state = 0; // Force set to Stopped state
             if (playPageBtn) {
                 playPageBtn.textContent = '读';
@@ -48,7 +51,12 @@
     }
 
     // --- Button click handler ---
-    function handlePlayback(text) {
+    function handlePlayback() {
+        const el = document.getElementById(ID);
+        if (!el) return;
+        const text = (el.textContent || el.innerText || '').trim();
+        if (!text) return;
+
         if (state === 1) {
             // Speaking -> Pause
             synth.pause();
@@ -124,13 +132,11 @@
     function init() {
         const el = document.getElementById(ID);
         if (!el) return;
-        const text = (el.textContent || el.innerText || '').trim();
-        if (!text) return;
 
         playPageBtn = document.getElementById('play-page-btn');
         if (playPageBtn) {
             updateButtonState(0);
-            playPageBtn.addEventListener('click', () => handlePlayback(text));
+            playPageBtn.addEventListener('click', handlePlayback);
         }
 
         // NEW: Add event listeners for page navigation buttons
@@ -144,7 +150,20 @@
             nextBtn.addEventListener('click', stopSpeechAndNavigate);
         }
 
-        tryAutoSpeak(text);
+        // Initial auto-speak if text exists
+        const initialText = (el.textContent || el.innerText || '').trim();
+        if (initialText) {
+            tryAutoSpeak(initialText);
+        }
+
+        // Observe changes to the reader text for dynamic updates
+        const observer = new MutationObserver(() => {
+            const newText = (el.textContent || el.innerText || '').trim();
+            if (newText) {
+                tryAutoSpeak(newText);
+            }
+        });
+        observer.observe(el, { childList: true, subtree: true, characterData: true });
     }
 
     if (document.readyState === 'loading') {

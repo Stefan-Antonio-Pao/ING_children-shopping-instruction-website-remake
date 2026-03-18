@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>认识人民币 - 基础认识</title>
+    <!-- Import CSS Stylesheet -->
+    <link rel="stylesheet" href="../../../css/general/page-settings.css">
+    <link rel="stylesheet" href="../../../css/general/card-layout.css">
+    <link rel="stylesheet" href="../../../css/sections/courses/teaching/rmb-easy.css">
+    <!-- Import JavaScript -->
+    <script src="../../../javascript/general/page-cleaner.js"></script>
+    <script src="../../../javascript/sections/settings/voice-setting/voice-core.js"></script>
+    <script src="../../../javascript/general/page-reader.js"></script>
+    <script src="../../../javascript/sections/courses/teaching/rmb-easy.js"></script>
+</head>
+<body>
+<!-- Accessibility: Page Reader Text -->
+<reader style="display: none" id="page-reader-text"></reader>
+
+<div class="page-container">
+    <!-- Toolbar -->
+    <div class="toolbar">
+        <button class="toolbar-btn" id="prev-btn">←</button>
+        <button class="toolbar-btn" id="next-btn">→</button>
+        <button id="play-page-btn" class="toolbar-btn" title="朗读页面">读</button>
+    </div>
+
+    <!-- Header -->
+    <nav class="navbar">
+        <a href="?value=1" class="nav-item" id="nav-1">1元</a>
+        <a href="?value=5" class="nav-item" id="nav-5">5元</a>
+        <a href="?value=10" class="nav-item" id="nav-10">10元</a>
+        <a href="?value=20" class="nav-item" id="nav-20">20元</a>
+        <a href="?value=50" class="nav-item" id="nav-50">50元</a>
+        <a href="?value=100" class="nav-item" id="nav-100">100元</a>
+    </nav>
+
+    <!-- Header -->
+    <h1 class="main-title">认识人民币 - 基础认识</h1>
+
+    <!-- 模式切换 -->
+    <div class="mode-switch">
+        <button class="mode-btn active" id="teaching-btn" onclick="switchMode('teaching')">教学</button>
+        <button class="mode-btn" id="practice-btn" onclick="switchMode('practice')">练习</button>
+    </div>
+
+    <!-- 练习步骤指示器（固定在模式切换下方） -->
+    <div class="practice-steps-container" id="practice-steps-container" style="display: none;">
+        <div class="steps" id="steps">
+            <div class="step active" id="step1">
+                <div class="step-circle">1</div>
+                <div class="step-label">颜色选择</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-circle">2</div>
+                <div class="step-label">正面拼图</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-circle">3</div>
+                <div class="step-label">风景选择</div>
+            </div>
+            <div class="step" id="step4">
+                <div class="step-circle">4</div>
+                <div class="step-label">完成练习</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="content-card">
+        <!-- 教学模式 -->
+        <div class="mode-content active" id="teaching-content">
+            <!-- 教学页面1：颜色 -->
+            <div class="teaching-page active" id="teaching-page1">
+                <div class="teaching-section">
+                    <h2>人民币的颜色</h2>
+                    <div class="bill-display">
+                        <img id="teaching-bill-front" src="" alt="人民币正面" class="bill-img">
+                        <img id="teaching-bill-back" src="" alt="人民币背面" class="bill-img">
+                    </div>
+                    <div class="color-info">
+                        <div class="color-badge" id="teaching-color-badge">红色</div>
+                        <p>这是<span id="teaching-color-value">100</span>元人民币，它的颜色是<span id="teaching-color-name">红色</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 教学页面2：面值 -->
+            <div class="teaching-page" id="teaching-page2">
+                <div class="teaching-section">
+                    <h2>人民币的面值</h2>
+                    <div class="element-display">
+                        <img id="teaching-value-large" src="" alt="面值" class="element-img">
+                        <p>钞票正面左侧印有大号数字"<span id="teaching-value-number">100</span>"，下方还有汉字"<span id="teaching-value-circle">壹佰</span>圆"</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 教学页面3：头像 -->
+            <div class="teaching-page" id="teaching-page3">
+                <div class="teaching-section">
+                    <h2>人民币的头像</h2>
+                    <div class="element-display">
+                        <img id="teaching-portrait-large" src="" alt="头像" class="element-img">
+                        <p id="teaching-portrait-description">100元人民币正面印有毛泽东的头像，位于钞票右侧</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 教学页面4：背面风景 -->
+            <div class="teaching-page" id="teaching-page4">
+                <div class="teaching-section">
+                    <h2>人民币的背面风景</h2>
+                    <div class="element-display">
+                        <img id="teaching-landscape-large" src="" alt="背面风景" class="landscape-img">
+                        <p id="teaching-landscape-description">这是人民币背面的风景</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 练习模式 -->
+        <div class="mode-content" id="practice-content">
+
+            <!-- 页面1：颜色 -->
+            <div class="page active" id="page1">
+                <div class="color-select-container">
+                    <!-- 左侧：空白底板 -->
+                    <div class="color-select-left">
+                        <div class="blank-card" id="practice-color-card"></div>
+                    </div>
+                    <!-- 右侧：颜色选项 -->
+                    <div class="color-select-right">
+                        <div id="color-select-panel">
+                            <p class="puzzle-tip">请选择正确的人民币颜色</p>
+                            <div class="color-options-grid" id="color-options">
+                                <button class="color-circle" style="background-color: #889c57;" data-color="yellowgreen" onclick="selectColor('yellowgreen', this)" title="黄绿色"></button>
+                                <button class="color-circle" style="background-color: #27ae60;" data-color="green" onclick="selectColor('green', this)" title="绿色"></button>
+                                <button class="color-circle" style="background-color: #9b59b6;" data-color="purple" onclick="selectColor('purple', this)" title="紫色"></button>
+                                <button class="color-circle" style="background-color: #2980b9;" data-color="blue" onclick="selectColor('blue', this)" title="蓝色"></button>
+                                <button class="color-circle" style="background-color: #f39c12;" data-color="yellow" onclick="selectColor('yellow', this)" title="黄色"></button>
+                                <button class="color-circle" style="background-color: #c0392b;" data-color="red" onclick="selectColor('red', this)" title="红色"></button>
+                            </div>
+                            <div id="color-wrong" class="color-error-message" style="display: none;">🔴 颜色错误！请换一个颜色试试</div>
+                        </div>
+
+                        <div id="color-success-panel" style="display: none;">
+                            <p id="color-success-text" class="puzzle-success-text"></p>
+                            <button class="nav-btn" type="button" onclick="nextColorStep()">下一步</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 页面2：正面拼图 -->
+            <div class="page" id="page2">
+                <div class="puzzle-container">
+                    <div class="puzzle-left">
+                        <div class="puzzle-board" id="practice-front-board">
+                            <div class="board-side-label">正面</div>
+                            <div class="puzzle-drop-zone" id="drop-portrait" data-type="portrait">
+                                <span>头像</span>
+                            </div>
+                            <div class="puzzle-drop-zone" id="drop-value" data-type="value">
+                                <span>面值</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="puzzle-right">
+                        <div id="puzzle-drag-panel">
+                            <p class="puzzle-tip">把右侧元素拖到左侧正确位置</p>
+                            <div class="puzzle-drag-items">
+                                <div class="puzzle-drag-item" id="drag-portrait" draggable="true" data-type="portrait">
+                                    <img id="drag-portrait-img" src="" alt="头像元素">
+                                </div>
+                                <div class="puzzle-drag-item" id="drag-value" draggable="true" data-type="value">
+                                    <img id="drag-value-img" src="" alt="面值元素">
+                                </div>
+                            </div>
+                            <div id="puzzle-error" class="color-error-message" style="display: none;">🔴 位置错误！请换一个位置试试</div>
+                        </div>
+
+                        <div id="puzzle-success-panel" style="display: none;">
+                            <p id="puzzle-success-text" class="puzzle-success-text"></p>
+                            <button class="nav-btn" type="button" onclick="nextPracticeStep()">下一步</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 页面3：风景选择 -->
+            <div class="page" id="page3">
+                <div class="puzzle-container">
+                    <div class="puzzle-left">
+                        <div class="puzzle-board" id="practice-back-board">
+                            <div class="board-side-label">反面</div>
+                        </div>
+                    </div>
+
+                    <div class="puzzle-right">
+                        <div id="landscape-select-panel">
+                            <p class="puzzle-tip">请选择正确的人民币背面风景</p>
+                            <div class="landscape-grid-large" id="landscape-options-grid"></div>
+                            <div id="landscape-error" class="color-error-message" style="display: none;">🔴 选择错误！请再试一次</div>
+                        </div>
+
+                        <div id="landscape-success-panel" style="display: none;">
+                            <p id="landscape-success-text" class="puzzle-success-text"></p>
+                            <button class="nav-btn" type="button" onclick="nextPracticeFinalStep()">下一步</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 页面4：完成 -->
+            <div class="page" id="page4">
+                <div class="completion-container">
+                    <div class="completion-left">
+                        <img id="completion-front-img" src="" alt="人民币正面" class="completion-bill-img">
+                        <img id="completion-back-img" src="" alt="人民币背面" class="completion-bill-img">
+                    </div>
+                    <div class="completion-right">
+                        <p class="completion-emoji">🎉</p>
+                        <p id="completion-text" class="puzzle-success-text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 教学导航 -->
+    <div class="unified-navigation" id="unified-navigation">
+        <button class="nav-btn" id="prev-teaching-btn" onclick="prevTeachingPage()" style="display: none;">上一页</button>
+        <button class="nav-btn" id="next-teaching-btn" onclick="nextTeachingPage()">下一页</button>
+        <button class="nav-btn" id="start-practice-btn" onclick="switchMode('practice')" style="display: none;">开始练习</button>
+        <button class="nav-btn" type="button" id="back-to-teaching-btn" onclick="backToTeaching()" style="display: none;">返回教学</button>
+        <button class="nav-btn" type="button" id="restart-practice-btn" onclick="restartPractice()" style="display: none;">重新开始</button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <button class="end-btn" onclick="window.location.href='teaching-catalog.html'">返回课程选择</button>
+    </footer>
+</div>
+</body>
+</html>
