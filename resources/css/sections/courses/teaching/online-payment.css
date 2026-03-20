@@ -20,20 +20,26 @@
 }
 
 .video-learning-area {
+	/* Keep a stable viewport for all steps to avoid size jumping */
+	--fixed-video-width: 880px;
+}
+
+.video-learning-area {
 	flex: 1;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	min-height: 0;
 }
 
 .video-canvas {
-	width: min(100%, 1100px);
-	max-height: 100%;
-	min-height: min(62vh, 620px);
+	width: var(--fixed-video-width);
+	height: auto;
+	aspect-ratio: 16 / 9;
 	border-radius: 14px;
 	border: none;
 	background: transparent;
-	padding: 14px;
+	padding: 8px;
 	box-sizing: border-box;
 	display: flex;
 	align-items: center;
@@ -42,7 +48,7 @@
 
 .message-screen {
 	width: 100%;
-	height: min(58vh, 560px);
+	height: 100%;
 	display: none;
 	align-items: center;
 	justify-content: center;
@@ -66,9 +72,36 @@
 
 #payment-video {
 	width: 100%;
-	max-height: min(62vh, 620px);
+	height: 100%;
+	max-height: 100%;
 	border-radius: 10px;
 	background: #000000;
+	object-fit: cover;
+}
+
+.step-description {
+	width: min(100%, 880px);
+	margin: 10px auto 0;
+	min-height: 52px;
+	border-radius: 8px;
+	padding: 12px 15px;
+	box-sizing: border-box;
+	background: #f0f8ff;
+	border-left: 4px solid #76c893;
+	color: #334e68;
+	font-size: 0.95rem;
+	line-height: 1.6;
+}
+
+.step-description.is-hidden {
+	display: none;
+}
+
+.content-card {
+	overflow: hidden;
+	display: grid;
+	grid-template-rows: minmax(0, 1fr) auto;
+	gap: 8px;
 }
 
 @media (max-width: 900px) {
@@ -89,16 +122,24 @@
 	}
 
 	.video-canvas {
-		min-height: 46vh;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 16 / 9;
 	}
 
 	#payment-video {
-		max-height: 48vh;
+		height: 100%;
 	}
 
 	.message-screen {
-		height: 44vh;
+		height: 100%;
 		font-size: 1.6rem;
+	}
+
+	.step-description {
+		width: 100%;
+		font-size: 0.9rem;
+		padding: 10px 12px;
 	}
 }
 

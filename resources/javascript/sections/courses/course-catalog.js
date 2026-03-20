@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     description: "学习如何使用电子支付",
                     difficulties: [
                         {
-                            level: "medium",
+                            level: "easy",
                             name: "电子支付",
                             description: "学习了解电子支付的流程",
                             url: "online-payment-template.html"
@@ -59,25 +59,22 @@ document.addEventListener('DOMContentLoaded', () => {
             title: "练习课程",
             courses: [
                 {
-                    id: "money-practice",
+                    id: "money-exchange",
                     name: "兑钱练习",
                     icon: "../../../assets/images/rmbs/elements/portraits/yuan-100.jpg",
                     description: "练习人民币间的等额兑换",
                     difficulties: [
                         {
                             level: "easy",
-                            name: "纸币兑换（一）",
-                            description: "练习10元至100元纸币的货币兑换"
+                            name: "纸币兑换",
+                            description: "练习1元至100元纸币的货币兑换",
+                            url: "money-practice-template.html?level=easy"
                         },
                         {
                             level: "medium",
-                            name: "纸币兑换（二）",
-                            description: "练习1元至100元纸币的货币兑换"
-                        },
-                        {
-                            level: "hard",
                             name: "综合兑换",
-                            description: "练习硬币及1元至100元纸币的货币兑换"
+                            description: "练习1角至1元硬币及1元至100元纸币的货币兑换",
+                            url: "money-practice-template.html?level=medium"
                         }
                     ]
                 },

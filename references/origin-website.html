@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>儿童购物游戏教学网站</title>
+    <style>
+        body {
+            font-family: "Arial Rounded MT Bold", "Microsoft YaHei", sans-serif;
+            background: #fff8af; 
+            margin: 0;
+            padding: 0;
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+         .container {
+            /* 使用固定宽度和高度 */
+            width: 1200px;
+            height: 1300px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            box-sizing: border-box; /* 确保 padding 和 border 包含在元素的宽度和高度内 */
+        }
+
+        h1 {
+            color: rgb(0, 0, 0);
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #4d96ff;
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .button {
+            background-color: #4d96ff;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .button:hover {
+            background-color: #3a7bd5;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .image-container {
+            margin: 20px 0;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 10px;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .option {
+            background-color: white;
+            border: 3px solid #4d96ff;
+            border-radius: 15px;
+            padding: 15px;
+            width: 200px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .option img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .feedback {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .correct {
+            color: #2ecc71;
+        }
+
+        .incorrect {
+            color: #e74c3c;
+        }
+
+        .audio-control {
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .speech-control {
+            background-color: #ffb440;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .speech-control:hover {
+            background-color: #ff9500;
+        }
+
+        .speech-status {
+            margin-left: 10px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .video-container {
+           position: relative;
+            width: 100%;
+            height: 0;
+            padding-bottom: 60%; 
+            border-radius: 15px;
+            overflow: hidden;           
+        }
+         .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 保持视频比例并覆盖容器 */
+        }
+        .progress-container {
+            width: 100%;
+            background-color: #e0e0e0;
+        }
+
+        .character {
+             width: 150px;           /* 控制宽度 */
+            height: 150px;          /* 控制高度 */
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin: 10px;
+            border: 4px solid transparent;
+            border-radius: 50%;
+        }
+
+        .character:hover {
+            transform: scale(1.1);
+        }
+
+        .character.selected {
+            border-color: #ff6b6b;
+        }
+
+        .shop-section {
+            border: 2px solid #4d96ff;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .items-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+            gap: 15px;
+            margin: 20px 0;
+        }        
+        .item {
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 0 0 calc(25% - 15px); /* 每行显示 4 个商品，可按需调整 */
+            max-width: 150px; /* 限制商品项的最大宽度 */
+        }
+
+        .item:hover {
+            border-color: #4d96ff;
+            transform: translateY(-5px);
+        }
+
+        .item img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .item.selected {
+            border-color: #ff6b6b;
+            background-color: #fff0f0;
+        }
+
+        .payment-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 15px;
+            margin: 10px;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 60px;
+            left: calc(150px + 80px);
+            background-color: #4d96ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001; /* 设置比目录栏更高的 z-index 值 */
+        }
+
+        .back-button:hover {
+            background-color: #3a7bd5;
+        }
+
+        /* 新增教师控制下一步按钮样式 */
+        .teacher-next-button {
+            position: absolute;
+            top: 60px;
+            right: 80px;
+            background-color: #4d96ff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+             z-index: 1001; /* 设置比目录栏更高的 z-index 值 */
+        }
+
+        .teacher-next-button:hover {
+            background-color: #3a7bd5;
+        }
+
+        /* 新增现金纸币图片样式 */
+         .money-images {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+            flex-wrap: wrap; /* 允许元素换行 */
+        }
+
+        .money-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px;
+            max-width: 180px; /* 限制每个钱币选项的最大宽度 */
+        }
+
+       .money-images img {
+            width: 200px; /* 统一宽度 */
+            height: 150px; /* 统一高度 */
+            object-fit: contain; /* 保持图片比例，完整显示在容器内 */
+            border-radius: 10px;
+            background-color: #f0f0f0; /* 可添加背景色填充空白区域 */
+        }
+
+        .money-controls {
+            display: flex;
+            flex-direction: row; 
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: nowrap; /* 防止按钮换行 */
+            justify-content: center; /* 按钮居中 */
+        }
+
+        .money-controls button {
+            font-size: 2rem; 
+            width: 40px; /* 适当减小按钮宽度 */
+            height: 40px; /* 适当减小按钮高度 */
+            border: 1px solid #ccc; 
+            border-radius: 50%; 
+            cursor: pointer; 
+            background-color: #f0f0f0;
+            transition: background-color 0.3s ease; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 0; 
+        }
+        .remove-item-button {
+            width: 40px; /* 增大按钮宽度 */
+            height: 40px; /* 增大按钮高度 */
+            border-radius: 50%; /* 使按钮呈圆形 */
+            background-color: #6bc1ff; /* 设置背景颜色 */
+            color: white; /* 设置文字颜色 */
+            border: none; /* 去除边框 */
+            font-size: 1.5rem; /* 增大字体大小 */
+            cursor: pointer; /* 鼠标悬停显示指针 */
+            transition: all 0.3s ease; /* 添加过渡效果 */
+        }
+
+        .remove-item-button:hover {
+            background-color: #6bc1ff; /* 鼠标悬停时改变背景颜色 */
+            transform: scale(1.1); /* 鼠标悬停时放大按钮 */
+        }
+
+        /* 新增目录栏样式 */
+         .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 150px; /* 减小目录栏宽度，原 200px */
+            background-color: #fff;
+            overflow-y: auto;
+            box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+            padding: 15px; /* 适当减小内边距 */
+            z-index: 1000;
+            border-right: 1px solid #ddd;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .sidebar .main-category {
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .sidebar .sub-category {
+            padding-left: 20px;
+            display: none;
+        }
+
+        .sidebar .toggle-btn {
+            margin-right: 5px;
+        }
+
+        /* 调整主体内容的左边距，避免被目录栏遮挡 */
+        body {
+            display: flex;
+            margin: 0;
+            background-color: #fff8af; /* 设置页面背景色 */
+        }
+
+        /* 包含所有内容容器的 wrapper */
+        .main-content-wrapper {
+            flex: 1;
+            padding-left: 160px; /* 对应目录栏宽度调整，保证合适间距 */
+            padding-top: 20px;
+        }
+        .fixed-shopping-cart {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+
+        .fixed-shopping-cart h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+
+        .fixed-shopping-cart .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .fixed-shopping-cart .cart-total {
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <!-- 新增目录栏 -->
+    <div class="sidebar">
+        <ul>
+            <li>
+                <a class="main-category" onclick="toggleSubCategories(this)">欢迎页面 <span class="toggle-btn">▼</span></a>
+                <ul class="sub-category">
+                    <li><a href="#" onclick="showPage('welcome')">欢迎页面</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="main-category" onclick="toggleSubCategories(this)">人民币教学 <span class="toggle-btn">▼</span></a>
+                <ul class="sub-category">
+                    <li><a href="#" onclick="showPage('money-1-yuan')">1元人民币识别</a></li>
+                    <li><a href="#" onclick="showPage('money-5-yuan')">5元人民币识别</a></li>
+                    <li><a href="#" onclick="showPage('money-10-yuan')">10元人民币识别</a></li>
+                    <li><a href="#" onclick="showPage('money-20-yuan')">20元人民币识别</a></li>
+                    <li><a href="#" onclick="showPage('money-50-yuan')">50元人民币识别</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="main-category" onclick="toggleSubCategories(this)">线上支付教学 <span class="toggle-btn">▼</span></a>
+                <ul class="sub-category">
+                    <li><a href="#" onclick="showPage('online-payment-1')">线上支付教学第1步</a></li>
+                    <li><a href="#" onclick="showPage('online-payment-2')">线上支付教学第2步</a></li>
+                    <li><a href="#" onclick="showPage('online-payment-3')">线上支付教学第3步</a></li>
+                    <li><a href="#" onclick="showPage('online-payment-4')">线上支付教学第4步</a></li>
+                    <li><a href="#" onclick="showPage('online-payment-5')">线上支付教学第5步</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="main-category" onclick="toggleSubCategories(this)">导览角色选择 <span class="toggle-btn">▼</span></a>
+                <ul class="sub-category">
+                    <li><a href="#" onclick="showPage('character-selection')">选择导览角色</a></li>
+                    <li><a href="#" onclick="showPage('character-video')">角色视频播放</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="main-category" onclick="toggleSubCategories(this)">购物环节 <span class="toggle-btn">▼</span></a>
+                <ul class="sub-category">
+                    <li><a href="#" onclick="showPage('product-recognition')">识别商品</a></li>
+                    <li><a href="#" onclick="showPage('fruit-section')">水果区</a></li>
+                    <li><a href="#" onclick="showPage('snack-section')">零食区</a></li>
+                    <li><a href="#" onclick="showPage('stationery-section')">学习用品区</a></li>
+                    <li><a href="#" onclick="showPage('shopping-cart-section')">购物车</a></li>
+                    <li><a href="#" onclick="showPage('video-intermediate')">前往收银台</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="main-category" onclick="toggleSubCategories(this)">支付环节 <span class="toggle-btn">▼</span></a>
+                <ul class="sub-category">
+                    <li><a href="#" onclick="showPage('cash-payment')">现金支付</a></li>
+                    <li><a href="#" onclick="showPage('online-payment-confirm-1')">线上支付确认1</a></li>
+                    <li><a href="#" onclick="showPage('online-payment-confirm-2')">线上支付确认2</a></li>
+                    <li><a href="#" onclick="showPage('online-payment-confirm-3')">线上支付确认3</a></li>
+                    <li><a href="#" onclick="showPage('online-payment-confirm-4')">线上支付确认4</a></li>
+                    <li><a href="#" onclick="showPage('online-payment-confirm-5')">线上支付确认5</a></li>
+                </ul>
+            </li>
+            <li>
+                <a class="main-category" onclick="toggleSubCategories(this)">奖励环节 <span class="toggle-btn">▼</span></a>
+                <ul class="sub-category">
+                    <li><a href="#" onclick="showPage('reward')">奖励页面</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <!-- 新增主内容包裹容器 -->
+    <div class="main-content-wrapper">
+    <!-- 新增固定购物车列表 -->
+    <div class="fixed-shopping-cart">
+        <h3>购物车</h3>
+        <div id="fixed-cart-items"></div>
+        <div class="cart-total">总价: <span id="fixed-cart-total">0</span> 元</div>
+    </div>
+    <!-- 新增教师控制下一步按钮 -->
+    <button class="teacher-next-button" onclick="teacherNextPage()" style="display: none;">→</button>
+        <!-- 欢迎页面 -->
+        <div id="welcome" class="container">
+            <button class="back-button" onclick="goBack()" style="display: none;">←</button>
+            <h1>欢迎来到儿童购物游戏教学</h1>
+            <p data-speech="欢迎来到儿童购物游戏教学！">欢迎来到儿童购物游戏教学！</p>
+            <div class="image-container welcome-container">
+                <img src="https://i.imgur.com/iswmI5n.jpeg" alt="欢迎图片">
+            </div>
+            <p data-speech="亲爱的小朋友，我们将一起学习如何购物！">亲爱的小朋友，我们将一起学习如何购物！</p>
+            <p data-speech="你将会学习认识人民币、学会支付、挑选商品，最后成功购物！">你将会学习认识人民币、学会支付、挑选商品，最后成功购物！</p>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('welcome')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="welcome-status"></span>
+            </div>
+
+            <!-- 语音设置面板 -->
+            <div class="voice-settings">
+                <h3>语音设置</h3>
+                <div class="voice-selector">
+                    <label for="voice-select">选择语音：</label>
+                    <select id="voice-select" onchange="changeVoice()"></select>
+                </div>
+                <div class="control-panel">
+                    <label for="rate">语速：</label>
+                    <input type="range" id="rate" min="0.5" max="2" value="1" step="0.1" onchange="updateSpeechRate()">
+                    <span id="rate-value">1</span>
+                </div>
+                <div class="control-panel">
+                    <label for="pitch">音调：</label>
+                    <input type="range" id="pitch" min="0.5" max="2" value="1" step="0.1" onchange="updateSpeechPitch()">
+                    <span id="pitch-value">1</span>
+                </div>
+                <button class="ai-voice-toggle" id="ai-voice-btn" onclick="toggleAIVoice()">AI语音：开启</button>
+            </div>
+
+            <button class="button" onclick="startLearning()">开始学习</button>
+        </div>
+
+        <!-- 1元人民币识别页面 -->
+        <div id="money-1-yuan" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>认识1元人民币</h2>
+            <div class="image-container">
+                <img src="https://n.sinaimg.cn/translate/26/w820h806/20190830/8c33-icxmqsv3779747.jpg" alt="1元人民币 "width="300" height="200" style="margin: 0 auto; display: block;">
+            </div>
+            <p data-speech="这是1元人民币，它的颜色是蓝绿色的，它的背面是三潭映月">这是1元人民币，它的颜色是蓝绿色的，它的背面是三潭映月。</p>
+            <p data-speech="1元人民币上有1个数字1，代表它的面值是1元。">1元人民币上有1个数字“1”，代表它的面值是1元。</p>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('money-1-yuan')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="money-1-yuan-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小问题：现在请聪明的小朋友们告诉我，这是几元钱呢？">小问题：现在请聪明的小朋友们告诉我，这是几元钱呢？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('money-1-yuan', true)" data-speech="1元">1元</button>
+                <button class="button" onclick="checkAnswer('money-1-yuan', false)" data-speech="2元">2元</button>
+            </div>
+
+            <div id="money-1-yuan-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="money-1-yuan-next" class="button hidden" onclick="nextPage('money-1-yuan', 'money-5-yuan')">下一步</button>
+        </div>
+
+        <!-- 5元人民币识别页面 -->
+        <div id="money-5-yuan" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>认识5元人民币</h2>
+            <div class="image-container">
+                <img src="https://i.pinimg.com/736x/e9/06/6c/e9066cb40fe341ba6337a2436fb82768.jpg" alt="5元人民币" width="300" height="200" style="margin: 0 auto; display: block;">
+            </div>
+            <p data-speech="这是5元人民币，它的颜色是紫红色的，它的背面有泰山日观峰。">这是5元人民币，它的颜色是紫红色的，它的背面有泰山日观峰。</p>
+            <p data-speech="5元人民币上有一个大大的数字5，代表它的面值是5元。">5元人民币上有一个大大的数字"5"，代表它的面值是5元。</p>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('money-5-yuan')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="money-5-yuan-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小问题：这张钱的颜色是什么？">小问题：这张钱的颜色是什么？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('money-5-yuan', false)" data-speech="蓝色">蓝色</button>
+                <button class="button" onclick="checkAnswer('money-5-yuan', true)" data-speech="紫红色">紫红色</button>
+            </div>
+
+            <div id="money-5-yuan-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="money-5-yuan-next" class="button hidden" onclick="nextPage('money-5-yuan', 'money-10-yuan')">下一步</button>
+        </div>
+
+        <!-- 10元人民币识别页面 -->
+        <div id="money-10-yuan" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>认识10元人民币</h2>
+            <div class="image-container">
+                <img src="https://i.imgur.com/OGdf3fY.png" alt="10元人民币" width="300" height="200" style="margin: 0 auto; display: block;">
+            </div>
+            <p data-speech="这是10元人民币，它的颜色是蓝色的，它的背面是夔门，是长江三峡的西大门。">这是10元人民币，它的颜色是蓝色的，它的背面是夔门，是长江三峡的西大门。</p>
+            <p data-speech="10元人民币上有一个数字10，代表它的面值是10元。">10元人民币上有一个数字"10"，代表它的面值是10元。</p>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('money-10-yuan')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="money-10-yuan-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小问题：10元人民币够买多少个1元的东西？">小问题：10元人民币够买多少个1元的东西？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('money-10-yuan', false)" data-speech="5个">5个</button>
+                <button class="button" onclick="checkAnswer('money-10-yuan', true)" data-speech="10个">10个</button>
+            </div>
+
+            <div id="money-10-yuan-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="money-10-yuan-next" class="button hidden" onclick="nextPage('money-10-yuan', 'money-20-yuan')">下一步</button>
+        </div>
+
+        <!-- 20元人民币识别页面 -->
+        <div id="money-20-yuan" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>认识20元人民币</h2>
+            <div class="image-container">
+                <img src="https://th.bing.com/th/id/OIP.s1xq2J4pKhl6NqCk_eLnIQHaHP?pid=ImgDet&w=474&h=463&rs=1" alt="20元人民币" width="300" height="200" style="margin: 0 auto; display: block;">
+            </div>
+            <p data-speech="这是20元人民币，它的颜色是棕色的，它的背面是著名的桂林山水。">这是20元人民币，它的颜色是棕色的，它的背面是著名的桂林山水。</p>
+            <p data-speech="20元人民币上有一个数字20，代表它的面值是20元。">20元人民币上有一个数字"20"，代表它的面值是20元。</p>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('money-20-yuan')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="money-20-yuan-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小问题：小朋友，让我来考考你，20元人民币背面是什么风景？">小问题：小朋友，让我来考考你，20元人民币背面是什么风景？？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('money-20-yuan', true)" data-speech="桂林山水">桂林山水</button>
+                <button class="button" onclick="checkAnswer('money-20-yuan', false)" data-speech="西湖">西湖</button>
+            </div>
+
+            <div id="money-20-yuan-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="money-20-yuan-next" class="button hidden" onclick="nextPage('money-20-yuan', 'money-50-yuan')">下一步</button>
+        </div>
+
+        <!-- 50元人民币识别页面 -->
+        <div id="money-50-yuan" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>认识50元人民币</h2>
+            <div class="image-container">
+                <img src="https://lh3.googleusercontent.com/proxy/YilCoOvHVhmfX_OlmshoAOYKh9942pEr0nwbh-GWMudGs5T4O0zgtLmneVbkHAQi4FzNrZfgIqtNukRWQRFbuVWzrEPSyK77hlQYq_3GVlQBVY_GWaB4Up2XDcI" alt="50元人民币" width="300" height="200" style="margin: 0 auto; display: block;">
+            </div>
+            <p data-speech="这是50元人民币，它的颜色是绿色的，它的背面是布达拉宫。">这是50元人民币，它的颜色是绿色的，它的背面是布达拉宫。</p>
+            <p data-speech="50元人民币上有一个数字50，代表它的面值是50元。">50元人民币上有一个数字"50"，代表它的面值是50元。</p>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('money-50-yuan')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="money-50-yuan-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小问题：50元人民币可以换成几张10元？">小问题：50元人民币可以换成几张10元？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('money-50-yuan', true)" data-speech="5张">5张</button>
+                <button class="button" onclick="checkAnswer('money-50-yuan', false)" data-speech="4张">4张</button>
+            </div>
+
+            <div id="money-50-yuan-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="money-50-yuan-next" class="button hidden" onclick="nextPage('money-50-yuan', 'online-payment-1')">下一步</button>
+        </div>
+
+        <!-- 线上支付教学第1步 -->
+        <div id="online-payment-1" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>学习线上支付 - 第1步</h2>
+            <h3>打开支付宝/微信</h3>
+                <!-- 添加视频容器 -->
+            <div class="video-container">
+                <video id="open-app-video" width="100%" controls>
+                    <source src="https://raw.githubusercontent.com/Peeeee5/video-for-assignment-/main/%E5%9C%A8%E6%89%8B%E6%9C%BA%E6%89%93%E5%BC%80%E6%94%AF%E4%BB%98%E5%AE%9D.mp4" type="video/mp4">
+                    你的浏览器不支持播放视频。
+                </video>
+            </div>
+            <p data-speech="首先，我们需要在手机上找到并点击支付宝或微信的图标来打开它。">首先，我们需要在手机上找到并点击支付宝或微信的图标来打开它。</p>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('online-payment-1')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="online-payment-1-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小问题：要进行线上支付，我们首先需要做什么？">小问题：要进行线上支付，我们首先需要做什么？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('online-payment-1', true)" data-speech="打开支付宝或微信">打开支付宝或微信</button>
+                <button class="button" onclick="checkAnswer('online-payment-1', false)" data-speech="打开相机">打开相机</button>
+            </div>
+
+            <div id="online-payment-1-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="online-payment-1-next" class="button hidden" onclick="nextPage('online-payment-1', 'online-payment-2')">下一步</button>
+        </div>
+
+        <!-- 线上支付教学第2步 -->
+        <div id="online-payment-2" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>学习线上支付 - 第2步</h2>
+            <h3>点击付款/扫一扫</h3>
+            <!-- 添加视频容器 -->
+            <div class="video-container">
+                <video id="open-app-video" width="100%" controls>
+                    <source src="https://raw.githubusercontent.com/Peeeee5/video-for-assignment-/main/%E5%9C%A8%E6%94%AF%E4%BB%98%E5%AE%9D%E6%89%93%E5%BC%80%E6%89%AB%E4%B8%80%E6%89%AB.mp4" type="video/mp4">
+                    你的浏览器不支持播放视频。
+                </video>
+            </div>
+            
+            <p data-speech="在支付宝或微信里，我们需要找到付款或扫一扫按钮并点击它。">在支付宝或微信里，我们需要找到付款或扫一扫按钮并点击它。</p>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('online-payment-2')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="online-payment-2-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小问题：在支付宝/微信里，点击哪个按钮可以开始支付流程？">小问题：在支付宝/微信里，点击哪个按钮可以开始支付流程？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('online-payment-2', true)" data-speech="付款或扫一扫">付款或扫一扫</button>
+                <button class="button" onclick="checkAnswer('online-payment-2', false)" data-speech="聊天">聊天</button>
+            </div>
+
+            <div id="online-payment-2-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="online-payment-2-next" class="button hidden" onclick="nextPage('online-payment-2', 'online-payment-3')">下一步</button>
+        </div>
+
+        <!-- 线上支付教学第3步 -->
+        <div id="online-payment-3" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>学习线上支付 - 第3步</h2>
+            <h3>扫描支付码</h3>
+            <!-- 添加视频容器 -->
+            <div class="video-container">
+                <video id="open-app-video" width="100%" controls>
+                    <source src="https://raw.githubusercontent.com/Peeeee5/video-for-assignment-/main/%E6%89%AB%E6%8F%8F%E4%BA%8C%E7%BB%B4%E7%A0%81.mp4
+    " type="video/mp4">
+                    你的浏览器不支持播放视频。
+                </video>
+            </div>
+
+            <p data-speech="用手机摄像头对准商家的支付二维码，保持手机稳定，等待扫描完成。">用手机摄像头对准商家的支付二维码，保持手机稳定，等待扫描完成。</p>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('online-payment-3')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="online-payment-3-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小问题：扫描支付码时，手机需要保持什么状态？">小问题：扫描支付码时，手机需要保持什么状态？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('online-payment-3', true)" data-speech="稳定">稳定</button>
+                <button class="button" onclick="checkAnswer('online-payment-3', false)" data-speech="晃动">晃动</button>
+            </div>
+
+            <div id="online-payment-3-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="online-payment-3-next" class="button hidden" onclick="nextPage('online-payment-3', 'online-payment-4')">下一步</button>
+        </div>
+
+        <!-- 线上支付教学第4步 -->
+        <div id="online-payment-4" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>学习线上支付 - 第4步</h2>
+            <h3>输入支付金额</h3>
+            <!-- 添加视频容器 -->
+            <div class="video-container">
+                <video id="open-app-video" width="100%" controls>
+                    <source src="https://raw.githubusercontent.com/Peeeee5/video-for-assignment-/main/%E8%BE%93%E5%85%A5%E9%87%91%E9%A2%9D.mp4
+    " type="video/mp4">
+                    你的浏览器不支持播放视频。
+                </video>
+            </div>
+
+            <p data-speech="在弹出的支付页面中，输入你要支付的金额。">在弹出的支付页面中，输入你要支付的金额。</p>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('online-payment-4')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="online-payment-4-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小问题：在支付页面中，我们需要进行什么操作？">小问题：在支付页面中，我们需要进行什么操作？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('online-payment-4', true)" data-speech="输入支付金额">输入支付金额</button>
+                <button class="button" onclick="checkAnswer('online-payment-4', false)" data-speech="查看余额">查看余额</button>
+            </div>
+
+            <div id="online-payment-4-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="online-payment-4-next" class="button hidden" onclick="nextPage('online-payment-4', 'online-payment-5')">下一步</button>
+        </div>
+
+        <!-- 线上支付教学第5步 -->
+        <div id="online-payment-5" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>学习线上支付 - 第5步</h2>
+            <h3>确认支付</h3>
+            <!-- 添加视频容器 -->
+            <div class="video-container">
+                <video id="open-app-video" width="100%" controls>
+                    <source src="https://raw.githubusercontent.com/Peeeee5/video-for-assignment-/main/%E7%82%B9%E5%87%BB%E4%BB%98%E6%AC%BE1.mp4" type="video/mp4">
+                    你的浏览器不支持播放视频。
+                </video>
+            </div>
+
+            <p data-speech="输入金额后，点击确认支付按钮完成支付。">输入金额后，点击确认支付按钮完成支付。</p>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('online-payment-5')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="online-payment-5-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小问题：输入金额后，我们应该点击哪个按钮完成支付？">小问题：输入金额后，我们应该点击哪个按钮完成支付？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('online-payment-5', true)" data-speech="确认支付">确认支付</button>
+                <button class="button" onclick="checkAnswer('online-payment-5', false)" data-speech="取消支付">取消支付</button>
+            </div>
+
+            <div id="online-payment-5-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="online-payment-5-next" class="button hidden" onclick="nextPage('online-payment-5', 'character-selection')">下一步</button>
+        </div>
+
+        <!-- 选择导览角色页面 -->
+        <div id="character-selection" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>选择你的导览角色</h2>
+            <p data-speech="快来选一个可爱的小伙伴陪你一起购物吧！">快来选一个可爱的小伙伴陪你一起购物吧！</p>
+            <div class="options">
+                <img class="character" src="https://i.imgur.com/ZWtR5jx.png" alt="小猫" onclick="selectCharacter('小猫')">
+                <img class="character" src="https://i.imgur.com/m5NHPrm.png" alt="小狗" onclick="selectCharacter('小狗')">
+                <img class="character" src="https://i.imgur.com/MY2nr25.png" alt="小兔" onclick="selectCharacter('小兔')">
+                <img class="character" src="https://i.imgur.com/1Epm2Lv.png" alt="小熊" onclick="selectCharacter('小熊')">
+            </div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('character-selection')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="character-selection-status"></span>
+            </div>
+
+            <button id="character-selection-next" class="button hidden" onclick="nextPage('character-selection', 'character-video')">下一步</button>
+        </div>
+
+        <!-- 角色视频播放页面 -->
+        <div id="character-video" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2 id="character-video-title"></h2>
+            <div class="video-container">
+                <video width="100%" controls>
+                    <source id="character-video-source" src="" type="video/mp4">
+                    你的浏览器不支持播放视频。
+                </video>
+            </div>
+            <p data-speech="让我们一起来认识一下你的小伙伴吧！">让我们一起来认识一下你的小伙伴吧！</p>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('character-video')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="character-video-status"></span>
+            </div>
+
+            <button class="button" onclick="nextPage('character-video', 'product-recognition')">下一步</button>
+        </div>
+
+        <!-- 识别商品页面 -->
+        <div id="product-recognition" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>认识商品</h2>
+            <p data-speech="欢迎来到超市，这里有好多好玩的东西哦！让熊叔叔来给你介绍一下吧。">欢迎来到超市，这里有好多好玩的东西哦！让熊叔叔来给你介绍一下吧。</p>
+            <div class="video-container">
+                <video id="bear-uncle-video" width="100%" controls>
+                    <source src="https://raw.githubusercontent.com/Peeeee5/video-for-assignment-/main/%E7%86%8A%E5%8F%94%E5%8F%94.mp4" type="video/mp4">
+                    你的浏览器不支持播放视频。
+                </video>
+            </div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('product-recognition')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="product-recognition-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小朋友，观察一下，视频里出现了什么商品呀？">小问题：小朋友，观察一下，视频里出现了什么商品呀？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('product-recognition', true)" data-speech="棒棒糖">棒棒糖</button>
+                <button class="button" onclick="checkAnswer('product-recognition', false)" data-speech="香蕉">香蕉</button>
+            </div>
+
+            <div id="product-recognition-feedback" class="feedback hidden" data-speech=""></div>
+            <button id="product-recognition-next" class="button hidden" onclick="nextPage('product-recognition', 'fruit-section')">下一步</button>
+        </div>
+
+        <!-- 水果区页面 -->
+        <div id="fruit-section" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>水果区</h2>
+            <p data-speech="这里是水果区，有好多新鲜的水果哦！快来挑选你喜欢的水果吧！">这里是水果区，有好多新鲜的水果哦！快来挑选你喜欢的水果吧！</p>
+            <div class="items-grid">
+                <div class="item" onclick="addToCart('苹果', 2)">
+                    <img src="https://i.imgur.com/S0vn9zR.png" alt="苹果">
+                    <p>苹果</p>
+                    <p>价格: 2元</p>
+                    <button class="remove-item-button" onclick="removeFromCart('苹果', 2, event)">-</button> 
+                </div>
+                <div class="item" onclick="addToCart('香蕉', 3)">
+                    <img src="https://i.imgur.com/MTC0sdk.jpeg" alt="香蕉">
+                    <p>香蕉</p>
+                    <p>价格: 3元</p>
+                    <button class="remove-item-button" onclick="removeFromCart('香蕉', 3, event)">-</button>
+                </div>
+                <div class="item" onclick="addToCart('橙子', 4)">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwwhUqtr8_Hj5asf7WmDr49jQbC9KonwE-X3ayXYdwd4x1N3Eh4njcglk--cLctbZv-Uo&usqp=CAU"  alt="橙子">
+                    <p>橙子</p>
+                    <p>价格: 4元</p>
+                    <button class="remove-item-button" onclick="removeFromCart('橙子', 4, event)">-</button>
+                </div>
+                <div class="item" onclick="addToCart('草莓', 5)">
+                    <img src="https://i.imgur.com/kinxghu.png" alt="草莓">
+                    <p>草莓</p>
+                    <p>价格: 5元</p>
+                    <button class="remove-item-button" onclick="removeFromCart('草莓', 5, event)">-</button>
+                </div>
+            </div>
+            <div class="shopping-cart">
+                <div id="cart-items-fruit"></div>
+                <div class="cart-total">总价: <span id="cart-total-fruit">0</span> 元</div>
+            </div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('fruit-section')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="fruit-section-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小问题：小朋友们，超市里的苹果是什么颜色的呀？">小问题：小朋友们，超市里的苹果是什么颜色的呀？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('fruit-section', true)" data-speech="红色">红色</button>
+                <button class="button" onclick="checkAnswer('fruit-section', false)" data-speech="蓝色">蓝色</button>
+            </div>
+
+            <div id="fruit-section-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="fruit-section-next" class="button hidden" onclick="nextPage('fruit-section', 'snack-section')">下一步</button>
+        </div>
+
+        <!-- 零食区页面 -->
+        <div id="snack-section" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>零食区</h2>
+            <p data-speech="这里是零食区，有好多好吃的零食哦！小朋友，快来看看有没有你喜欢吃的零食？">这里是零食区，有好多好吃的零食哦！小朋友，快来看看有没有你喜欢吃的零食？</p>
+            <div class="items-grid">
+                <div class="item" onclick="addToCart('薯片', 5)">
+                    <img src="https://snackhome.store/wp-content/uploads/2022/04/111.png" alt="薯片">
+                    <p>薯片</p>
+                    <p>价格: 5元</p>
+                    <button class="remove-item-button" onclick="removeFromCart('薯片', 5, event)">-</button>
+                </div>
+                <div class="item" onclick="addToCart('巧克力', 8)">
+                    <img src="https://www.costco.com.tw/medias/sys_master/images/hf9/ha4/15234252734494.jpg" alt="巧克力">
+                    <p>巧克力</p>
+                    <p>价格: 8元</p>
+                    <button class="remove-item-button" onclick="removeFromCart('巧克力', 8, event)">-</button>
+                </div>
+                <div class="item" onclick="addToCart('饼干', 6)">
+                    <img src="https://img14.360buyimg.com/pop/jfs/t1/150065/24/46121/157552/6736ac36F255069d9/11034351f4a303a6.jpg" alt="饼干">
+                    <p>饼干</p>
+                    <p>价格: 6元</p>
+                    <button class="remove-item-button" onclick="removeFromCart('饼干', 6, event)">-</button>
+                </div>
+                <div class="item" onclick="addToCart('酸奶', 7)">
+                    <img src="https://imgcache.dealmoon.com/thumbimg.dealmoon.com/dealmoon/9e4/e7a/76d/9475055227806e672686549.jpg_600_0_3_aa52.jpg" alt="酸奶">
+                    <p>酸奶</p>
+                    <p>价格: 7元</p>
+                    <button class="remove-item-button" onclick="removeFromCart('酸奶', 7, event)">-</button>
+                </div>
+            </div>
+            <div class="shopping-cart">
+                <div id="cart-items-snack"></div>
+                <div class="cart-total">总价: <span id="cart-total-snack">0</span> 元</div>
+            </div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('snack-section')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="snack-section-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小问题：薯片是什么味道的？">小问题：薯片是什么味道的？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('snack-section', true)" data-speech="咸味">咸味</button>
+                <button class="button" onclick="checkAnswer('snack-section', false)" data-speech="酸味">酸味</button>
+            </div>
+
+            <div id="snack-section-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="snack-section-next" class="button hidden" onclick="nextPage('snack-section', 'stationery-section')">下一步</button>
+        </div>
+
+        <!-- 学习用品区页面 -->
+        <div id="stationery-section" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>学习用品区</h2>
+            <p data-speech="这里是学习用品区，有好多有用的学习用品哦！快来挑选你需要的文具吧！">这里是学习用品区，有好多有用的学习用品哦！快来挑选你需要的文具吧！</p>
+            <div class="items-grid">
+                <div class="item" onclick="addToCart('铅笔', 1)">
+                    <img src="https://www.raymondgeddes.com/cdn/shop/articles/number-2-pencils.jpg?v=1682075791" alt="铅笔">
+                    <p>铅笔</p>
+                    <p>价格: 1元</p>
+                    <button class="remove-item-button" onclick="removeFromCart('铅笔', 1, event)">-</button>
+                </div>
+                <div class="item" onclick="addToCart('橡皮', 2)">
+                    <img src="https://www.faber-castell.com/-/media/Products/Product-Repository/Eraser/24-24-22-Eraser/187120-Eraser-DUST-FREE-187120/Images/187120_60_PX_9979849775_2637.ashx?bc=ffffff&as=0&h=900&w=900&sc_lang=en-Glob&hash=9C1FC4D4B7B6DCFDB86B7669B93D4D5D" alt="橡皮">
+                    <p>橡皮</p>
+                    <p>价格: 2元</p>
+                    <button class="remove-item-button" onclick="removeFromCart('橡皮', 2, event)">-</button>
+                </div>
+                <div class="item" onclick="addToCart('尺子', 3)">
+                    <img src="https://media.officedepot.com/images/f_auto,q_auto,e_sharpen,h_450/products/724522/724522_o03_rlr_6_in_blu_100714/724522" alt="尺子">
+                    <p>尺子</p>
+                    <p>价格: 3元</p>
+                    <button class="remove-item-button" onclick="removeFromCart('尺子', 3, event)">-</button>
+                </div>
+                <div class="item" onclick="addToCart('笔记本', 5)">
+                    <img src="https://tiimg.tistatic.com/fp/3/008/030/glossy-cover-rectangular-plain-paper-writing-spiral-binding-notebook-for-office-use-183.jpg" alt="笔记本">
+                    <p>笔记本</p>
+                    <p>价格: 5元</p>
+                    <button class="remove-item-button" onclick="removeFromCart('笔记本', 5, event)">-</button>
+                </div>
+            </div>
+            <div class="shopping-cart">
+                <div id="cart-items-stationery"></div>
+                <div class="cart-total">总价: <span id="cart-total-stationery">0</span> 元</div>
+            </div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('stationery-section')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="stationery-section-status"></span>
+            </div>
+
+            <!-- 互动问题 -->
+            <h3 data-speech="小问题：小朋友，我们可以用铅笔来做什么呀？">小问题：小朋友，我们可以用铅笔来做什么呀？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('stationery-section', true)" data-speech="写字">写字</button>
+                <button class="button" onclick="checkAnswer('stationery-section', false)" data-speech="睡觉">睡觉</button>
+            </div>
+
+            <div id="stationery-section-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="stationery-section-next" class="button hidden" onclick="nextPage('stationery-section', 'shopping-cart-section')">下一步</button>
+        </div>
+
+        <!-- 购物车页面 -->
+        <div id="shopping-cart-section" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>购物车</h2>
+            <div class="shopping-cart">
+                <div id="cart-items-all"></div>
+                <div class="cart-total">总价: <span id="cart-total-all">0</span> 元</div>
+            </div>
+            <button class="button" onclick="nextPage('shopping-cart-section', 'video-intermediate')">去结算</button>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('shopping-cart-section')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="shopping-cart-section-status"></span>
+            </div>
+        </div>
+
+        <!-- 新增中间视频页面 -->
+        <div id="video-intermediate" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>前往收银台</h2>
+            <p data-speech="小朋友，你已经选好商品了！接下来快和你的小伙伴一起前往收银台吧！">小朋友，你已经选好商品了！接下来快和你的小伙伴一起前往收银台吧！</p>
+            <div class="video-container">
+                <video width="100%" controls>
+                    <source id="intermediate-video-source" src="" type="video/mp4">
+                    你的浏览器不支持播放视频。
+                </video>
+            </div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('video-intermediate')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="video-intermediate-status"></span>
+            </div>
+
+            <button class="button" onclick="nextPage('video-intermediate', 'payment-selection')">继续结算</button>
+        </div>
+
+        <!-- 支付选择页面 -->
+        <div id="payment-selection" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>选择支付方式</h2>
+            <p data-speech="你已经选好商品啦，现在要选择一种支付方式哦！">你已经选好商品啦，现在要选择一种支付方式哦！</p>
+            <div class="options">
+                <div class="payment-option" onclick="selectPayment('cash')">
+                    <img src="https://i.imgur.com/D3u6PIO.png" width="300" height="200" alt="现金支付">
+                    <p>现金支付</p>
+                </div>
+                <div class="payment-option" onclick="selectPayment('online')">
+                    <img src="https://i.imgur.com/EP65ykv.png" width="300" height="200" alt="线上支付">
+                    <p>线上支付</p>
+                </div>
+            </div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('payment-selection')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="payment-selection-status"></span>
+            </div>
+
+            <div id="payment-selection-feedback" class="feedback hidden" data-speech=""></div>
+
+            <button id="payment-selection-next" class="button hidden" onclick="nextPage('payment-selection', 'cash-payment')">下一步</button>
+        </div>
+
+        <!-- 现金支付页面 -->
+        <div id="cash-payment" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>现金支付</h2>
+            <p data-speech="你选择了现金支付，让我们来看看需要用哪些人民币吧！">你选择了现金支付，让我们来看看需要用哪些人民币吧！</p>
+            <p id="cash-payment-total" data-speech=""></p>
+            <!-- 新增现金纸币图片 -->
+            <div class="money-images">
+                <div class="money-option">
+                    <img src="https://n.sinaimg.cn/translate/26/w820h806/20190830/8c33-icxmqsv3779747.jpg" alt="1元人民币">
+                    <p>1元</p>
+                    <div class="money-controls">
+                        <button onclick="decreaseMoney('1-yuan')">-</button>
+                        <span id="1-yuan-count">0</span>
+                        <button onclick="increaseMoney('1-yuan')">+</button>
+                    </div>
+                </div>
+                <div class="money-option">
+                    <img src="https://i.pinimg.com/736x/e9/06/6c/e9066cb40fe341ba6337a2436fb82768.jpg" alt="5元人民币">
+                    <p>5元</p>
+                    <div class="money-controls">
+                        <button onclick="decreaseMoney('5-yuan')">-</button>
+                        <span id="5-yuan-count">0</span>
+                        <button onclick="increaseMoney('5-yuan')">+</button>
+                    </div>
+                </div>
+                <div class="money-option">
+                    <img src="https://i.imgur.com/OGdf3fY.png" alt="10元人民币">
+                    <p>10元</p>
+                    <div class="money-controls">
+                        <button onclick="decreaseMoney('10-yuan')">-</button>
+                        <span id="10-yuan-count">0</span>
+                        <button onclick="increaseMoney('10-yuan')">+</button>
+                    </div>
+                </div>
+                <div class="money-option">
+                    <img src="https://th.bing.com/th/id/OIP.s1xq2J4pKhl6NqCk_eLnIQHaHP?pid=ImgDet&w=474&h=463&rs=1" alt="20元人民币">
+                    <p>20元</p>
+                    <div class="money-controls">
+                        <button onclick="decreaseMoney('20-yuan')">-</button>
+                        <span id="20-yuan-count">0</span>
+                        <button onclick="increaseMoney('20-yuan')">+</button>
+                    </div>
+                </div>
+                <div class="money-option">
+                    <img src="https://lh3.googleusercontent.com/proxy/YilCoOvHVhmfX_OlmshoAOYKh9942pEr0nwbh-GWMudGs5T4O0zgtLmneVbkHAQi4FzNrZfgIqtNukRWQRFbuVWzrEPSyK77hlQYq_3GVlQBVY_GWaB4Up2XDcI" alt="50元人民币">
+                    <p>50元</p>
+                    <div class="money-controls">
+                        <button onclick="decreaseMoney('50-yuan')">-</button>
+                        <span id="50-yuan-count">0</span>
+                        <button onclick="increaseMoney('50-yuan')">+</button>
+                    </div>
+                </div>
+            </div>
+            <button class="button" onclick="checkCashPayment()">确认支付</button>
+            <div id="cash-payment-change" data-speech=""></div>
+            <div id="cash-payment-feedback" class="feedback hidden" data-speech=""></div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('cash-payment')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="cash-payment-status"></span>
+            </div>
+
+            <button id="cash-payment-next" class="button hidden" onclick="nextPage('cash-payment', 'reward')">下一步</button>
+        </div>
+
+        <!-- 线上支付确认页面 1 -->
+        <div id="online-payment-confirm-1" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>线上支付确认</h2>
+            <p data-speech="你选择了线上支付，让我们来复习一下线上支付的步骤吧！">你选择了线上支付，让我们来复习一下线上支付的步骤吧！</p>
+            <h3 data-speech="小问题：线上支付第一步要做什么？">小问题：线上支付第一步要做什么？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('online-payment-confirm-1', true)" data-speech="打开支付宝或微信">打开支付宝或微信</button>
+                <button class="button" onclick="checkAnswer('online-payment-confirm-1', false)" data-speech="点击付款按钮">点击付款按钮</button>
+            </div>
+            <div id="online-payment-confirm-1-feedback" class="feedback hidden" data-speech=""></div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('online-payment-confirm-1')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="online-payment-confirm-1-status"></span>
+            </div>
+
+            <button id="online-payment-confirm-1-next" class="button hidden" onclick="nextPage('online-payment-confirm-1', 'online-payment-confirm-2')">下一步</button>
+        </div>
+
+        <!-- 线上支付确认页面 2 -->
+        <div id="online-payment-confirm-2" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>线上支付确认</h2>
+            <h3 data-speech="小问题：打开支付宝或微信后，下一步要做什么？">小问题：打开支付宝或微信后，下一步要做什么？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('online-payment-confirm-2', true)" data-speech="点击付款或扫一扫">点击付款或扫一扫</button>
+                <button class="button" onclick="checkAnswer('online-payment-confirm-2', false)" data-speech="输入支付金额">输入支付金额</button>
+            </div>
+            <div id="online-payment-confirm-2-feedback" class="feedback hidden" data-speech=""></div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('online-payment-confirm-2')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="online-payment-confirm-2-status"></span>
+            </div>
+
+            <button id="online-payment-confirm-2-next" class="button hidden" onclick="nextPage('online-payment-confirm-2', 'online-payment-confirm-3')">下一步</button>
+        </div>
+
+        <!-- 线上支付确认页面 3 -->
+        <div id="online-payment-confirm-3" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>线上支付确认</h2>
+            <h3 data-speech="小问题：点击付款或扫一扫后，要做什么？">小问题：点击付款或扫一扫后，要做什么？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('online-payment-confirm-3', true)" data-speech="扫描支付码">扫描支付码</button>
+                <button class="button" onclick="checkAnswer('online-payment-confirm-3', false)" data-speech="确认支付">确认支付</button>
+            </div>
+            <div id="online-payment-confirm-3-feedback" class="feedback hidden" data-speech=""></div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('online-payment-confirm-3')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="online-payment-confirm-3-status"></span>
+            </div>
+
+            <button id="online-payment-confirm-3-next" class="button hidden" onclick="nextPage('online-payment-confirm-3', 'online-payment-confirm-4')">下一步</button>
+        </div>
+
+        <!-- 线上支付确认页面 4 -->
+        <div id="online-payment-confirm-4" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>线上支付确认</h2>
+            <h3 data-speech="小问题：扫描支付码后，需要做什么？">小问题：扫描支付码后，需要做什么？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('online-payment-confirm-4', true)" data-speech="输入支付金额">输入支付金额</button>
+                <button class="button" onclick="checkAnswer('online-payment-confirm-4', false)" data-speech="打开支付宝或微信">打开支付宝或微信</button>
+            </div>
+            <div id="online-payment-confirm-4-feedback" class="feedback hidden" data-speech=""></div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('online-payment-confirm-4')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="online-payment-confirm-4-status"></span>
+            </div>
+
+            <button id="online-payment-confirm-4-next" class="button hidden" onclick="nextPage('online-payment-confirm-4', 'online-payment-confirm-5')">下一步</button>
+        </div>
+
+        <!-- 线上支付确认页面 5 -->
+        <div id="online-payment-confirm-5" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>线上支付确认</h2>
+            <h3 data-speech="小问题：输入支付金额后，最后要做什么？">小问题：输入支付金额后，最后要做什么？</h3>
+            <div class="options">
+                <button class="button" onclick="checkAnswer('online-payment-confirm-5', true)" data-speech="确认支付">确认支付</button>
+                <button class="button" onclick="checkAnswer('online-payment-confirm-5', false)" data-speech="扫描支付码">扫描支付码</button>
+            </div>
+            <div id="online-payment-confirm-5-feedback" class="feedback hidden" data-speech=""></div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('online-payment-confirm-5')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="online-payment-confirm-5-status"></span>
+            </div>
+
+            <button id="online-payment-confirm-5-next" class="button hidden" onclick="nextPage('online-payment-confirm-5', 'reward')">下一步</button>
+        </div>
+
+        <!-- 奖励页面 -->
+        <div id="reward" class="container hidden">
+            <button class="back-button" onclick="goBack()">←</button>
+            <h2>恭喜你，购物成功！</h2>
+            <p data-speech="你太棒啦！成功完成了购物，这是给你的奖励哦！">你太棒啦！成功完成了购物，这是给你的奖励哦！</p>
+            <div class="image-container">
+                <img src="https://static.vecteezy.com/system/resources/previews/040/532/044/non_2x/illustration-of-success-concept-school-achievement-and-success-illustration-first-place-winner-on-white-background-teamwork-consept-vector.jpg" width="300" height="450"alt="奖励图片"style="display: block; margin: 0 auto;">
+            </div>
+            <div class="sun-reward" id="sun-reward-count"></div>
+
+            <!-- 语音控制 -->
+            <div class="audio-control">
+                <button class="speech-control" onclick="toggleSpeech('reward')">
+                    <span class="speech-icon">🔊</span> 朗读文字
+                </button>
+                <span class="speech-status" id="reward-status"></span>
+            </div>
+
+            <button class="button" onclick="restartGame()">再玩一次</button>
+        </div>
+
+    <script>
+        let synth = window.speechSynthesis;
+        let voices = [];
+        let selectedCharacter = null;
+        let selectedItems = [];
+        let totalPrice = 0;
+        let selectedPaymentMethod = null;
+        let cart = [];
+        let sunRewards = 0;
+        let pageHistory = [];
+
+        // 页面顺序数组
+        const pageOrder = [
+            'welcome', 'money-1-yuan', 'money-5-yuan', 'money-10-yuan', 'money-20-yuan', 'money-50-yuan',
+            'online-payment-1', 'online-payment-2', 'online-payment-3', 'online-payment-4', 'online-payment-5',
+            'character-selection', 'character-video', 'product-recognition', 'fruit-section', 'snack-section',
+            'stationery-section', 'shopping-cart-section', 'video-intermediate', 'payment-selection', 'cash-payment',
+            'online-payment-confirm-1', 'online-payment-confirm-2', 'online-payment-confirm-3', 'online-payment-confirm-4', 'online-payment-confirm-5',
+            'reward'
+        ];
+
+        // 过滤特殊字符
+        function filterSpecialCharacters(text) {
+            return text.replace(/<[^>]*>?/gm, '').replace(/[^a-zA-Z0-9\u4e00-\u9fa5，。、？！：“”‘’（）]/g, '');
+        }
+
+        function populateVoices() {
+            voices = synth.getVoices();
+            const voiceSelect = document.getElementById('voice-select');
+            const currentValue = voiceSelect.value; // 保存当前选择的值
+            voiceSelect.innerHTML = ''; // 清空原有选项
+            let defaultVoiceIndex = 0;
+
+            voices.forEach((voice, i) => {
+                const option = document.createElement('option');
+                option.textContent = `${voice.name} (${voice.lang})`;
+                option.value = i;
+                voiceSelect.appendChild(option);
+
+                // 尝试找到更自然的中文语音
+                if (voice.lang === 'zh-CN' && voice.localService) {
+                    defaultVoiceIndex = i;
+                }
+            });
+
+            // 恢复之前选择的值，如果无效则选择默认值
+            if (currentValue && voices[currentValue]) {
+                voiceSelect.value = currentValue;
+            } else {
+                voiceSelect.value = defaultVoiceIndex;
+            }
+        }
+
+        synth.onvoiceschanged = populateVoices;
+        // 添加 toggleSubCategories 函数
+        function toggleSubCategories(button) {
+            const subCategory = button.nextElementSibling;
+            const toggleBtn = button.querySelector('.toggle-btn');
+            if (subCategory.style.display === 'none' || subCategory.style.display === '') {
+                subCategory.style.display = 'block';
+                toggleBtn.textContent = '▲';
+            } else {
+                subCategory.style.display = 'none';
+                toggleBtn.textContent = '▼';
+            }
+        }
+
+        function startLearning() {
+            pageHistory.push('welcome');
+            document.getElementById('welcome').classList.add('hidden');
+            document.getElementById('money-1-yuan').classList.remove('hidden');
+            toggleSpeech('money-1-yuan');
+            // 显示教师控制按钮
+            document.querySelector('.teacher-next-button').style.display = 'flex';
+        }
+        function toggleShoppingCartVisibility(pageId) {
+            const shoppingCart = document.querySelector('.fixed-shopping-cart');
+            const shoppingPages = [
+                'fruit-section', 'snack-section', 'stationery-section', 
+                'shopping-cart-section', 'cash-payment'
+            ];
+            if (shoppingPages.includes(pageId)) {
+                shoppingCart.style.display = 'block';
+            } else {
+                shoppingCart.style.display = 'none';
+            }
+        }
+    
+        // 修改 showPage 函数
+        function showPage(pageId) {
+            // 隐藏所有页面
+            const allPages = document.querySelectorAll('.container');
+            allPages.forEach((page) => {
+                page.classList.add('hidden');
+            });
+
+            // 显示指定页面
+            document.getElementById(pageId).classList.remove('hidden');
+            toggleSpeech(pageId);
+
+            // 定义购物环节的页面 ID 数组
+            const shoppingPages = [
+                'product-recognition', 'fruit-section', 'snack-section',
+                'stationery-section', 'shopping-cart-section', 'video-intermediate', 'payment-selection', 'cash-payment'
+            ];
+
+            // 获取购物车元素
+            const shoppingCart = document.querySelector('.fixed-shopping-cart');
+
+            // 判断当前页面是否属于购物环节，若是则显示购物车，否则隐藏
+            if (shoppingPages.includes(pageId)) {
+                shoppingCart.style.display = 'block';
+            } else {
+                shoppingCart.style.display = 'none';
+            }
+        }
+
+        // 修改 nextPage 函数
+        function nextPage(currentPage, nextPage) {
+            pageHistory.push(currentPage);
+            document.getElementById(currentPage).classList.add('hidden');
+            document.getElementById(nextPage).classList.remove('hidden');
+            if (nextPage === 'reward') {
+                showReward();
+                // 隐藏教师控制按钮
+                document.querySelector('.teacher-next-button').style.display = 'none';
+            }
+            if (nextPage === 'video-intermediate') {
+                setIntermediateVideo();
+            }        
+            // 当进入熊叔叔介绍视频页面时，设置视频播放速度
+            if (nextPage === 'product-recognition') {
+                const bearUncleVideo = document.getElementById('bear-uncle-video');
+                if (bearUncleVideo) {
+                    // 监听 loadedmetadata 事件，在视频元数据加载完成后设置播放速度
+                    bearUncleVideo.playbackRate = 0.75;
+                }
+            }
+            toggleSpeech(nextPage);
+            // 控制购物车显示
+            toggleShoppingCartVisibility(nextPage); 
+        }
+
+        // 教师控制下一步函数
+        function teacherNextPage() {
+            const currentPage = document.querySelector('.container:not(.hidden)').id;
+            const currentIndex = pageOrder.indexOf(currentPage);
+            if (currentIndex < pageOrder.length - 1) {
+                const nextPageId = pageOrder[currentIndex + 1];
+                nextPage(currentPage, nextPageId);
+            }
+        }
+
+        function toggleSpeech(pageId) {
+            const pageElement = document.getElementById(pageId);
+            const hasVideo = pageElement.querySelector('video') !== null;
+            let elements;
+            if (hasVideo) {
+                // 有视频的页面排除 h3 元素（小问题）
+                elements = document.querySelectorAll(`#${pageId} [data-speech]:not(h3):not(.options button[data-speech])`);
+            } else {
+                // 无视频的页面正常获取所有元素
+                elements = document.querySelectorAll(`#${pageId} [data-speech]`);
+            }
+            const status = document.getElementById(`${pageId}-status`);
+            if (synth.speaking) {
+                synth.cancel();
+                status.textContent = '已停止';
+                return;
+            }
+            const voiceSelect = document.getElementById('voice-select');
+            const voiceIndex = voiceSelect.value;
+            if (voices[voiceIndex]) {
+                elements.forEach((element) => {
+                    let text = filterSpecialCharacters(element.dataset.speech);
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.voice = voices[voiceIndex];
+                    utterance.rate = parseFloat(document.getElementById('rate').value);
+                    utterance.pitch = parseFloat(document.getElementById('pitch').value);
+                    synth.speak(utterance);
+                });
+                status.textContent = '正在朗读...';
+                synth.onend = () => {
+                    status.textContent = '已完成';
+                };
+            }
+        }
+
+        function changeVoice() {
+            const voiceIndex = document.getElementById('voice-select').value;
+            const utterance = new SpeechSynthesisUtterance('这是新的语音效果。');
+            utterance.voice = voices[voiceIndex];
+            synth.speak(utterance);
+        }
+
+        function updateSpeechRate() {
+            const rate = document.getElementById('rate').value;
+            document.getElementById('rate-value').textContent = rate;
+        }
+
+        function updateSpeechPitch() {
+            const pitch = document.getElementById('pitch').value;
+            document.getElementById('pitch-value').textContent = pitch;
+        }
+
+        function toggleAIVoice() {
+            const btn = document.getElementById('ai-voice-btn');
+            if (btn.classList.contains('off')) {
+                btn.classList.remove('off');
+                btn.textContent = 'AI语音：开启';
+            } else {
+                btn.classList.add('off');
+                btn.textContent = 'AI语音：关闭';
+            }
+        }
+
+       // 定义每答对一题获得的小太阳数量
+        const REWARD_PER_CORRECT_ANSWER = 1; 
+
+        function checkAnswer(pageId, isCorrect) {
+            const feedbackElements = document.querySelectorAll(`#${pageId}-feedback`);
+            feedbackElements.forEach((feedback) => {
+                const nextButton = document.getElementById(`${pageId}-next`);
+                if (isCorrect) {
+                    feedback.textContent = '回答正确！太棒啦！';
+                    feedback.classList.add('correct');
+                    feedback.classList.remove('incorrect');
+                    if (pageId === 'online-payment-confirm-5') {
+                        document.querySelector('#online-payment-confirm-5 .button').style.display = 'inline-block';
+                        completeOnlinePayment(); 
+                    } else {
+                        // 普通题目答对增加小太阳
+                        sunRewards += REWARD_PER_CORRECT_ANSWER; 
+                    }
+                    nextButton.classList.remove('hidden'); 
+                } else {
+                    feedback.textContent = '回答错误，再想一想哦！';
+                    feedback.classList.add('incorrect');
+                    feedback.classList.remove('correct');
+                }
+                feedback.classList.remove('hidden');
+                const voiceIndex = document.getElementById('voice-select').value;
+                const utterance = new SpeechSynthesisUtterance(feedback.textContent);
+                utterance.voice = voices[voiceIndex];
+                synth.speak(utterance);
+            });
+        }
+
+        function completeOnlinePayment() {
+            const feedback = document.getElementById('online-payment-confirm-5-feedback');
+            const nextButton = document.getElementById('online-payment-confirm-5-next');
+            feedback.textContent = '线上支付成功！';
+            feedback.classList.add('correct');
+            feedback.classList.remove('incorrect');
+            feedback.classList.remove('hidden');
+            sunRewards += 2; 
+            nextButton.classList.remove('hidden');
+            const voiceIndex = document.getElementById('voice-select').value;
+            if (voices[voiceIndex]) {
+                const utterance = new SpeechSynthesisUtterance(feedback.textContent);
+                utterance.voice = voices[voiceIndex];
+                synth.speak(utterance);
+            }
+        }
+
+     function showReward() {
+            const sunRewardCount = document.getElementById('sun-reward-count');
+            sunRewardCount.textContent = `你一共获得了 ${sunRewards} 个小太阳！`;
+            const voiceIndex = document.getElementById('voice-select').value;
+            if (voices[voiceIndex]) {
+                const utterance = new SpeechSynthesisUtterance(sunRewardCount.textContent);
+                utterance.voice = voices[voiceIndex];
+                synth.speak(utterance);
+            }
+        }
+
+        function completeOnlinePayment() {
+            const feedback = document.getElementById('online-payment-confirm-5-feedback');
+            const nextButton = document.getElementById('online-payment-confirm-5-next');
+            feedback.textContent = '线上支付成功！';
+            feedback.classList.add('correct');
+            feedback.classList.remove('incorrect');
+            feedback.classList.remove('hidden');
+            sunRewards += 2; // 线上支付成功获得2个小太阳
+            nextButton.classList.remove('hidden');
+            const voiceIndex = document.getElementById('voice-select').value;
+            if (voices[voiceIndex]) {
+                const utterance = new SpeechSynthesisUtterance(feedback.textContent);
+                utterance.voice = voices[voiceIndex];
+                synth.speak(utterance);
+            }
+        }
+
+        function showReward() {
+            const sunRewardCount = document.getElementById('sun-reward-count');
+            sunRewardCount.textContent = `你一共获得了 ${sunRewards} 个小太阳！`;
+            const voiceIndex = document.getElementById('voice-select').value;
+            if (voices[voiceIndex]) {
+                const utterance = new SpeechSynthesisUtterance(sunRewardCount.textContent);
+                utterance.voice = voices[voiceIndex];
+                synth.speak(utterance);
+            }
+        }
+
+        function selectCharacter(character) {
+            selectedCharacter = character;
+            const characters = document.querySelectorAll('.character');
+            characters.forEach((char) => {
+                char.classList.remove('selected');
+            });
+            const selectedChar = document.querySelector(`.character[alt="${character}"]`);
+            selectedChar.classList.add('selected');
+            document.getElementById('character-selection-next').classList.remove('hidden');
+            // 设置角色视频页面内容
+            const characterVideoTitle = document.getElementById('character-video-title');
+            const characterVideoSource = document.getElementById('character-video-source');
+            characterVideoTitle.textContent = `${character} 来啦！`;
+            switch(character) {
+                case '小猫':
+                    characterVideoSource.src = 'https://raw.githubusercontent.com/Peeeee5/video-for-assignment-/main/%E5%B0%8F%E7%8C%AB%E4%BB%8B%E7%BB%8D%E8%A7%86%E9%A2%91.mp4';
+                    break;
+                case '小狗':
+                    characterVideoSource.src = 'https://raw.githubusercontent.com/Peeeee5/video-for-assignment-/main/%E5%B0%8F%E7%8B%97%E4%BB%8B%E7%BB%8D1.mp4';
+                    break;
+                case '小兔':
+                    characterVideoSource.src = 'https://cdn.hailuoai.com/prod/2025-05-15-14/video/1747289193905894622-video_watermark_ff401e83153d9b0928fd4d1ff29193fe_379303295448248324.mp4';
+                    break;
+                case '小熊':
+                    characterVideoSource.src = 'https://raw.githubusercontent.com/Peeeee5/video-for-assignment-/main/%E5%B0%8F%E7%86%8A.mp4';
+                    break;
+            }
+            const characterVideo = document.getElementById('character-video-source').parentElement;
+            characterVideo.load();
+        }
+
+        function addToCart(itemName, price) {
+            const existingItem = cart.find(item => item.name === itemName);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ name: itemName, price: price, quantity: 1 });
+            }
+            updateCart();
+        }
+
+        function calculateSectionTotal(section) {
+            let total = 0;
+            cart.forEach(item => {
+                if (
+                    (section === '水果区' && ['苹果', '香蕉', '橙子', '草莓'].includes(item.name)) ||
+                    (section === '零食区' && ['薯片', '巧克力', '饼干', '酸奶'].includes(item.name)) ||
+                    (section === '学习用品区' && ['铅笔', '橡皮', '尺子', '笔记本'].includes(item.name))
+                ) {
+                    total += item.price * item.quantity;
+                }
+            });
+            return total;
+        }
+
+        function updateCart() {
+        const cartItemsDivFruit = document.getElementById('cart-items-fruit');
+        const cartItemsDivSnack = document.getElementById('cart-items-snack');
+        const cartItemsDivStationery = document.getElementById('cart-items-stationery');
+        const cartItemsDivAll = document.getElementById('cart-items-all');
+        const cartTotalSpanFruit = document.getElementById('cart-total-fruit');
+        const cartTotalSpanSnack = document.getElementById('cart-total-snack');
+        const cartTotalSpanStationery = document.getElementById('cart-total-stationery');
+        const cartTotalSpanAll = document.getElementById('cart-total-all');
+        // 新增固定购物车相关元素
+        const fixedCartItemsDiv = document.getElementById('fixed-cart-items');
+        const fixedCartTotalSpan = document.getElementById('fixed-cart-total');
+        let total = 0;
+
+        cartItemsDivFruit.innerHTML = '';
+        cartItemsDivSnack.innerHTML = '';
+        cartItemsDivStationery.innerHTML = '';
+        cartItemsDivAll.innerHTML = '';
+        // 清空固定购物车内容
+        fixedCartItemsDiv.innerHTML = '';
+
+        cart.forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'cart-item';
+            itemDiv.innerHTML = `
+                <span>${item.name}</span>
+                <span>单价: ${item.price} 元</span>
+                <span>数量: ${item.quantity}</span>
+                <span>小计: ${item.price * item.quantity} 元</span>
+            `;
+            const clonedItemDiv = itemDiv.cloneNode(true);
+            cartItemsDivAll.appendChild(itemDiv);
+            total += item.price * item.quantity;
+
+            if (item.name === '苹果' || item.name === '香蕉' || item.name === '橙子' || item.name === '草莓') {
+                cartItemsDivFruit.appendChild(clonedItemDiv.cloneNode(true));
+            } else if (item.name === '薯片' || item.name === '巧克力' || item.name === '饼干' || item.name === '酸奶') {
+                cartItemsDivSnack.appendChild(clonedItemDiv.cloneNode(true));
+            } else if (item.name === '铅笔' || item.name === '橡皮' || item.name === '尺子' || item.name === '笔记本') {
+                cartItemsDivStationery.appendChild(clonedItemDiv.cloneNode(true));
+            }
+            // 将商品添加到固定购物车
+            fixedCartItemsDiv.appendChild(itemDiv.cloneNode(true));
+        });
+
+        cartTotalSpanFruit.textContent = calculateSectionTotal('水果区');
+        cartTotalSpanSnack.textContent = calculateSectionTotal('零食区');
+        cartTotalSpanStationery.textContent = calculateSectionTotal('学习用品区');
+        cartTotalSpanAll.textContent = total;
+        // 更新固定购物车总价
+        fixedCartTotalSpan.textContent = total;
+        totalPrice = total;
+        const cashPaymentTotal = document.getElementById('cash-payment-total');
+        cashPaymentTotal.textContent = `你选择的商品总价是 ${totalPrice} 元。`;
+    }
+
+         function removeFromCart(itemName, price, event) {
+            event.stopPropagation(); // 阻止事件冒泡
+            const existingItem = cart.find(item => item.name === itemName);
+            if (existingItem) {
+                if (existingItem.quantity > 1) {
+                    existingItem.quantity--;
+                } else {
+                    const index = cart.indexOf(existingItem);
+                    cart.splice(index, 1);
+                }
+                updateCart();
+            }
+        }
+
+        function selectPayment(method) {
+            selectedPaymentMethod = method;
+            pageHistory.push('payment-selection');
+            if (method === 'cash') {
+                document.getElementById('payment-selection').classList.add('hidden');
+                document.getElementById('cash-payment').classList.remove('hidden');
+                toggleSpeech('cash-payment');
+            } else if (method === 'online') {
+                document.getElementById('payment-selection').classList.add('hidden');
+                document.getElementById('online-payment-confirm-1').classList.remove('hidden');
+                toggleSpeech('online-payment-confirm-1');
+            }
+        }
+
+        // 增加钞票数量函数
+        function increaseMoney(denomination) {
+            const countElement = document.getElementById(`${denomination}-count`);
+            let count = parseInt(countElement.textContent);
+            count++;
+            countElement.textContent = count;
+        }
+
+        // 减少钞票数量函数
+        function decreaseMoney(denomination) {
+            const countElement = document.getElementById(`${denomination}-count`);
+            let count = parseInt(countElement.textContent);
+            if (count > 0) {
+                count--;
+                countElement.textContent = count;
+            }
+        }
+
+        function checkCashPayment() {
+            const oneYuanCount = parseInt(document.getElementById('1-yuan-count').textContent);
+            const fiveYuanCount = parseInt(document.getElementById('5-yuan-count').textContent);
+            const tenYuanCount = parseInt(document.getElementById('10-yuan-count').textContent);
+            const twentyYuanCount = parseInt(document.getElementById('20-yuan-count').textContent);
+            const fiftyYuanCount = parseInt(document.getElementById('50-yuan-count').textContent);
+
+            const totalGiven = oneYuanCount * 1 + fiveYuanCount * 5 + tenYuanCount * 10 + twentyYuanCount * 20 + fiftyYuanCount * 50;
+            const change = totalGiven - totalPrice;
+            const feedback = document.getElementById('cash-payment-feedback');
+            const changeDiv = document.getElementById('cash-payment-change');
+            const nextButton = document.getElementById('cash-payment-next');
+
+            if (totalGiven === totalPrice) {
+                feedback.textContent = '支付正确，交易成功！';
+                feedback.classList.add('correct');
+                feedback.classList.remove('incorrect');
+                changeDiv.textContent = '无需找零。';
+                sunRewards += 2; // 正确支付获得2个小太阳
+                nextButton.classList.remove('hidden');
+            } else if (totalGiven > totalPrice) {
+                feedback.textContent = '支付金额过多，交易成功！';
+                feedback.classList.add('correct');
+                feedback.classList.remove('incorrect');
+                changeDiv.textContent = `应找零 ${change} 元。`;
+                sunRewards += 1; // 支付金额过多获得1个小太阳
+                nextButton.classList.remove('hidden');
+            } else {
+                feedback.textContent = '支付金额不足，请重新选择。';
+                feedback.classList.add('incorrect');
+                feedback.classList.remove('correct');
+                changeDiv.textContent = '';
+            }
+            feedback.classList.remove('hidden');
+            const voiceIndex = document.getElementById('voice-select').value;
+            const utterance = new SpeechSynthesisUtterance(feedback.textContent + ' ' + changeDiv.textContent);
+            utterance.voice = voices[voiceIndex];
+            synth.speak(utterance);
+        }
+
+        function completeOnlinePayment() {
+            const feedback = document.getElementById('online-payment-confirm-feedback');
+            const nextButton = document.getElementById('online-payment-confirm-5-next');
+            feedback.textContent = '线上支付成功！';
+            feedback.classList.add('correct');
+            feedback.classList.remove('incorrect');
+            feedback.classList.remove('hidden');
+            sunRewards += 2; // 线上支付成功获得2个小太阳
+            nextButton.classList.remove('hidden');
+            const voiceIndex = document.getElementById('voice-select').value;
+            const utterance = new SpeechSynthesisUtterance(feedback.textContent);
+            utterance.voice = voices[voiceIndex];
+            synth.speak(utterance);
+        }
+
+        function restartGame() {
+            // 重置所有状态
+            selectedCharacter = null;
+            selectedItems = [];
+            totalPrice = 0;
+            selectedPaymentMethod = null;
+            cart = [];
+            sunRewards = 0;
+            pageHistory = [];
+
+            // 隐藏所有页面
+            const allPages = document.querySelectorAll('.container');
+            allPages.forEach((page) => {
+                page.classList.add('hidden');
+            });
+
+            // 显示欢迎页面
+            document.getElementById('welcome').classList.remove('hidden');
+            // 隐藏教师控制按钮
+            document.querySelector('.teacher-next-button').style.display = 'none';
+
+            // 重置购物车显示
+            const cartItemsDivFruit = document.getElementById('cart-items-fruit');
+            const cartItemsDivSnack = document.getElementById('cart-items-snack');
+            const cartItemsDivStationery = document.getElementById('cart-items-stationery');
+            const cartItemsDivAll = document.getElementById('cart-items-all');
+            const cartTotalSpanFruit = document.getElementById('cart-total-fruit');
+            const cartTotalSpanSnack = document.getElementById('cart-total-snack');
+            const cartTotalSpanStationery = document.getElementById('cart-total-stationery');
+            const cartTotalSpanAll = document.getElementById('cart-total-all');
+            const cashPaymentTotal = document.getElementById('cash-payment-total');
+
+            cartItemsDivFruit.innerHTML = '';
+            cartItemsDivSnack.innerHTML = '';
+            cartItemsDivStationery.innerHTML = '';
+            cartItemsDivAll.innerHTML = '';
+            cartTotalSpanFruit.textContent = '0';
+            cartTotalSpanSnack.textContent = '0';
+            cartTotalSpanStationery.textContent = '0';
+            cartTotalSpanAll.textContent = '0';
+            cashPaymentTotal.textContent = '';
+
+            // 重置现金支付相关计数
+            document.getElementById('1-yuan-count').textContent = '0';
+            document.getElementById('5-yuan-count').textContent = '0';
+            document.getElementById('10-yuan-count').textContent = '0';
+            document.getElementById('20-yuan-count').textContent = '0';
+            document.getElementById('50-yuan-count').textContent = '0';
+
+            // 重置反馈信息
+            const feedbackElements = document.querySelectorAll('.feedback');
+            feedbackElements.forEach((element) => {
+                element.textContent = '';
+                element.classList.add('hidden');
+            });
+        }
+
+        // 在奖励页面显示小太阳个数
+        function showReward() {
+            const sunRewardCount = document.getElementById('sun-reward-count');
+            sunRewardCount.textContent = `你一共获得了 ${sunRewards} 个小太阳！`;
+            const voiceIndex = document.getElementById('voice-select').value;
+            const utterance = new SpeechSynthesisUtterance(sunRewardCount.textContent);
+            utterance.voice = voices[voiceIndex];
+            synth.speak(utterance);
+        }
+
+        // 修改 goBack 函数
+        function goBack() {
+            if (pageHistory.length > 0) {
+                const prevPage = pageHistory.pop();
+                const currentPage = document.querySelector('.container:not(.hidden)').id;
+                document.getElementById(currentPage).classList.add('hidden');
+                document.getElementById(prevPage).classList.remove('hidden');
+                toggleSpeech(prevPage);
+                // 控制购物车显示
+                toggleShoppingCartVisibility(prevPage); 
+            }
+        }
+
+        // 设置结算前小视频
+        function setIntermediateVideo() {
+            const intermediateVideoSource = document.getElementById('intermediate-video-source');
+            switch(selectedCharacter) {
+                case '小猫':
+                    intermediateVideoSource.src = 'https://raw.githubusercontent.com/Peeeee5/video-for-assignment-/main/%E5%B0%8F%E7%8C%AB%E7%BB%93%E7%AE%97.mp4';
+                    break;
+                case '小狗':
+                    intermediateVideoSource.src = 'https://raw.githubusercontent.com/Peeeee5/video-for-assignment-/ccdb81c919a98254293cb9c0cdaaaa135bc1f170/%E5%B0%8F%E7%8B%97%E7%BB%93%E8%B4%A6%E8%A7%86%E9%A2%91.mp4';
+                    break;
+                case '小兔':
+                    intermediateVideoSource.src = 'https://raw.githubusercontent.com/Peeeee5/video-for-assignment-/main/%E5%BE%AE%E4%BF%A1%E8%A7%86%E9%A2%912025-05-22_135247_188.mp4';
+                    break;
+                case '小熊':
+                    intermediateVideoSource.src = 'https://raw.githubusercontent.com/Peeeee5/video-for-assignment-/main/%E5%B0%8F%E7%86%8A%E6%94%AF%E4%BB%98.mp4';
+                    break;
+                default:
+                    intermediateVideoSource.src = 'https://example.com/intermediate-video.mp4';
+            }
+            const intermediateVideo = document.getElementById('intermediate-video-source').parentElement;
+            intermediateVideo.load();
+        }
+
+        // 定义函数，用于在视频结束后朗读互动题目和选项
+        function readQuestionAfterVideo(pageId) {
+            const questionElement = document.querySelector(`#${pageId} h3[data-speech]`);
+            const optionButtons = document.querySelectorAll(`#${pageId} .options button[data-speech]`);
+            const voiceIndex = document.getElementById('voice-select').value;
+
+            // 朗读互动问题
+            if (questionElement) {
+                const questionText = filterSpecialCharacters(questionElement.dataset.speech);
+                const questionUtterance = new SpeechSynthesisUtterance(questionText);
+                questionUtterance.voice = voices[voiceIndex];
+                questionUtterance.rate = parseFloat(document.getElementById('rate').value);
+                questionUtterance.pitch = parseFloat(document.getElementById('pitch').value);
+                synth.speak(questionUtterance);
+
+                // 等待问题朗读完成后再朗读选项
+                questionUtterance.onend = () => {
+                    let prevUtterance = null;
+                    // 朗读互动选项
+                    optionButtons.forEach((button, index) => {
+                        const optionText = `${index + 1}. ${filterSpecialCharacters(button.dataset.speech)}`;
+                        const optionUtterance = new SpeechSynthesisUtterance(optionText);
+                        optionUtterance.voice = voices[voiceIndex];
+                        optionUtterance.rate = parseFloat(document.getElementById('rate').value);
+                        optionUtterance.pitch = parseFloat(document.getElementById('pitch').value);
+
+                        if (prevUtterance) {
+                            prevUtterance.onend = () => {
+                                synth.speak(optionUtterance);
+                            };
+                        } else {
+                            synth.speak(optionUtterance);
+                        }
+                        prevUtterance = optionUtterance;
+                    });
+                };
+            }
+        }
+
+
+        // 初始化页面
+        document.addEventListener('DOMContentLoaded', () => {
+            populateVoices();
+            const allPages = document.querySelectorAll('.container');
+            allPages.forEach((page) => {
+                page.classList.add('hidden');
+            });
+            document.getElementById('welcome').classList.remove('hidden');
+            // 隐藏教师控制按钮
+            document.querySelector('.teacher-next-button').style.display = 'none';
+            // 初始化时播放欢迎页语音
+            setTimeout(() => {
+                toggleSpeech('welcome');
+            }, 500); // 延迟 500ms 确保语音列表已加载
+             // 给所有线上支付相关视频添加 muted 属性
+             const onlinePaymentVideos = document.querySelectorAll([
+                '#online-payment-1 video',
+                '#online-payment-2 video',
+                '#online-payment-3 video',
+                '#online-payment-4 video',
+                '#online-payment-5 video'
+            ].join(','));
+             onlinePaymentVideos.forEach(video => {
+                video.muted = true;
+            });
+
+             // 给所有视频元素添加 ended 事件监听器
+            const videos = document.querySelectorAll('video');
+            videos.forEach(video => {
+                const pageId = video.closest('.container').id;
+                video.addEventListener('ended', () => {
+                    readQuestionAfterVideo(pageId);
+                });
+                 // 初始化购物车显示
+            toggleShoppingCartVisibility('welcome'); 
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>兑钱练习</title>
+    <link rel="stylesheet" href="../../../css/general/page-settings.css">
+    <link rel="stylesheet" href="../../../css/general/card-layout.css">
+    <link rel="stylesheet" href="../../../css/sections/courses/exercises/money-practice.css">
+    <script src="../../../javascript/general/page-cleaner.js"></script>
+    <script src="../../../javascript/sections/settings/voice-setting/voice-core.js"></script>
+    <script src="../../../javascript/general/page-reader.js"></script>
+    <script src="../../../javascript/sections/courses/exercises/money-practice.js"></script>
+</head>
+<body>
+<reader style="display: none" id="page-reader-text"></reader>
+
+<div class="page-container">
+    <div class="toolbar">
+        <button id="play-page-btn" class="toolbar-btn" title="朗读页面">读</button>
+    </div>
+
+    <nav class="navbar" id="level-navbar">
+        <a href="?level=easy" class="nav-item" data-level="easy">纸币兑换</a>
+        <a href="?level=medium" class="nav-item" data-level="medium">综合兑换</a>
+    </nav>
+
+    <h1 class="main-title" id="main-title">兑钱练习 - 纸币兑换</h1>
+
+    <div class="content-card">
+        <div class="exchange-canvas">
+            <section class="counter-panel">
+                <h3 class="counter-title">老师金额区</h3>
+                <div class="money-counter" id="teacher-counter"></div>
+                <div class="result-message" id="teacher-result">将中间的人民币拖动到此处</div>
+            </section>
+
+            <section class="money-bank" id="money-bank">
+                <div class="bank-section">
+                    <h3>纸币</h3>
+                    <div class="money-grid bills" id="bill-bank"></div>
+                </div>
+                <div class="bank-section" id="coin-section">
+                    <h3>硬币</h3>
+                    <div class="money-grid coins" id="coin-bank"></div>
+                </div>
+            </section>
+
+            <section class="counter-panel">
+                <h3 class="counter-title">学生金额区</h3>
+                <div class="money-counter" id="student-counter"></div>
+                <div class="result-message" id="student-result">将中间的人民币拖动到此处</div>
+            </section>
+        </div>
+    </div>
+
+    <div class="unified-navigation action-controls">
+        <button class="nav-btn" id="reset-btn" type="button">重置</button>
+        <button class="nav-btn" id="check-btn" type="button">核对</button>
+    </div>
+
+    <footer>
+        <button class="end-btn" onclick="window.location.href='exercises-catalog.html'">返回课程选择</button>
+    </footer>
+</div>
+</body>
+</html>
+

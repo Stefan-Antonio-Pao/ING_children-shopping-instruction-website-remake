@@ -1,7 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const stepContent = {
+        1: {
+            title: '第1步 - 打开支付宝/微信',
+            readerText: '首先，我们需要在手机上找到并点击支付宝或微信的图标来打开它。'
+        },
+        2: {
+            title: '第2步 - 点击付款/扫一扫',
+            readerText: '在支付宝或微信里，我们需要找到付款或扫一扫按钮并点击它。'
+        },
+        3: {
+            title: '第3步 - 扫描支付码',
+            readerText: '用手机摄像头对准商家的支付二维码，保持手机稳定，等待扫描完成。'
+        },
+        4: {
+            title: '第4步 - 输入支付金额',
+            readerText: '在弹出的支付页面中，输入你要支付的金额。'
+        },
+        5: {
+            title: '第5步 - 确认支付',
+            readerText: '输入金额后，点击确认支付按钮完成支付。'
+        }
+    };
+
     const videoSteps = [1, 2, 3, 4, 5].map((stepNum) => ({
         step: stepNum,
-        video: `../../../assets/vedios/online-payment-intro/step-${stepNum}.mp4`
+        video: `../../../assets/vedios/online-payment-intro/step-${stepNum}.mp4`,
+        ...stepContent[stepNum]
     }));
 
     const pages = [
@@ -14,9 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         ...videoSteps.map((item) => ({
             id: `step-${item.step}`,
-            title: `电子支付教学 - 第${item.step}步`,
+            title: item.title,
             message: '',
-            readerText: `现在播放电子支付教学第${item.step}步视频。`,
+            readerText: item.readerText,
             videoStep: item.step
         })),
         {
@@ -35,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const videoEl = document.getElementById('payment-video');
     const sourceEl = videoEl.querySelector('source');
     const messageEl = document.getElementById('message-screen');
+    const stepDescriptionEl = document.getElementById('step-description');
     const navItems = Array.from(document.querySelectorAll('#step-navbar .nav-item'));
     const prevBtn = document.getElementById('prev-step-btn');
     const nextBtn = document.getElementById('next-step-btn');
@@ -72,7 +97,56 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function showVideoStep(stepNum) {
+    function isAutoReadEnabled() {
+        return Boolean(window.voiceCore && window.voiceCore.getSetting('autoPlay') === 'on');
+    }
+
+    function showStepDescription(text, visible) {
+        if (!stepDescriptionEl) return;
+        stepDescriptionEl.textContent = text || '';
+        stepDescriptionEl.classList.toggle('is-hidden', !visible);
+    }
+
+    function playVideoByVoicePolicy(readerText) {
+        if (!isAutoReadEnabled()) {
+            tryAutoPlayVideo();
+            return;
+        }
+
+        const synth = window.speechSynthesis;
+        const startedAt = Date.now();
+        let hasStartedSpeaking = false;
+
+        const timer = setInterval(() => {
+            const elapsed = Date.now() - startedAt;
+            const speakingNow = Boolean(synth && synth.speaking);
+
+            if (speakingNow) {
+                hasStartedSpeaking = true;
+            }
+
+            if (hasStartedSpeaking && !speakingNow) {
+                clearInterval(timer);
+                tryAutoPlayVideo();
+                return;
+            }
+
+            // If narration did not start in a short window, fail open and play video.
+            if (!hasStartedSpeaking && elapsed > 1400) {
+                clearInterval(timer);
+                tryAutoPlayVideo();
+                return;
+            }
+
+            // Hard timeout for any unexpected synth state.
+            if (elapsed > 12000) {
+                clearInterval(timer);
+                tryAutoPlayVideo();
+            }
+        }, 100);
+    }
+
+    function showVideoStep(stepNum, readerText) {
         const config = getVideoConfig(stepNum);
         if (!config) return;
 
@@ -83,7 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
         messageEl.classList.remove('active');
         videoEl.classList.remove('is-hidden');
         videoEl.load();
-        tryAutoPlayVideo();
+        showStepDescription(readerText, true);
+        playVideoByVoicePolicy(readerText);
     }
 
     function showMessagePage(messageText) {
@@ -91,6 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         videoEl.classList.add('is-hidden');
         messageEl.textContent = messageText;
         messageEl.classList.add('active');
+        showStepDescription('', false);
     }
 
     function updateTitle(titleText) {
@@ -119,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateNavBar(page.videoStep);
 
         if (page.videoStep) {
-            showVideoStep(page.videoStep);
+            showVideoStep(page.videoStep, page.readerText);
         } else {
             showMessagePage(page.message);
         }
@@ -150,12 +226,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     nextBtn.addEventListener('click', () => {
         goToPage(currentPageIndex + 1);
-    });
-
-    videoEl.addEventListener('ended', () => {
-        if (currentPageIndex >= 1 && currentPageIndex <= 4) {
-            goToPage(currentPageIndex + 1);
-        }
     });
 
     renderPage(currentPageIndex);
