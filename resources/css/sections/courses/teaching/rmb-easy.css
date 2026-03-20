@@ -949,17 +949,22 @@
 }
 
 #drop-portrait {
-    left: 78%;
-    top: 10%;
-    width: 12%;
-    height: 56%;
+    left: 73%;
+    top: 8%;
+    width: 18%;
+    height: 70%;
 }
 
 #drop-value {
-    left: 10%;
-    top: 42%;
-    width: 12%;
-    height: 20%;
+    left: 8%;
+    top: 36%;
+    width: 20%;
+    height: 30%;
+}
+
+#drop-portrait span,
+#drop-value span {
+    font-size: 15px;
 }
 
 .puzzle-drop-zone.filled {

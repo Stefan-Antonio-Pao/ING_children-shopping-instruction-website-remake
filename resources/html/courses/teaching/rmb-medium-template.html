@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>认识硬币</title>
+    <link rel="stylesheet" href="../../../css/general/page-settings.css">
+    <link rel="stylesheet" href="../../../css/general/card-layout.css">
+    <link rel="stylesheet" href="../../../css/sections/courses/teaching/rmb-medium.css">
+    <script src="../../../javascript/general/page-cleaner.js"></script>
+    <script src="../../../javascript/sections/settings/voice-setting/voice-core.js"></script>
+    <script src="../../../javascript/general/page-reader.js"></script>
+    <script src="../../../javascript/sections/courses/teaching/rmb-medium.js"></script>
+</head>
+<body>
+<reader style="display: none" id="page-reader-text"></reader>
+
+<div class="page-container">
+    <div class="toolbar">
+        <button class="toolbar-btn" id="prev-btn">←</button>
+        <button class="toolbar-btn" id="next-btn">→</button>
+        <button id="play-page-btn" class="toolbar-btn" title="朗读页面">读</button>
+    </div>
+
+    <nav class="navbar">
+        <a href="?coin=yuan-1" class="nav-item" id="nav-yuan-1">1元</a>
+        <a href="?coin=jiao-5" class="nav-item" id="nav-jiao-5">5角</a>
+        <a href="?coin=jiao-1" class="nav-item" id="nav-jiao-1">1角</a>
+    </nav>
+
+    <h1 class="main-title">认识硬币</h1>
+
+    <div class="mode-switch">
+        <button class="mode-btn active" id="teaching-btn" onclick="switchMode('teaching')">教学</button>
+        <button class="mode-btn" id="practice-btn" onclick="switchMode('practice')">练习</button>
+    </div>
+
+    <div class="practice-steps-container" id="practice-steps-container" style="display: none;">
+        <div class="steps" id="steps">
+            <div class="step active" id="step1">
+                <div class="step-circle">1</div>
+                <div class="step-label">颜色选择</div>
+            </div>
+            <div class="step" id="step2">
+                <div class="step-circle">2</div>
+                <div class="step-label">内圈形状</div>
+            </div>
+            <div class="step" id="step3">
+                <div class="step-circle">3</div>
+                <div class="step-label">硬币面值</div>
+            </div>
+            <div class="step" id="step4">
+                <div class="step-circle">4</div>
+                <div class="step-label">硬币纹样</div>
+            </div>
+            <div class="step" id="step5">
+                <div class="step-circle">5</div>
+                <div class="step-label">完成练习</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <div class="mode-content active" id="teaching-content">
+            <div class="teaching-page active" id="teaching-page1">
+                <div class="teaching-section">
+                    <h2>硬币的颜色与形状</h2>
+                    <div class="coin-side-display">
+                        <img id="teaching-coin-head" src="" alt="硬币正面" class="coin-side-img">
+                        <img id="teaching-coin-tail" src="" alt="硬币背面" class="coin-side-img">
+                    </div>
+                    <div class="color-info">
+                        <div class="color-badge coin-color-badge" id="teaching-color-badge">镍白色</div>
+                        <p id="teaching-color-description"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="teaching-page" id="teaching-page2">
+                <div class="teaching-section">
+                    <h2>硬币的面值</h2>
+                    <div class="element-display">
+                        <img id="teaching-value-image" src="" alt="硬币面值" class="coin-element-img">
+                        <p id="teaching-value-description"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="teaching-page" id="teaching-page3">
+                <div class="teaching-section">
+                    <h2>硬币的纹样</h2>
+                    <div class="element-display">
+                        <img id="teaching-pattern-image" src="" alt="硬币纹样" class="coin-element-img">
+                        <p id="teaching-pattern-description"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mode-content" id="practice-content">
+            <div class="page active" id="page1">
+                <div class="coin-practice-layout">
+                    <div class="coin-practice-left">
+                        <div class="coin-canvas-card">
+                            <div class="coin-canvas" id="practice-color-canvas">
+                                <div class="coin-outer-ring"></div>
+                                <div class="coin-inner-shape" id="practice-color-inner-shape"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="coin-practice-right">
+                        <div id="coin-color-panel">
+                            <p class="puzzle-tip" id="coin-color-question">请选择正确的硬币颜色</p>
+                            <div class="coin-color-options" id="coin-color-options">
+                                <button class="coin-color-option nickel-option" type="button" data-color="nickel" onclick="selectCoinColor('nickel', this)">
+                                    <span class="coin-color-swatch"></span>
+                                    <span class="coin-option-label">镍白色</span>
+                                </button>
+                                <button class="coin-color-option gold-option" type="button" data-color="gold" onclick="selectCoinColor('gold', this)">
+                                    <span class="coin-color-swatch"></span>
+                                    <span class="coin-option-label">金黄色</span>
+                                </button>
+                                <button class="coin-color-option copper-option" type="button" data-color="copper" onclick="selectCoinColor('copper', this)">
+                                    <span class="coin-color-swatch"></span>
+                                    <span class="coin-option-label">铜色</span>
+                                </button>
+                            </div>
+                            <div id="coin-color-error" class="color-error-message" style="display: none;">🔴 颜色错误！请换一个颜色试试</div>
+                        </div>
+
+                        <div id="coin-color-success-panel" style="display: none;">
+                            <p id="coin-color-success-text" class="puzzle-success-text"></p>
+                            <button class="nav-btn" type="button" onclick="nextCoinColorStep()">下一步</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page2">
+                <div class="coin-practice-layout">
+                    <div class="coin-practice-left">
+                        <div class="coin-canvas-card">
+                            <div class="coin-canvas is-filled" id="practice-shape-canvas">
+                                <div class="board-side-label coin-board-label">内圈</div>
+                                <div class="coin-outer-ring"></div>
+                                <div class="coin-inner-shape" id="practice-shape-inner-shape"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="coin-practice-right">
+                        <div id="coin-shape-panel">
+                            <p class="puzzle-tip" id="coin-shape-question">请选择正确的内圈形状</p>
+                            <div class="coin-shape-options" id="coin-shape-options">
+                                <button class="coin-shape-option" type="button" data-shape="circle" onclick="selectCoinShape('circle', this)">
+                                    <span class="shape-preview shape-circle"></span>
+                                    <span class="coin-option-label">圆形</span>
+                                </button>
+                                <button class="coin-shape-option" type="button" data-shape="polygon11" onclick="selectCoinShape('polygon11', this)">
+                                    <span class="shape-preview shape-polygon11"></span>
+                                    <span class="coin-option-label">多边形</span>
+                                </button>
+                            </div>
+                            <div id="coin-shape-error" class="color-error-message" style="display: none;">🔴 形状错误！请换一个形状试试</div>
+                        </div>
+
+                        <div id="coin-shape-success-panel" style="display: none;">
+                            <p id="coin-shape-success-text" class="puzzle-success-text"></p>
+                            <button class="nav-btn" type="button" onclick="nextCoinShapeStep()">下一步</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page3">
+                <div class="coin-practice-layout">
+                    <div class="coin-practice-left">
+                        <div class="coin-canvas-card">
+                            <div class="coin-canvas is-filled" id="practice-value-canvas">
+                                <div class="board-side-label coin-board-label">面值</div>
+                                <div class="coin-outer-ring"></div>
+                                <div class="coin-inner-shape" id="practice-value-inner-shape"></div>
+                                <img id="practice-value-image" class="coin-canvas-image" src="" alt="硬币面值">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="coin-practice-right">
+                        <div id="coin-value-panel">
+                            <p class="puzzle-tip" id="coin-value-question">请选择正确的硬币面值</p>
+                            <div class="coin-image-options three-up" id="coin-value-options"></div>
+                            <div id="coin-value-error" class="color-error-message" style="display: none;">🔴 选择错误！请再试一次</div>
+                        </div>
+
+                        <div id="coin-value-success-panel" style="display: none;">
+                            <p id="coin-value-success-text" class="puzzle-success-text"></p>
+                            <button class="nav-btn" type="button" onclick="nextCoinValueStep()">下一步</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page4">
+                <div class="coin-practice-layout">
+                    <div class="coin-practice-left">
+                        <div class="coin-canvas-card">
+                            <div class="coin-canvas is-filled" id="practice-pattern-canvas">
+                                <div class="board-side-label coin-board-label">纹样</div>
+                                <div class="coin-outer-ring"></div>
+                                <div class="coin-inner-shape" id="practice-pattern-inner-shape"></div>
+                                <img id="practice-pattern-image" class="coin-canvas-image" src="" alt="硬币纹样">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="coin-practice-right">
+                        <div id="coin-pattern-panel">
+                            <p class="puzzle-tip" id="coin-pattern-question">请选择正确的硬币纹样</p>
+                            <div class="coin-image-options three-up" id="coin-pattern-options"></div>
+                            <div id="coin-pattern-error" class="color-error-message" style="display: none;">🔴 选择错误！请再试一次</div>
+                        </div>
+
+                        <div id="coin-pattern-success-panel" style="display: none;">
+                            <p id="coin-pattern-success-text" class="puzzle-success-text"></p>
+                            <button class="nav-btn" type="button" onclick="nextCoinPatternStep()">下一步</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="page5">
+                <div class="coin-completion-container">
+                    <div class="coin-completion-left">
+                        <img id="completion-head-img" src="" alt="硬币正面" class="coin-completion-img">
+                        <img id="completion-tail-img" src="" alt="硬币背面" class="coin-completion-img">
+                    </div>
+                    <div class="coin-completion-right">
+                        <p class="completion-emoji">🎉</p>
+                        <p id="coin-completion-text" class="puzzle-success-text"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="unified-navigation" id="unified-navigation">
+        <button class="nav-btn" id="prev-teaching-btn" onclick="prevTeachingPage()" style="display: none;">上一页</button>
+        <button class="nav-btn" id="next-teaching-btn" onclick="nextTeachingPage()">下一页</button>
+        <button class="nav-btn" id="start-practice-btn" onclick="switchMode('practice')" style="display: none;">开始练习</button>
+        <button class="nav-btn" type="button" id="back-to-teaching-btn" onclick="backToTeaching()" style="display: none;">返回教学</button>
+        <button class="nav-btn" type="button" id="restart-practice-btn" onclick="restartPractice()" style="display: none;">重新开始</button>
+    </div>
+
+    <footer>
+        <button class="end-btn" onclick="window.location.href='teaching-catalog.html'">返回课程选择</button>
+    </footer>
+</div>
+</body>
+</html>
+

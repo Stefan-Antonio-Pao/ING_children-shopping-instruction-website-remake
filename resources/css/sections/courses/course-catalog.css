@@ -18,7 +18,10 @@
     gap: 15px;
     max-height: 100%;
     overflow-y: auto;
-    margin: 0 20px;
+    overflow-x: visible;
+    margin: 0;
+    padding: 6px 8px;
+    box-sizing: border-box;
 }
 
 /* Course item card */
@@ -28,7 +31,9 @@
     align-items: center;
     gap: 12px;
     padding: 20px;
-    margin: 20px auto;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
     border-radius: 15px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -37,8 +42,8 @@
 }
 
 .course-item:hover {
-    transform: scale(1.05);
-    /*box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);*/
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
 }
 
 .course-item.selected {
@@ -89,6 +94,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 15px;
+    padding: 6px 4px;
 }
 
 /* Difficulty card */
@@ -108,8 +114,8 @@
 }
 
 .difficulty-card:hover {
-    transform: scale(1.05);
-    /*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);*/
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.10);
 }
 
 .difficulty-card.selected {

@@ -20,25 +20,34 @@ document.addEventListener('DOMContentLoaded', () => {
                         {
                             level: "medium",
                             name: "认识硬币",
-                            description: "认识不同的硬币面值和特点"
+                            description: "认识不同的硬币面值和特点",
+                            url: "rmb-medium-template.html"
                         }
                     ]
                 },
                 {
-                    id: "payment-methods",
-                    name: "支付方式",
+                    id: "cash-payment",
+                    name: "现金支付",
                     icon: "../../../assets/images/sundry/cash-payment.png",
-                    description: "了解现金支付和电子支付的不同方式",
+                    description: "学习如何使用现金支付",
                     difficulties: [
-                        {
-                            level: "easy",
-                            name: "电子支付",
-                            description: "了解手机支付的基本操作"
-                        },
                         {
                             level: "medium",
                             name: "现金支付",
                             description: "学习如何使用现金进行购物支付"
+                        }
+                    ]
+                },
+                {
+                    id: "online-payment",
+                    name: "电子支付",
+                    icon: "../../../assets/images/sundry/online-payment.png",
+                    description: "学习如何使用电子支付",
+                    difficulties: [
+                        {
+                            level: "medium",
+                            name: "电子支付",
+                            description: "学习了解电子支付的流程"
                         }
                     ]
                 }
@@ -72,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 {
                     id: "shopping-challenge",
-                    name: "应用：购物模拟",
+                    name: "购物模拟",
                     icon: "../../../assets/images/study-tools/pencil.jpg",
                     description: "综合购物技能的挑战练习",
                     difficulties: [
@@ -87,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             description: "简易的商品价格计算，支付精准金额以完成交易"
                         },
                         {
-                            level: "medium",
+                            level: "hard",
                             name: "购物挑战（一）",
                             description: "复杂的商品价格计算，支付精准金额以完成交易"
                         },
