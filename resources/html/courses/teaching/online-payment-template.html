@@ -7,10 +7,18 @@
     <link rel="stylesheet" href="../../../css/general/card-layout.css">
     <link rel="stylesheet" href="../../../css/sections/courses/teaching/online-payment.css">
     <script src="../../../javascript/general/page-cleaner.js"></script>
+    <script src="../../../javascript/sections/settings/voice-setting/voice-core.js"></script>
+    <script src="../../../javascript/general/page-reader.js"></script>
     <script src="../../../javascript/sections/courses/teaching/online-payment.js"></script>
 </head>
 <body>
+<reader style="display: none" id="page-reader-text"></reader>
+
 <div class="page-container">
+    <div class="toolbar">
+        <button id="play-page-btn" class="toolbar-btn" title="朗读页面">读</button>
+    </div>
+
     <nav class="navbar" id="step-navbar">
         <a href="?step=1" class="nav-item" data-step="1">第一步</a>
         <a href="?step=2" class="nav-item" data-step="2">第二步</a>

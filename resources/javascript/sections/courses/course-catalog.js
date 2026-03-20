@@ -34,7 +34,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         {
                             level: "medium",
                             name: "现金支付",
-                            description: "学习如何使用现金进行购物支付"
+                            description: "学习如何使用现金进行购物支付",
+                            url: "cash-payment-template.html"
                         }
                     ]
                 },

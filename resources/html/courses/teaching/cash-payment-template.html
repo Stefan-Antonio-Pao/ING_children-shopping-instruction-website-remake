@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>现金支付教学</title>
+    <link rel="stylesheet" href="../../../css/general/page-settings.css">
+    <link rel="stylesheet" href="../../../css/general/card-layout.css">
+    <link rel="stylesheet" href="../../../css/sections/courses/teaching/cash-payment.css">
+    <script src="../../../javascript/general/page-cleaner.js"></script>
+    <script src="../../../javascript/sections/settings/voice-setting/voice-core.js"></script>
+    <script src="../../../javascript/general/page-reader.js"></script>
+    <script src="../../../javascript/sections/courses/teaching/cash-payment.js"></script>
+</head>
+<body>
+<reader style="display: none" id="page-reader-text"></reader>
+
+<div class="page-container">
+    <div class="toolbar">
+        <button id="play-page-btn" class="toolbar-btn" title="朗读页面">读</button>
+    </div>
+
+    <nav class="navbar" id="category-navbar">
+        <a href="#" class="nav-item active" data-category="fruits">水果</a>
+        <a href="#" class="nav-item" data-category="snacks">零食</a>
+        <a href="#" class="nav-item" data-category="study-tools">文具</a>
+    </nav>
+
+    <div class="item-strip" id="item-strip"></div>
+
+    <h1 class="main-title">现金支付教学</h1>
+
+    <div class="content-card">
+        <div class="cash-canvas">
+            <section class="good-display">
+                <div class="good-image-wrap">
+                    <img id="good-image" src="" alt="当前商品">
+                </div>
+                <div class="good-switch-row">
+                    <button class="nav-btn" id="prev-good-btn" type="button">上一个</button>
+                    <div class="price-tag" id="price-tag">0元</div>
+                    <button class="nav-btn" id="next-good-btn" type="button">下一个</button>
+                </div>
+            </section>
+
+            <section class="money-counter-panel">
+                <div class="money-counter" id="money-counter" aria-label="支付区"></div>
+                <div class="result-message" id="result-message">将右侧的人民币拖动到此处</div>
+            </section>
+
+            <section class="money-bank" id="money-bank">
+                <div class="bank-section">
+                    <h3>纸币</h3>
+                    <div class="money-grid bills" id="bill-bank"></div>
+                </div>
+                <div class="bank-section">
+                    <h3>硬币</h3>
+                    <div class="money-grid coins" id="coin-bank"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="unified-navigation action-controls">
+        <button class="nav-btn" id="reset-btn" type="button">重置</button>
+        <button class="nav-btn" id="check-btn" type="button">核对</button>
+        <button class="nav-btn" id="mode-toggle-btn" type="button">整/零</button>
+        <button class="nav-btn" id="label-toggle-btn" type="button">名称提示：关</button>
+    </div>
+
+    <footer>
+        <button class="end-btn" onclick="window.location.href='teaching-catalog.html'">返回课程选择</button>
+    </footer>
+</div>
+</body>
+</html>
+

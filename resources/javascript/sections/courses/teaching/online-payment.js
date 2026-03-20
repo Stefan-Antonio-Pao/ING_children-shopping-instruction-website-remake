@@ -5,14 +5,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }));
 
     const pages = [
-        { id: 'intro', title: '电子支付教学', message: '欢迎来到电子支付教学！', videoStep: null },
+        {
+            id: 'intro',
+            title: '电子支付教学',
+            message: '欢迎来到电子支付教学！',
+            readerText: '欢迎来到电子支付教学！',
+            videoStep: null
+        },
         ...videoSteps.map((item) => ({
             id: `step-${item.step}`,
             title: `电子支付教学 - 第${item.step}步`,
             message: '',
+            readerText: `现在播放电子支付教学第${item.step}步视频。`,
             videoStep: item.step
         })),
-        { id: 'outro', title: '电子支付教学', message: '恭喜完成电子支付的学习！', videoStep: null }
+        {
+            id: 'outro',
+            title: '电子支付教学',
+            message: '恭喜完成电子支付的学习！',
+            readerText: '恭喜完成电子支付的学习！',
+            videoStep: null
+        }
     ];
 
     const params = new URLSearchParams(window.location.search);
@@ -26,6 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = document.getElementById('prev-step-btn');
     const nextBtn = document.getElementById('next-step-btn');
     const titleEl = document.getElementById('page-title');
+    const readerEl = document.getElementById('page-reader-text');
+
+    function setReaderText(text) {
+        if (readerEl) readerEl.textContent = text || '';
+    }
 
     function getVideoConfig(stepNum) {
         return videoSteps.find(item => item.step === stepNum) || null;
@@ -105,6 +123,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             showMessagePage(page.message);
         }
+
+        setReaderText(page.readerText || page.message || page.title);
 
         syncUrl(page.videoStep);
     }

@@ -1,0 +1,255 @@
+.item-strip {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0 0 14px;
+    min-height: 48px;
+}
+
+.item-chip {
+    border: 2px solid #d7e6f6;
+    background: #ffffff;
+    color: #2c4a7c;
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.item-chip img {
+    width: 26px;
+    height: 26px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.item-chip.active {
+    border-color: #76c893;
+    background: #eaf7f0;
+}
+
+.cash-canvas {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr 1.25fr;
+    gap: 18px;
+    align-items: stretch;
+    min-height: 0;
+}
+
+.good-display,
+.money-counter-panel,
+.money-bank {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.good-image-wrap {
+    flex: 1;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#good-image {
+    max-width: 100%;
+    max-height: 250px;
+    object-fit: contain;
+}
+
+.good-switch-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.good-switch-row .nav-btn {
+    padding: 8px 16px;
+    font-size: 14px;
+}
+
+.price-tag {
+    text-align: center;
+    font-size: 1.25rem;
+    color: #2c4a7c;
+    font-weight: bold;
+    padding: 8px 12px;
+    background: #f6fbff;
+    border: 2px dashed #9eb8db;
+    border-radius: 12px;
+}
+
+.money-counter {
+    flex: 1;
+    min-height: 320px;
+    background: #f0f0f0;
+    border: 2px solid #b8b8b8;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.counter-money {
+    position: absolute;
+    cursor: grab;
+    user-select: none;
+}
+
+.counter-money img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.counter-money.bill {
+    width: 150px;
+    height: 72px;
+}
+
+.counter-money.coin-yuan {
+    width: 70px;
+    height: 70px;
+}
+
+.counter-money.coin-jiao {
+    width: 60px;
+    height: 60px;
+}
+
+.result-message {
+    margin-top: 10px;
+    min-height: 50px;
+    border-radius: 8px;
+    padding: 10px;
+    font-weight: bold;
+    color: #4f4f4f;
+    background: #f7f7f7;
+    white-space: pre-line;
+}
+
+.result-message.success {
+    color: #1f7a41;
+    background: #e8f8ee;
+}
+
+.result-message.error {
+    color: #b0362f;
+    background: #fdeceb;
+}
+
+.bank-section + .bank-section {
+    margin-top: 14px;
+}
+
+.bank-section h3 {
+    margin: 0 0 8px;
+    color: #2c4a7c;
+}
+
+.money-grid {
+    display: grid;
+    gap: 10px;
+}
+
+.money-grid.bills {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+}
+
+.money-grid.coins {
+    grid-template-columns: repeat(3, minmax(70px, 1fr));
+    align-items: end;
+}
+
+.bank-money {
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    padding: 2px;
+    cursor: grab;
+    text-align: center;
+    color: #2c4a7c;
+    font-weight: bold;
+}
+
+.bank-money img {
+    width: 100%;
+    height: 72px;
+    object-fit: contain;
+    display: block;
+}
+
+.bank-money.coin img {
+    height: 68px;
+}
+
+.bank-money.coin.small img {
+    height: 58px;
+}
+
+.bank-money .money-label {
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.money-bank .money-label {
+    display: none;
+}
+
+.money-bank.show-labels .money-label {
+    display: block;
+}
+
+.action-controls {
+    margin-top: 6px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.action-controls .nav-btn {
+    padding: 10px 24px;
+    background: #76c893;
+    color: #ffffff;
+    font-size: 15px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.action-controls .nav-btn:hover {
+    background: #5ba67a;
+    transform: scale(1.04);
+}
+
+#mode-toggle-btn .mode-label {
+    opacity: 0.45;
+}
+
+#mode-toggle-btn.mode-int .mode-label.int,
+#mode-toggle-btn.mode-flt .mode-label.flt {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+@media (max-width: 1180px) {
+    .cash-canvas {
+        grid-template-columns: 1fr;
+    }
+
+    .money-counter {
+        min-height: 260px;
+    }
+}
