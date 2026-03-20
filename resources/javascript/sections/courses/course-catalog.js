@@ -47,7 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         {
                             level: "medium",
                             name: "电子支付",
-                            description: "学习了解电子支付的流程"
+                            description: "学习了解电子支付的流程",
+                            url: "online-payment-template.html"
                         }
                     ]
                 }
@@ -186,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <h4 class="difficulty-name">${difficulty.name}</h4>
             `;
 
-            difficultyElement.addEventListener('click', () => handleDifficultyClick(course, difficulty));
+            difficultyElement.addEventListener('click', (event) => handleDifficultyClick(course, difficulty, event));
             difficultyGrid.appendChild(difficultyElement);
         });
 
@@ -200,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update course info - REMOVED as no longer needed
 
     // Handle difficulty click - now shows difficulty description
-    function handleDifficultyClick(course, difficulty) {
+    function handleDifficultyClick(course, difficulty, event) {
         selectedDifficulty = difficulty;
 
         // Update difficulty cards selection

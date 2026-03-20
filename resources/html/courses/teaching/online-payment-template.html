@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>电子支付教学</title>
+    <link rel="stylesheet" href="../../../css/general/page-settings.css">
+    <link rel="stylesheet" href="../../../css/general/card-layout.css">
+    <link rel="stylesheet" href="../../../css/sections/courses/teaching/online-payment.css">
+    <script src="../../../javascript/general/page-cleaner.js"></script>
+    <script src="../../../javascript/sections/courses/teaching/online-payment.js"></script>
+</head>
+<body>
+<div class="page-container">
+    <nav class="navbar" id="step-navbar">
+        <a href="?step=1" class="nav-item" data-step="1">第一步</a>
+        <a href="?step=2" class="nav-item" data-step="2">第二步</a>
+        <a href="?step=3" class="nav-item" data-step="3">第三步</a>
+        <a href="?step=4" class="nav-item" data-step="4">第四步</a>
+        <a href="?step=5" class="nav-item" data-step="5">第五步</a>
+    </nav>
+
+    <h1 class="main-title" id="page-title">电子支付教学</h1>
+
+    <div class="content-card">
+        <div class="video-learning-area">
+            <div class="video-canvas">
+                <div class="message-screen" id="message-screen"></div>
+                <video id="payment-video" controls preload="metadata" playsinline>
+                    <source src="" type="video/mp4">
+                    你的浏览器不支持视频播放。
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <div class="unified-navigation" id="unified-navigation">
+        <button class="nav-btn" id="prev-step-btn" type="button">上一步</button>
+        <button class="nav-btn" id="next-step-btn" type="button">下一步</button>
+    </div>
+
+    <footer>
+        <button class="end-btn" onclick="window.location.href='teaching-catalog.html'">返回课程选择</button>
+    </footer>
+</div>
+</body>
+</html>
+

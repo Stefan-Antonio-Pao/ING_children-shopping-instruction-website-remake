@@ -1,0 +1,104 @@
+.nav-btn {
+	padding: 12px 32px;
+	background: #76c893;
+	color: #ffffff;
+	font-size: 16px;
+	border: none;
+	border-radius: 25px;
+	cursor: pointer;
+	transition: all 0.25s ease;
+}
+
+.nav-btn:hover:not(:disabled) {
+	background: #5ba67a;
+	transform: scale(1.04);
+}
+
+.nav-btn:disabled {
+	background: #bdc3c7;
+	cursor: not-allowed;
+}
+
+.video-learning-area {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.video-canvas {
+	width: min(100%, 1100px);
+	max-height: 100%;
+	min-height: min(62vh, 620px);
+	border-radius: 14px;
+	border: none;
+	background: transparent;
+	padding: 14px;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.message-screen {
+	width: 100%;
+	height: min(58vh, 560px);
+	display: none;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 28px;
+	box-sizing: border-box;
+	font-size: 2rem;
+	font-weight: bold;
+	color: #2c4a7c;
+	background: transparent;
+	border-radius: 10px;
+}
+
+.message-screen.active {
+	display: flex;
+}
+
+#payment-video.is-hidden {
+	display: none;
+}
+
+#payment-video {
+	width: 100%;
+	max-height: min(62vh, 620px);
+	border-radius: 10px;
+	background: #000000;
+}
+
+@media (max-width: 900px) {
+	.navbar {
+		gap: 18px;
+		flex-wrap: wrap;
+	}
+}
+
+@media (max-width: 640px) {
+	.main-title {
+		font-size: 1.6rem;
+	}
+
+	.nav-btn {
+		padding: 10px 24px;
+		font-size: 14px;
+	}
+
+	.video-canvas {
+		min-height: 46vh;
+	}
+
+	#payment-video {
+		max-height: 48vh;
+	}
+
+	.message-screen {
+		height: 44vh;
+		font-size: 1.6rem;
+	}
+}
+
