@@ -1,10 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>联系｜儿童购物游戏教学网站</title>
+    <title>联系我们｜儿童购物游戏教学网站</title>
+    <link rel="stylesheet" type="text/css" href="../css/general/page-settings.css">
+    <link rel="stylesheet" type="text/css" href="../css/sections/homepage.css">
+    <script src="../javascript/general/page-cleaner.js"></script>
+    <script src="../javascript/sections/settings/voice-setting/voice-core.js"></script>
+    <script src="../javascript/general/page-reader.js"></script>
 </head>
-<body>
 
+<body>
+<reader style="display: none" id="page-reader-text">
+    欢迎来到联系我们页面。
+    这里将放置联系方式和留言入口。
+</reader>
+
+<div class="page-container">
+    <div class="toolbar">
+        <button id="clear-data-btn" class="toolbar-btn" title="清除数据">️X</button>
+        <button id="play-page-btn" class="toolbar-btn" title="朗读页面">读</button>
+    </div>
+
+    <nav class="navbar">
+        <a href="../index.html" class="nav-item">首页</a>
+        <a href="settings.html" class="nav-item">设置</a>
+        <a href="catalog.html" class="nav-item">课程目录</a>
+        <a href="rewards.html" class="nav-item">奖励</a>
+        <a href="contact-us.html" class="nav-item active">联系我们</a>
+    </nav>
+
+    <h1 class="main-title">联系我们</h1>
+
+    <main class="content-card">
+        <div class="intro-flex">
+            <div class="character-box">
+                <img src="../assets/images/sundry/bear-uncle.png" alt="熊叔叔" class="bear-img">
+            </div>
+
+            <div class="speech-box">
+                <div class="speech-bubble">
+                    <p>欢迎向我们的邮箱发送反馈！</p>
+                    <p>【Edna】liyinuo@kean.edu</p>
+                    <p>【Stefan】baoxin@kean.edu</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <button class="end-btn" onclick="window.location.href='../index.html'">返回首页</button>
+    </footer>
+</div>
 </body>
 </html>
