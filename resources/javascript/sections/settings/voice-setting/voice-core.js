@@ -10,7 +10,7 @@
         if (localStorage.getItem('selectedRate') === null) localStorage.setItem('selectedRate', '1');
         if (localStorage.getItem('selectedPitch') === null) localStorage.setItem('selectedPitch', '1');
         if (localStorage.getItem('selectedVoiceIndex') === null) localStorage.setItem('selectedVoiceIndex', ''); // empty means "not fixed index yet"
-        if (localStorage.getItem('autoPlay') === null) localStorage.setItem('autoPlay', 'on');
+        if (localStorage.getItem('autoPlay') === null) localStorage.setItem('autoPlay', 'off');
         if (localStorage.getItem('userSetVoice') === null) localStorage.setItem('userSetVoice', 'false');
     }
     ensureDefaults();

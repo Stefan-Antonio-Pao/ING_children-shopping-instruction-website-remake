@@ -94,29 +94,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 },
                 {
                     id: "shopping-challenge",
-                    name: "购物模拟",
+                    name: "购物与现金支付模拟",
                     icon: "../../../assets/images/study-tools/pencil.jpg",
                     description: "综合购物技能的挑战练习",
                     difficulties: [
                         {
                             level: "easy",
                             name: "购物模拟（一）",
-                            description: "简易的商品价格计算，支付足够金额以完成交易"
+                            description: "简易的商品价格计算，支付足够金额以完成交易",
+                            url: "shopping-challenge-template.html?level=easy"
                         },
                         {
                             level: "medium",
                             name: "购物模拟（二）",
-                            description: "简易的商品价格计算，支付精准金额以完成交易"
+                            description: "简易的商品价格计算，支付足够金额并计算找零以完成交易",
+                            url: "shopping-challenge-template.html?level=medium"
                         },
                         {
                             level: "hard",
                             name: "购物挑战（一）",
-                            description: "复杂的商品价格计算，支付精准金额以完成交易"
+                            description: "复杂的商品价格计算，在满足消费金额限制的情况下完成交易",
+                            url: "shopping-challenge-template.html?level=hard"
                         },
                         {
                             level: "expert",
                             name: "购物挑战（二）",
-                            description: "更复杂的商品价格计算，在满足消费金额限制的情况下完成交易"
+                            description: "更复杂的商品价格计算，在满足消费金额限制的情况下完成交易",
+                            url: "shopping-challenge-template.html?level=expert"
                         }
                     ]
                 }

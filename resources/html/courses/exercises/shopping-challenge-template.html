@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>购物模拟</title>
+    <link rel="stylesheet" href="../../../css/general/page-settings.css">
+    <link rel="stylesheet" href="../../../css/general/card-layout.css">
+    <link rel="stylesheet" href="../../../css/sections/courses/exercises/shopping-challenge.css">
+    <script src="../../../javascript/general/page-cleaner.js"></script>
+    <script src="../../../javascript/sections/settings/voice-setting/voice-core.js"></script>
+    <script src="../../../javascript/general/page-reader.js"></script>
+    <script src="../../../javascript/sections/courses/exercises/shopping-challenge.js"></script>
+</head>
+<body>
+<reader style="display: none" id="page-reader-text"></reader>
+
+<div class="page-container">
+    <div class="toolbar">
+        <button id="play-page-btn" class="toolbar-btn" title="朗读页面">读</button>
+    </div>
+
+    <nav class="navbar" id="app-navbar">
+        <a href="#" class="nav-item" data-jump="page0" id="nav-limit">限额设置</a>
+        <a href="#" class="nav-item" data-jump="page3">熊伯伯商店</a>
+        <a href="#" class="nav-item" data-jump="page4">收银台</a>
+    </nav>
+
+
+    <div class="item-strip" id="item-strip"></div>
+
+    <h1 class="main-title" id="main-title">购物模拟</h1>
+
+    <div class="content-card">
+        <div class="shopping-canvas" id="canvas-root">
+            <section class="flow-page" id="page0-limit">
+                <div class="split-layout">
+                    <div class="left-panel">
+                        <div class="card-box" id="limit-config-box"></div>
+                    </div>
+                    <div class="right-panel">
+                        <h3>💰 设置购物预算</h3>
+                        <p>请在左侧选择预算模式并输入金额。<br>系统会在超额时自动提醒。</p>
+                        <div class="warn-box">
+                            ⚠️ 超额提醒规则：<br>
+                            · 加入购物车超出余额时立刻提示<br>
+                            · 支付时余额不足，无法完成付款
+                        </div>
+                        <button class="nav-btn" type="button" id="confirm-limit-btn">确认金额，开始学习 →</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="flow-page" id="page1-intro">
+                <div class="split-layout">
+                    <div class="left-panel media-panel">
+                        <video id="bear-video" controls preload="metadata"></video>
+                    </div>
+                    <div class="right-panel intro-text">
+                        <p>大家好！我是熊伯伯！🐻<br>这是我的超市。<br>里面有好多东西，来看看吧！</p>
+                        <button class="nav-btn" type="button" id="to-page2-btn">下一步 →</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="flow-page" id="page2-role">
+                <div class="split-layout">
+                    <div class="left-panel media-panel">
+                        <video id="role-video" controls preload="metadata"></video>
+                    </div>
+                    <div class="right-panel intro-text">
+                        <p id="role-page-text"></p>
+                        <button class="nav-btn" type="button" id="to-page3-btn">我来试试！→</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="flow-page" id="page3-shop">
+                <div class="split-layout">
+                    <div class="left-panel">
+                        <div class="goods-grid" id="goods-grid"></div>
+                    </div>
+                    <div class="right-panel">
+                        <div class="limit-process" id="limit-process" style="display:none;">
+                            <div class="limit-process-head">
+                                <span>余额</span>
+                                <span id="limit-process-text">¥0.0/¥0.0</span>
+                            </div>
+                            <div class="limit-track">
+                                <div class="limit-fill" id="limit-fill"></div>
+                            </div>
+                        </div>
+                        <div class="cart-list" id="cart-list"></div>
+                        <div class="cart-summary">
+                            <div><span>合计</span><strong id="total-price-text">¥0.0</strong></div>
+                            <div><span>余额</span><span id="balance-text">—</span></div>
+                        </div>
+                        <button class="nav-btn" type="button" id="checkout-btn">去付钱 →</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="flow-page" id="page4-pay">
+                <div class="split-layout">
+                    <div class="left-panel cashier-zone">
+                        <div class="cashier-wrap">
+                            <div class="money-counter" id="pay-counter" aria-label="支付区">
+                                <div class="counter-zone-label">📥 支付区</div>
+                            </div>
+                            <div class="money-bank" id="pay-bank">
+                                <div class="money-bank-section">
+                                    <h3>💴 纸币</h3>
+                                    <div class="money-grid bills" id="pay-bank-bills"></div>
+                                </div>
+                                <div class="money-bank-section" id="pay-bank-coins-section">
+                                    <h3>🪙 硬币</h3>
+                                    <div class="money-grid coins" id="pay-bank-coins"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-panel checkout-panel">
+                        <p id="pay-instruction"></p>
+                        <div class="checkout-amount" id="pay-amount-text">¥0.0</div>
+                        <button class="nav-btn" id="pay-check-btn" type="button">✔ 核对金额</button>
+                        <div class="checkout-msg" id="pay-message">请先把钱拖入左侧区域。</div>
+                        <button class="nav-btn" id="pay-next-btn" type="button" style="display:none;">下一步 →</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="flow-page" id="page5-return">
+                <div class="split-layout">
+                    <div class="left-panel cashier-zone">
+                        <div class="cashier-wrap">
+                            <div class="money-counter" id="return-counter" aria-label="找零区">
+                                <div class="counter-zone-label">📤 找零区</div>
+                            </div>
+                            <div class="money-bank" id="return-bank">
+                                <div class="money-bank-section">
+                                    <h3>💴 纸币</h3>
+                                    <div class="money-grid bills" id="return-bank-bills"></div>
+                                </div>
+                                <div class="money-bank-section" id="return-bank-coins-section">
+                                    <h3>🪙 硬币</h3>
+                                    <div class="money-grid coins" id="return-bank-coins"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right-panel checkout-panel">
+                        <p id="return-instruction"></p>
+                        <div class="amount-mask-wrap">
+                            <button type="button" class="strip-btn" id="toggle-return-mask-btn">显示 / 隐藏找零金额</button>
+                            <div class="checkout-amount" id="return-amount-text">¥0.0</div>
+                            <div class="amount-mask" id="return-amount-mask"></div>
+                        </div>
+                        <button class="nav-btn" id="return-check-btn" type="button">✔ 核对找零</button>
+                        <div class="checkout-msg" id="return-message">请把找零拖入左侧区域。</div>
+                        <button class="nav-btn" id="return-next-btn" type="button" style="display:none;">下一步 →</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="flow-page" id="page6-success">
+                <div class="split-layout">
+                    <div class="left-panel media-panel">
+                        <video id="success-video" controls preload="metadata"></video>
+                    </div>
+                    <div class="right-panel intro-text success-panel">
+                        <div class="success-badge">🎉</div>
+                        <p id="success-text"></p>
+                        <button class="nav-btn" type="button" onclick="document.getElementById('restart-btn').click()">再来一次 ↺</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div class="unified-navigation" id="unified-navigation">
+        <button class="nav-btn" id="restart-btn" type="button">重新开始</button>
+        <button class="nav-btn" id="reset-counter-btn" type="button">重置柜台</button>
+    </div>
+
+    <footer>
+        <button class="end-btn" onclick="window.location.href='exercises-catalog.html'">返回课程选择</button>
+    </footer>
+</div>
+
+<div class="limit-warning" id="limit-warning" style="display:none;">
+    <div class="limit-warning-card">
+        <p id="limit-warning-text"></p>
+        <button type="button" class="nav-btn" id="close-limit-warning-btn">好的</button>
+    </div>
+</div>
+</body>
+</html>
+
