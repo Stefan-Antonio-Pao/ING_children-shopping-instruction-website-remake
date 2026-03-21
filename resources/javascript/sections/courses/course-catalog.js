@@ -79,6 +79,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     ]
                 },
                 {
+                    id: "online-payment-simulation",
+                    name: "线上支付模拟练习",
+                    icon: "../../../assets/images/sundry/online-payment.png",
+                    description: "仿真模拟线上支付",
+                    difficulties: [
+                        {
+                            level: "easy",
+                            name: "线上支付模拟练习",
+                            description: "通过仿真模拟练习使用微信/支付宝线上支付的流程",
+                            url: "online-payment-simulation-template.html"
+                        }
+                    ]
+                },
+                {
                     id: "shopping-challenge",
                     name: "购物模拟",
                     icon: "../../../assets/images/study-tools/pencil.jpg",

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>线上支付模拟练习</title>
+    <link rel="stylesheet" href="../../../css/general/page-settings.css">
+    <link rel="stylesheet" href="../../../css/general/card-layout.css">
+    <link rel="stylesheet" href="../../../css/sections/courses/exercises/online-payment-simulation.css">
+    <script src="../../../javascript/general/page-cleaner.js"></script>
+    <script src="../../../javascript/sections/settings/voice-setting/voice-core.js"></script>
+    <script src="../../../javascript/general/page-reader.js"></script>
+    <script src="../../../javascript/sections/courses/exercises/online-payment-simulation.js"></script>
+</head>
+<body>
+<reader style="display: none" id="page-reader-text"></reader>
+
+<div class="page-container">
+    <div class="toolbar">
+        <button id="play-page-btn" class="toolbar-btn" title="朗读页面">读</button>
+    </div>
+
+    <nav class="navbar" id="app-navbar">
+        <a href="#" class="nav-item active" data-app="wechat">微信</a>
+        <a href="#" class="nav-item" data-app="alipay">支付宝</a>
+    </nav>
+
+    <div class="pay-mode-bar">
+        <button class="mode-btn active" id="mode-scan-btn" data-mode="scan" type="button">主动扫码</button>
+        <button class="mode-btn" id="mode-code-btn" data-mode="code" type="button">出示付款码</button>
+    </div>
+
+    <h1 class="main-title" id="main-title">线上支付模拟练习</h1>
+
+    <div class="content-card">
+        <div class="ops-canvas app-wechat" id="ops-canvas">
+            <section class="flow-page active" id="page-1-method">
+<!--                <h2>选择支付软件</h2>-->
+                <div class="method-grid">
+                    <button class="method-card" data-method="wechat" type="button">
+                        <span class="method-icon wechat">微</span>
+                        <div>
+                            <div class="method-name">微信支付</div>
+                            <div class="method-desc">点击进入微信模拟</div>
+                        </div>
+                    </button>
+                    <button class="method-card" data-method="alipay" type="button">
+                        <span class="method-icon alipay">支</span>
+                        <div>
+                            <div class="method-name">支付宝</div>
+                            <div class="method-desc">点击进入支付宝模拟</div>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <section class="flow-page" id="page-2-sim">
+<!--                <h2>手机操作模拟与扫码</h2>-->
+                <div class="sim-layout" id="sim-layout">
+                    <div class="sim-left">
+                        <div class="phone draggable" id="sim-phone">
+                            <div class="notch"></div>
+                            <div class="pscreen" id="sim-phone-screen"></div>
+                        </div>
+                    </div>
+                    <div class="sim-right" id="sim-right-zone">
+                        <div class="sim-target sim-qrstand qr-target" id="sim-fixed-qr">
+                            <div class="target-title sim-qrtitle">熊叔叔超市</div>
+                            <div class="target-core qr-core">
+                                <svg id="sim-merch-qr" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" width="132" height="132" aria-label="熊叔叔超市二维码">
+                                    <rect width="140" height="140" fill="white"/>
+                                    <rect x="8" y="8" width="34" height="34" rx="3" fill="#111"/>
+                                    <rect x="98" y="8" width="34" height="34" rx="3" fill="#111"/>
+                                    <rect x="8" y="98" width="34" height="34" rx="3" fill="#111"/>
+                                    <rect x="14" y="14" width="22" height="22" rx="2" fill="white"/>
+                                    <rect x="104" y="14" width="22" height="22" rx="2" fill="white"/>
+                                    <rect x="14" y="104" width="22" height="22" rx="2" fill="white"/>
+                                    <rect x="19" y="19" width="12" height="12" rx="1" fill="#111"/>
+                                    <rect x="109" y="19" width="12" height="12" rx="1" fill="#111"/>
+                                    <rect x="19" y="109" width="12" height="12" rx="1" fill="#111"/>
+                                    <g fill="#111">
+                                        <rect x="52" y="52" width="6" height="6"/><rect x="62" y="52" width="6" height="6"/><rect x="72" y="52" width="6" height="6"/><rect x="82" y="52" width="6" height="6"/>
+                                        <rect x="52" y="62" width="6" height="6"/><rect x="72" y="62" width="6" height="6"/><rect x="92" y="62" width="6" height="6"/>
+                                        <rect x="62" y="72" width="6" height="6"/><rect x="82" y="72" width="6" height="6"/><rect x="92" y="72" width="6" height="6"/>
+                                        <rect x="52" y="82" width="6" height="6"/><rect x="62" y="82" width="6" height="6"/><rect x="72" y="82" width="6" height="6"/>
+                                        <rect x="92" y="82" width="6" height="6"/>
+                                        <rect x="52" y="92" width="6" height="6"/><rect x="72" y="92" width="6" height="6"/><rect x="82" y="92" width="6" height="6"/>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="target-note sim-qrnote">固定收款码（不变）</div>
+                        </div>
+                        <div class="sim-target sim-scanner scanner-target" id="sim-scanner">
+                            <div class="lbl">商家扫码器</div>
+                            <div class="target-core scanner-core">
+                                <div class="scanner-glass" aria-hidden="true"></div>
+                                <span>把手机拖到这里</span>
+                            </div>
+                            <div class="target-note">用于“被扫码支付”</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="sim-tip" id="sim-tip"></div>
+            </section>
+
+            <section class="flow-page" id="page-3-confirm">
+<!--                <h2>付款确认</h2>-->
+                <div class="confirm-card">
+                    <div class="target-amount" id="target-amount-page3">¥0.00</div>
+                    <p class="confirm-note">金额已自动填入，请输入6位支付密码完成支付。</p>
+                    <div class="password-dots" id="password-dots">
+                        <span></span><span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <div class="keypad" id="password-keypad">
+                        <button type="button" data-pwd="1">1</button><button type="button" data-pwd="2">2</button><button type="button" data-pwd="3">3</button>
+                        <button type="button" data-pwd="4">4</button><button type="button" data-pwd="5">5</button><button type="button" data-pwd="6">6</button>
+                        <button type="button" data-pwd="7">7</button><button type="button" data-pwd="8">8</button><button type="button" data-pwd="9">9</button>
+                        <button type="button" data-pwd="cancel">取消</button><button type="button" data-pwd="0">0</button><button type="button" data-pwd="del">⌫</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="flow-page" id="page-4-success">
+                <div class="success-icon">✓</div>
+                <h2 class="success-title">付钱成功了！</h2>
+                <div class="success-tip">
+                    <strong>核对金额</strong>
+                    付的钱 = 要付的钱 → 对了！
+                    付的钱 ≠ 要付的钱 → 告诉大人！
+                </div>
+                <button class="nav-btn" type="button" id="success-next-btn" style="display: none">再来一次</button>
+            </section>
+        </div>
+    </div>
+
+    <div class="unified-navigation">
+        <button class="nav-btn" id="reset-btn" type="button">重新开始</button>
+    </div>
+
+    <footer>
+        <button class="end-btn" onclick="window.location.href='exercises-catalog.html'">返回课程选择</button>
+    </footer>
+</div>
+</body>
+</html>
+

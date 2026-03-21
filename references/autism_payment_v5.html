@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>支付乐园</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Sans+SC:wght@400;500;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --purple:#7F77DD;--pl:#EEEDFE;--pd:#3C3489;
+  --green:#1D9E75;--gl:#EAF3DE;--gd:#27500A;
+  --amber:#EF9F27;--al:#FAEEDA;--ad:#633806;
+  --coral:#D85A30;--cl:#FAECE7;
+  --wc:#1AAD19;--ap:#1677FF;
+  --bg:#FFF9F0;--card:#fff;--text:#2C2C2A;--muted:#888780;
+  --r:16px;--sh:0 4px 20px rgba(0,0,0,0.08);
+}
+html,body{font-family:'Noto Sans SC',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;min-height:100vh}
+.screen{display:none;min-height:100vh;padding:20px 16px 36px}
+.screen.active{display:block}
+.screen.fcenter{display:none;align-items:center;justify-content:center;flex-direction:column;min-height:100vh;padding:20px 16px}
+.screen.fcenter.active{display:flex}
+.topbar{display:flex;align-items:center;gap:10px;background:var(--card);border-radius:20px;padding:10px 16px;margin-bottom:18px;box-shadow:var(--sh)}
+.back{background:transparent;border:1.5px solid #ddd;border-radius:20px;padding:7px 16px;font-size:14px;cursor:pointer;color:var(--muted);display:inline-flex;align-items:center;gap:5px;margin-bottom:14px;font-family:inherit}
+.back:hover{background:#f5f5f5}
+.btn{display:inline-block;padding:12px 28px;border-radius:30px;border:none;cursor:pointer;font-size:16px;font-weight:500;transition:transform 0.12s;font-family:inherit}
+.btn:active{transform:scale(0.96)}
+.btn-p{background:var(--purple);color:#fff}
+.btn-g{background:var(--green);color:#fff}
+.btn-o{background:transparent;border:2px solid var(--purple);color:var(--purple)}
+.btn-full{width:100%;display:block;text-align:center}
+.btn-lg{padding:15px 40px;font-size:18px}
+.card{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--sh)}
+.clickcard{cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;border:2.5px solid transparent}
+.clickcard:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.12)}
+.clickcard:active{transform:scale(0.98)}
+.badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:500}
+.bp{background:var(--pl);color:var(--pd)}.bg{background:var(--gl);color:var(--gd)}.ba{background:var(--al);color:var(--ad)}.bc{background:var(--cl);color:var(--coral)}
+.tabs{display:flex;gap:5px;background:#f0f0f0;padding:5px;border-radius:12px;margin-bottom:14px}
+.tab{flex:1;text-align:center;padding:8px;border-radius:8px;cursor:pointer;font-size:14px;font-weight:500;color:var(--muted);transition:all 0.14s}
+.tab.on{background:#fff;color:var(--purple);box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pcard{background:var(--card);border-radius:12px;padding:10px;text-align:center;box-shadow:var(--sh)}
+.pemo{width:100%;aspect-ratio:1;background:#f8f6f0;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:6px;cursor:pointer;transition:transform 0.15s;user-select:none}
+.pemo:active{transform:scale(0.9);background:var(--pl)}
+.pname{font-size:13px;font-weight:500;margin-bottom:3px}
+.pprice{font-size:13px;color:var(--coral);margin-bottom:6px}
+.qrow{display:flex;align-items:center;justify-content:center;gap:8px}
+.qbtn{width:28px;height:28px;border-radius:50%;border:2px solid var(--purple);background:transparent;color:var(--purple);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:500}
+.qbtn:active{background:var(--pl)}
+.qnum{font-size:15px;font-weight:500;min-width:20px;text-align:center}
+.cart-icon{position:relative;cursor:pointer}
+.cbadge{position:absolute;top:-6px;right:-8px;background:var(--coral);color:#fff;border-radius:50%;width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700}
+.ci{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f0f0f0}
+.pmcard{background:var(--card);border-radius:12px;padding:15px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:12px;box-shadow:var(--sh);border:2px solid transparent;transition:border-color 0.14s,transform 0.14s}
+.pmcard:hover{border-color:var(--purple);transform:translateY(-2px)}
+.pmico{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#fff;flex-shrink:0}
+.pill{border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:flex-start;gap:10px}
+.vslot{background:#f5f4f0;border-radius:12px;border:2px dashed #ccc;padding:26px 16px;text-align:center;margin:12px 0}
+.vplay{width:46px;height:46px;border-radius:50%;background:var(--purple);margin:0 auto 8px;display:flex;align-items:center;justify-content:center}
+.vplay::after{content:'';width:0;height:0;border-top:10px solid transparent;border-bottom:10px solid transparent;border-left:17px solid #fff;margin-left:4px}
+.stepsbar{display:flex;gap:5px;margin-bottom:14px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.stepsbar::-webkit-scrollbar{display:none}
+.spill{padding:6px 13px;border-radius:18px;font-size:13px;white-space:nowrap;background:#f0f0f0;color:var(--muted);flex-shrink:0}
+.spill.done{background:var(--gl);color:var(--gd)}.spill.on{background:var(--purple);color:#fff}
+.alert{border-radius:10px;padding:11px 13px;margin:8px 0;font-size:13px;line-height:1.7}
+.ag{background:var(--gl);color:var(--gd)}.aa{background:var(--al);color:var(--ad)}.ac{background:var(--cl);color:var(--coral)}
+.suc-wrap{text-align:center;padding:36px 16px}
+.suc-e{font-size:88px;display:block;margin-bottom:14px;animation:popIn 0.5s ease}
+@keyframes popIn{0%{transform:scale(0)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.stars{display:flex;justify-content:center;gap:6px;font-size:34px;margin:12px 0}
+.diff-card{background:var(--card);border-radius:18px;padding:18px 14px;cursor:pointer;border:3px solid transparent;text-align:center;box-shadow:var(--sh);transition:all 0.18s}
+.diff-card:hover{transform:scale(1.04)}
+.diff-card.sel{border-color:var(--purple);background:var(--pl)}
+.diff-emo{font-size:40px;display:block;margin-bottom:8px}
+.diff-name{font-size:16px;font-weight:500;margin-bottom:4px}
+.diff-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.dbadge{display:inline-block;padding:3px 11px;border-radius:14px;font-size:12px;font-weight:500;margin-left:6px}
+
+/* MODULE CARDS */
+.mod-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.mod-card{background:var(--card);border-radius:18px;padding:18px 14px;cursor:pointer;border:3px solid transparent;text-align:center;box-shadow:var(--sh);transition:all 0.18s}
+.mod-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.12)}
+.mod-card:active{transform:scale(0.97)}
+.mod-emo{font-size:40px;display:block;margin-bottom:8px}
+.mod-name{font-size:15px;font-weight:500;margin-bottom:4px}
+.mod-desc{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* WELCOME PAGE */
+.welcome-bg{background:linear-gradient(160deg,#FFF9F0 0%,#EEEDFE 100%);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 20px;text-align:center}
+.voice-settings{background:var(--card);border-radius:20px;padding:16px;width:100%;max-width:380px;box-shadow:var(--sh);margin:16px 0}
+.voice-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0f0f0}
+.voice-row:last-child{border-bottom:none}
+.voice-lbl{font-size:14px;flex:1;color:var(--text)}
+.voice-val{font-size:14px;font-weight:500;color:var(--purple);min-width:32px;text-align:center}
+input[type=range]{-webkit-appearance:none;height:4px;border-radius:2px;background:#ddd;outline:none;flex:1}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--purple);cursor:pointer}
+.toggle{position:relative;width:44px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-slider{position:absolute;cursor:pointer;inset:0;background:#ccc;border-radius:24px;transition:0.3s}
+.toggle-slider::before{content:'';position:absolute;width:18px;height:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:0.3s}
+.toggle input:checked+.toggle-slider{background:var(--purple)}
+.toggle input:checked+.toggle-slider::before{transform:translateX(20px)}
+.shortcut-row{display:flex;gap:10px;margin-top:10px;width:100%;max-width:380px;justify-content:center}
+.shortcut-btn{flex:1;padding:12px;border-radius:16px;border:2px solid var(--purple);background:transparent;color:var(--purple);font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.15s}
+.shortcut-btn:hover{background:var(--pl)}
+
+/* ROLE INTRO PAGE */
+.role-intro-hero{text-align:center;padding:20px 0 16px}
+.role-intro-av{font-size:100px;display:block;animation:float 3s ease-in-out infinite;margin-bottom:10px}
+
+/* SIMULATOR */
+.sim-wrap{display:flex;gap:16px;justify-content:center;align-items:flex-start;flex-wrap:wrap;padding:6px 0}
+.sim-wrap{position:relative}
+.phone{width:272px;border-radius:42px;border:8px solid #1a1a1a;background:#000;overflow:hidden;position:relative;flex-shrink:0;box-shadow:0 20px 50px rgba(0,0,0,0.28)}
+.phone.draggable{cursor:grab;touch-action:none}
+.phone.draggable:active{cursor:grabbing}
+.sim-targets{display:flex;flex-direction:column;gap:12px;align-items:center;flex-shrink:0}
+.sim-targets.hide{display:none}
+.sim-qrstand{background:#fff;border-radius:16px;padding:12px;box-shadow:var(--sh);border:2px solid #f0f0f0;width:190px;text-align:center}
+.sim-qrtitle{font-size:12px;font-weight:600;color:#333;margin-bottom:8px}
+.sim-qrnote{font-size:11px;color:var(--muted);margin-top:6px}
+.sim-scanner{width:190px;background:#111;border-radius:18px;padding:14px 12px;box-shadow:0 10px 26px rgba(0,0,0,0.22);border:2px solid rgba(255,255,255,0.08);text-align:center;color:#fff;position:relative}
+.sim-scanner::before{content:'';position:absolute;left:14px;right:14px;top:58px;height:2px;background:linear-gradient(to right,transparent,rgba(0,255,120,0.9),transparent);opacity:0.85}
+.sim-scanner .lbl{font-size:12px;color:rgba(255,255,255,0.85);margin-bottom:10px}
+.sim-scanner .hole{width:132px;height:132px;margin:0 auto;border-radius:14px;border:2px dashed rgba(255,255,255,0.35);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.55);font-size:12px}
+.notch{width:76px;height:20px;background:#1a1a1a;border-radius:0 0 14px 14px;position:absolute;top:0;left:50%;transform:translateX(-50%);z-index:100}
+.pscreen{background:#f0f0f0;height:540px;overflow:hidden;position:relative}
+.pp{display:none;flex-direction:column;height:540px;overflow:hidden;background:#f0f0f0;position:absolute;inset:0}
+.pp.on{display:flex}
+.wch{background:#1AAD19;padding:26px 13px 9px;display:flex;align-items:center;justify-content:space-between}
+.wcht{color:#fff;font-size:15px;font-weight:500;text-align:center;flex:1}
+.wchi{color:#fff;font-size:17px;width:22px;text-align:center;cursor:pointer}
+.wnav{display:flex;background:#f7f7f7;border-top:0.5px solid #ddd;padding:5px 0 9px;flex-shrink:0}
+.wni{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
+.pb{flex:1;overflow-y:auto}
+.wci{background:#fff;display:flex;align-items:center;padding:9px 13px;gap:9px;border-bottom:0.5px solid #f0f0f0;cursor:pointer}
+.wav{width:40px;height:40px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.plusmenu{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);z-index:50;display:none}
+.plusmenu.show{display:flex;align-items:flex-start;justify-content:flex-end;padding:54px 13px 0}
+.plusgrid{background:#3d3d3d;border-radius:10px;padding:10px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px}
+.plusi{display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 7px;cursor:pointer;border-radius:7px}
+.plusi-ico{width:48px;height:48px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.plusi-lbl{font-size:11px;color:#ddd}
+.scan-hdr{background:#000;padding:26px 13px 7px;display:flex;align-items:center;gap:9px}
+.svf{flex:1;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.sframe{width:188px;height:188px;position:relative}
+.sc{position:absolute;width:18px;height:18px;border-style:solid}
+.sc.tl{top:0;left:0;border-width:3px 0 0 3px}.sc.tr{top:0;right:0;border-width:3px 3px 0 0}
+.sc.bl{bottom:0;left:0;border-width:0 0 3px 3px}.sc.br{bottom:0;right:0;border-width:0 3px 3px 0}
+.scanline{position:absolute;width:100%;height:2px;top:0;animation:slmove 2s linear infinite}
+@keyframes slmove{0%{top:0}100%{top:184px}}
+.scan-overlay{position:absolute;inset:0;cursor:pointer;z-index:10}
+.pph{padding:26px 13px 11px;display:flex;align-items:center;gap:9px}
+.pmb{background:#fff;margin:10px;border-radius:9px;padding:12px;text-align:center}
+.pmav{width:44px;height:44px;border-radius:50%;margin:0 auto 6px;display:flex;align-items:center;justify-content:center;font-size:24px;background:#EAF3DE}
+.pab{background:#fff;margin:0 10px 9px;border-radius:9px;padding:12px}
+.pnd{font-size:34px;font-weight:300;color:#333;min-height:42px;line-height:1.2}
+.numpad{background:#fff;margin:0 10px 9px;border-radius:9px;overflow:hidden;display:grid;grid-template-columns:1fr 1fr 1fr;border:0.5px solid #eee}
+.nk{padding:13px;text-align:center;font-size:17px;cursor:pointer;border-bottom:0.5px solid #eee;border-right:0.5px solid #eee;color:#333;user-select:none}
+.nk:active{background:#f0f0f0}
+.nkpay{font-size:14px;font-weight:500;color:#fff;grid-column:3;grid-row:4}
+.cov{position:absolute;inset:0;background:rgba(0,0,0,0.5);z-index:80;display:none;align-items:flex-end}
+.cov.show{display:flex}
+.cs{background:#f5f5f5;border-radius:14px 14px 0 0;width:100%;padding:18px 14px 28px}
+.pdots{display:flex;justify-content:center;gap:7px;margin-bottom:14px}
+.pdot{width:42px;height:42px;border:1px solid #ddd;border-radius:5px;background:#fff;display:flex;align-items:center;justify-content:center}
+.pdot.f::after{content:'';width:11px;height:11px;border-radius:50%;background:#333;display:block}
+.np2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#d0d0d0}
+.nk2{background:#fff;padding:14px;text-align:center;font-size:19px;cursor:pointer;user-select:none}
+.nk2:active{background:#adadad}
+.pcbr{display:flex;gap:1px;height:56px;margin-bottom:3px}
+.pcqr{width:148px;height:148px;background:#fff;border:2px solid #f0f0f0;border-radius:7px;display:grid;grid-template-columns:repeat(10,1fr);gap:1px;padding:7px;margin:7px auto}
+.pcqrc{border-radius:1px}
+.psuc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:18px}
+.pscheck{width:64px;height:64px;border-radius:50%;border:3px solid rgba(255,255,255,0.8);display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff;animation:popIn 0.3s ease}
+.sucov{position:absolute;inset:0;z-index:90;display:none;flex-direction:column;align-items:center;justify-content:center;gap:9px}
+.sucov.show{display:flex}
+.aph{background:#1677FF;padding:26px 13px 9px;display:flex;align-items:center;justify-content:space-between}
+.apqg{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;padding:12px 7px;gap:3px}
+.apai{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer}
+.apai-ico{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;background:#f0f4f8}
+.apnav{display:flex;background:#fff;border-top:0.5px solid #eee;padding:5px 0 9px;flex-shrink:0}
+.apni{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer}
+.qr-stand{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.qr-board{background:#fff;border-radius:16px;padding:14px;box-shadow:var(--sh);border:2px solid #f0f0f0;width:176px;text-align:center}
+.qr-pole{width:4px;height:36px;background:#d0d0d0;margin:0 auto}
+.qr-base{width:76px;height:7px;background:#d0d0d0;border-radius:4px;margin:0 auto}
+
+.scan-clicktip{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);background:rgba(0,0,0,0.45);color:rgba(255,255,255,0.85);padding:6px 10px;border-radius:14px;font-size:12px;backdrop-filter:blur(6px)}
+.camera-hole{width:60px;height:44px;background:transparent;border:2px solid rgba(255,255,255,0.3);border-radius:4px;margin:8px auto;position:relative;overflow:hidden}
+.camera-bg{position:absolute;inset:0;background:url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="44"><rect width="60" height="44" fill="%23222"/><text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle" fill="%23555" font-size="10">📷</text></svg>') center/cover}
+.drag-scene{position:relative;width:100%;height:340px;background:#1a1a1a;border-radius:14px;overflow:hidden;margin-bottom:10px;touch-action:none}
+.drag-qr-target{position:absolute;right:30px;top:50%;transform:translateY(-50%);background:#fff;border-radius:10px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,0.3)}
+.drag-hint{position:absolute;bottom:10px;left:0;right:0;text-align:center;color:rgba(255,255,255,0.6);font-size:12px;pointer-events:none}
+.scan-success-flash{position:absolute;inset:0;background:rgba(26,173,25,0.7);display:none;align-items:center;justify-content:center;flex-direction:column;gap:8px;z-index:50;border-radius:14px}
+.scan-success-flash.show{display:flex}
+.drag-arrow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:28px;color:rgba(255,255,255,0.3);pointer-events:none;animation:arrowPulse 1.5s ease-in-out infinite}
+@keyframes arrowPulse{0%,100%{opacity:0.3;transform:translate(-50%,-50%) scale(1)}50%{opacity:0.8;transform:translate(-50%,-50%) scale(1.2)}}
+.amtset{background:var(--card);border-radius:12px;padding:12px 14px;margin:10px auto;max-width:520px;box-shadow:var(--sh)}
+.apre{padding:6px 13px;border-radius:18px;border:1.5px solid #ddd;background:#fff;font-size:12px;cursor:pointer;color:var(--muted);font-family:inherit}
+.apre:hover{border-color:var(--purple);color:var(--purple)}
+.ainput{width:84px;padding:7px 10px;font-size:15px;border:1.5px solid #ddd;border-radius:9px;text-align:center;font-family:inherit}
+</style>
+</head>
+<body>
+
+<!-- ========== S1: WELCOME ========== -->
+<div id="s-welcome" class="screen active" style="padding:0">
+  <div class="welcome-bg">
+    <div style="font-size:72px;margin-bottom:12px;animation:float 3s ease-in-out infinite">🌟</div>
+    <h1 style="font-family:'Ma Shan Zheng',cursive;font-size:32px;margin-bottom:8px;color:var(--text)">支付乐园</h1>
+    <p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:20px;max-width:320px">学习用手机付钱<br>一步一步，你可以的！</p>
+
+    <!-- Voice Settings -->
+    <div class="voice-settings">
+      <div style="font-size:14px;font-weight:500;margin-bottom:10px;color:var(--text)">🔊 语音设置</div>
+      <div class="voice-row">
+        <span class="voice-lbl">开启语音朗读</span>
+        <label class="toggle"><input type="checkbox" id="voice-on" checked onchange="updVoice()"><span class="toggle-slider"></span></label>
+      </div>
+      <div class="voice-row">
+        <span class="voice-lbl">语速</span>
+        <input type="range" id="voice-speed" min="0.5" max="2" step="0.1" value="1" oninput="updVoice()">
+        <span class="voice-val" id="speed-val">1.0x</span>
+      </div>
+      <div class="voice-row">
+        <span class="voice-lbl">音调</span>
+        <input type="range" id="voice-pitch" min="0.5" max="2" step="0.1" value="1" oninput="updVoice()">
+        <span class="voice-val" id="pitch-val">1.0</span>
+      </div>
+      <div style="margin-top:10px;background:#f8f6f0;border-radius:10px;padding:10px 12px;font-size:12px;color:var(--muted);line-height:1.7">
+        💡 语音朗读由浏览器提供。<br>
+        建议使用 Chrome 浏览器以获得最佳效果。<br>
+        <span style="color:var(--purple)">未来版本将接入专业AI语音。</span>
+      </div>
+    </div>
+
+    <!-- Shortcut buttons -->
+    <div class="shortcut-row">
+      <button class="shortcut-btn" onclick="go('s-role')">← 上一页</button>
+      <button class="shortcut-btn" onclick="go('s-role')">下一页 →</button>
+    </div>
+
+    <div style="margin-top:20px">
+      <button class="btn btn-p btn-lg" onclick="go('s-role')">开始学习 🚀</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== S2: ROLE SELECT ========== -->
+<div id="s-role" class="screen fcenter">
+  <div style="text-align:center;padding:20px 0 16px">
+    <div style="font-size:28px;font-weight:500;margin-bottom:6px;font-family:'Ma Shan Zheng',cursive">选择你的小伙伴</div>
+    <p style="font-size:15px;color:var(--muted)">点一下你喜欢的小动物</p>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px;max-width:400px;width:100%;margin:0 auto 20px">
+    <div class="diff-card" onclick="pickRole('cat','🐱','小猫')"><span class="diff-emo">🐱</span><div class="diff-name">小猫</div><div class="diff-desc">聪明又优雅</div></div>
+    <div class="diff-card" onclick="pickRole('dog','🐶','小狗')"><span class="diff-emo">🐶</span><div class="diff-name">小狗</div><div class="diff-desc">勇敢又忠诚</div></div>
+    <div class="diff-card" onclick="pickRole('rabbit','🐰','小兔')"><span class="diff-emo">🐰</span><div class="diff-name">小兔</div><div class="diff-desc">活泼又可爱</div></div>
+    <div class="diff-card" onclick="pickRole('bear','🐻','小熊')"><span class="diff-emo">🐻</span><div class="diff-name">小熊</div><div class="diff-desc">温暖又有力</div></div>
+  </div>
+</div>
+
+<!-- ========== S3: ROLE INTRO ========== -->
+<div id="s-role-intro" class="screen">
+  <button class="back" onclick="go('s-role')">← 重新选择</button>
+  <div class="role-intro-hero">
+    <span class="role-intro-av" id="ri-av">🐱</span>
+    <h2 style="font-size:24px;font-weight:500;margin-bottom:8px">你好！我是<span id="ri-name">小猫</span>～</h2>
+    <p style="font-size:15px;color:var(--muted);line-height:1.8;max-width:340px;margin:0 auto">我来帮你学习用手机付钱！<br>跟着我，一步一步来。</p>
+  </div>
+  <div class="vslot"><div class="vplay"></div><div style="font-weight:500;color:var(--muted)" id="ri-vlbl">小猫介绍视频（请插入）</div><div style="font-size:12px;color:#bbb;margin-top:3px">角色介绍</div></div>
+  <div class="pill" style="background:var(--gl)"><span style="font-size:19px;flex-shrink:0">📱</span><div><div style="font-size:14px;font-weight:500;color:var(--gd)">用手机付钱</div><div style="font-size:13px;color:#3B6D11">用微信或支付宝就可以付钱</div></div></div>
+  <div class="pill" style="background:var(--pl)"><span style="font-size:19px;flex-shrink:0">🔍</span><div><div style="font-size:14px;font-weight:500;color:var(--pd)">两种支付方式</div><div style="font-size:13px;color:#534AB7">有两种方法，我们都会学</div></div></div>
+  <div class="pill" style="background:var(--al)"><span style="font-size:19px;flex-shrink:0">✅</span><div><div style="font-size:14px;font-weight:500;color:var(--ad)">核对金额最重要</div><div style="font-size:13px;color:#854F0B">付钱前要看清楚金额</div></div></div>
+  <div style="text-align:center;padding-top:8px;padding-bottom:6px">
+    <button class="btn btn-p btn-lg" onclick="go('s-module')">进入学习 →</button>
+  </div>
+</div>
+
+<!-- ========== S4: MODULE SELECT ========== -->
+<div id="s-module" class="screen">
+  <button class="back" onclick="go('s-role-intro')">← 返回</button>
+  <div class="topbar"><span id="mod-av" style="font-size:24px">🐱</span><span style="font-size:15px;font-weight:500;flex:1">开始学习</span></div>
+  <h2 style="font-size:19px;font-weight:500;margin-bottom:14px">先选难度</h2>
+  <div class="mod-grid">
+    <div class="mod-card" onclick="go('s-diff')">
+      <span class="mod-emo">⭐</span>
+      <div class="mod-name">选择难度</div>
+      <div class="mod-desc">简单 / 中等 / 较难 / 困难</div>
+    </div>
+    <div class="mod-card" onclick="go('s-pay-choose')">
+      <span class="mod-emo">📱</span>
+      <div class="mod-name">线上支付教学</div>
+      <div class="mod-desc">学用手机付钱</div>
+    </div>
+    <div class="mod-card" onclick="go('s-bear-intro')">
+      <span class="mod-emo">🛒</span>
+      <div class="mod-name">购物与支付</div>
+      <div class="mod-desc">去超市买东西并付款</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== S5: DIFFICULTY SELECT ========== -->
+<div id="s-diff" class="screen fcenter">
+  <button class="back" onclick="go('s-module')" style="align-self:flex-start;margin-bottom:10px">← 返回</button>
+  <div style="text-align:center;margin-bottom:18px">
+    <span id="diff-av" style="font-size:60px;display:block;margin-bottom:8px">🐱</span>
+    <div style="font-size:22px;font-weight:500;margin-bottom:4px">选一个难度</div>
+    <div style="font-size:14px;color:var(--muted)" id="diff-mod-hint">难度会影响商品价格与支付显示</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:420px;width:100%;margin:0 auto 12px">
+    <div class="diff-card" id="dc-easy" onclick="pickDiff('easy')"><span class="diff-emo">⭐</span><div class="diff-name">简单</div><div class="diff-desc">1、5、10、20、50元
+整数，比较简单</div></div>
+    <div class="diff-card" id="dc-medium" onclick="pickDiff('medium')"><span class="diff-emo">⭐⭐</span><div class="diff-name">中等</div><div class="diff-desc">1到50元
+整数</div></div>
+    <div class="diff-card" id="dc-hard" onclick="pickDiff('hard')"><span class="diff-emo">⭐⭐⭐</span><div class="diff-name">较难</div><div class="diff-desc">1到100元
+整数，有点难</div></div>
+    <div class="diff-card" id="dc-vhard" onclick="pickDiff('vhard')"><span class="diff-emo">⭐⭐⭐⭐</span><div class="diff-name">困难</div><div class="diff-desc">有小数的价格
+最难</div></div>
+  </div>
+  <div class="alert ag" style="max-width:420px;margin:10px auto 0">
+    ✅ 简单/中等：不限制金额<br>
+    ⚠️ 较难/困难：可开启余额限制（给家长/老师设置）
+  </div>
+</div>
+
+
+<!-- ========== S-TEACHER: PARENT/TEACHER SETTINGS (hard/vhard only) ========== -->
+<div id="s-teacher" class="screen fcenter">
+  <button class="back" onclick="go('s-diff')" style="align-self:flex-start;margin-bottom:10px">← 返回难度</button>
+  <div style="text-align:center;margin-bottom:20px">
+    <div style="font-size:52px;margin-bottom:8px">👨‍🏫</div>
+    <div style="font-size:20px;font-weight:500;margin-bottom:6px">家长 / 老师设置</div>
+    <div style="font-size:14px;color:var(--muted);max-width:300px">请设置小朋友的购物预算<br>系统会在超额时自动提醒</div>
+  </div>
+  <div class="card" style="width:100%;max-width:380px">
+    <div style="font-size:14px;font-weight:500;margin-bottom:14px;color:var(--text)">💰 设置余额上限</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <span style="font-size:22px;font-weight:300;color:var(--text)">¥</span>
+      <input type="number" id="teacher-balance" min="1" max="9999" step="1" value="50" oninput="updTeacherPreview()"
+        style="flex:1;font-size:28px;font-weight:300;border:none;border-bottom:2px solid var(--purple);outline:none;background:transparent;color:var(--text);padding:4px 0;font-family:inherit">
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <button class="apre" onclick="setTeacherBal(20)">¥20</button>
+      <button class="apre" onclick="setTeacherBal(30)">¥30</button>
+      <button class="apre" onclick="setTeacherBal(50)">¥50</button>
+      <button class="apre" onclick="setTeacherBal(100)">¥100</button>
+      <button class="apre" onclick="setTeacherBal(200)">¥200</button>
+    </div>
+    <div class="alert aa" style="margin-bottom:14px;font-size:13px">
+      ⚠️ 超额提醒规则：<br>
+      • 加入购物车时若超出余额，会立刻提示<br>
+      • 支付时余额不足，无法完成付款
+    </div>
+    <div style="background:var(--gl);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--gd);margin-bottom:14px" id="teacher-preview">
+      小朋友的余额：<strong>¥50.00</strong>
+    </div>
+    <button class="btn btn-p btn-full btn-lg" onclick="confirmTeacherSettings()">确认，开始学习 →</button>
+  </div>
+</div>
+
+<!-- ========== S6: PAYMENT LEARNING CHOOSE ========== -->
+<div id="s-pay-choose" class="screen">
+  <button class="back" onclick="go('s-module')">← 返回模块</button>
+  <div class="topbar"><span id="pc-av" style="font-size:24px">🐱</span><span style="font-size:15px;font-weight:500;flex:1">线上支付教学</span></div>
+  <h2 style="font-size:19px;font-weight:500;margin-bottom:14px">你想学哪种方法？</h2>
+  <div class="card clickcard" onclick="go('s-la')">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:52px;height:52px;border-radius:14px;background:var(--pl);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">📷</div>
+      <div><div style="font-size:17px;font-weight:500;margin-bottom:4px">主动扫码支付</div><div style="color:var(--muted);font-size:13px;margin-bottom:5px">我用手机扫商家的码</div><span class="badge bp">扫一扫</span></div>
+    </div>
+  </div>
+  <div class="card clickcard" onclick="go('s-lp')">
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="width:52px;height:52px;border-radius:14px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">📲</div>
+      <div><div style="font-size:17px;font-weight:500;margin-bottom:4px">被扫码支付</div><div style="color:var(--muted);font-size:13px;margin-bottom:5px">我把码给商家看，商家来扫</div><span class="badge bg">付款码</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== S7: LEARN ACTIVE ========== -->
+<div id="s-la" class="screen">
+  <button class="back" onclick="go('s-pay-choose')">← 返回</button>
+  <div class="topbar"><span id="la-av" style="font-size:24px">🐱</span><span style="font-size:15px;font-weight:500;flex:1">主动扫码支付</span><span class="badge bp" id="la-badge">第1步</span></div>
+  <div class="stepsbar" id="la-steps"></div>
+  <div id="la-content"></div>
+  <div style="display:flex;gap:10px;margin-top:14px;padding-bottom:22px">
+    <button class="btn btn-o" id="la-prev" onclick="laStep(-1)" style="flex:1;display:none">← 上一步</button>
+    <button class="btn btn-p" id="la-next" onclick="laStep(1)" style="flex:1">下一步 →</button>
+  </div>
+</div>
+
+<!-- ========== S8: LEARN PASSIVE ========== -->
+<div id="s-lp" class="screen">
+  <button class="back" onclick="go('s-pay-choose')">← 返回</button>
+  <div class="topbar"><span id="lp-av" style="font-size:24px">🐱</span><span style="font-size:15px;font-weight:500;flex:1">被扫码支付</span><span class="badge bg" id="lp-badge">第1步</span></div>
+  <div class="stepsbar" id="lp-steps"></div>
+  <div id="lp-content"></div>
+  <div style="display:flex;gap:10px;margin-top:14px;padding-bottom:22px">
+    <button class="btn btn-o" id="lp-prev" onclick="lpStep(-1)" style="flex:1;display:none">← 上一步</button>
+    <button class="btn btn-p" id="lp-next" onclick="lpStep(1)" style="flex:1">下一步 →</button>
+  </div>
+</div>
+
+<!-- ========== S9A: BEAR INTRO ========== -->
+<div id="s-bear-intro" class="screen">
+  <button class="back" onclick="go('s-module')">← 返回模块</button>
+  <div style="text-align:center;margin-bottom:16px">
+    <span style="font-size:80px;display:block;margin-bottom:10px;animation:float 3s ease-in-out infinite">🐻</span>
+    <h2 style="font-size:22px;font-weight:500;margin-bottom:8px">熊伯伯的小超市</h2>
+    <p style="color:var(--muted);font-size:14px;line-height:1.8;max-width:320px;margin:0 auto">大家好！我是熊伯伯！<br>这是我的超市。<br>里面有好多东西，来看看吧！</p>
+  </div>
+  <div class="vslot"><div class="vplay"></div><div style="font-weight:500;color:var(--muted)">熊伯伯介绍商品视频（请插入）</div><div style="font-size:12px;color:#bbb;margin-top:3px">熊伯伯带你认识超市里的商品</div></div>
+  <div style="background:var(--gl);border-radius:14px;padding:14px 16px;margin-bottom:14px">
+    <div style="font-size:14px;font-weight:500;color:var(--gd);margin-bottom:8px">🛒 今日商品</div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center;font-size:22px">
+      <div>🍎<div style="font-size:11px;color:var(--gd)">苹果</div></div>
+      <div>🍌<div style="font-size:11px;color:var(--gd)">香蕉</div></div>
+      <div>✏️<div style="font-size:11px;color:var(--gd)">铅笔</div></div>
+      <div>🍪<div style="font-size:11px;color:var(--gd)">饼干</div></div>
+      <div>🍇<div style="font-size:11px;color:var(--gd)">葡萄</div></div>
+      <div>📓<div style="font-size:11px;color:var(--gd)">笔记本</div></div>
+      <div>🍬<div style="font-size:11px;color:var(--gd)">糖果</div></div>
+      <div>🍫<div style="font-size:11px;color:var(--gd)">巧克力</div></div>
+    </div>
+  </div>
+  <div style="text-align:center;padding-bottom:22px">
+    <button class="btn btn-p btn-lg" onclick="go('s-role-shop')">下一步：看看小伙伴怎么购物 →</button>
+  </div>
+</div>
+
+<!-- ========== S9B: ROLE SHOPPING INTRO ========== -->
+<div id="s-role-shop" class="screen">
+  <button class="back" onclick="go('s-bear-intro')">← 返回</button>
+  <div style="text-align:center;margin-bottom:16px">
+    <span id="rshop-av" style="font-size:80px;display:block;margin-bottom:10px;animation:float 3s ease-in-out infinite">🐱</span>
+    <h2 style="font-size:22px;font-weight:500;margin-bottom:8px">轮到<span id="rshop-name">小猫</span>去购物啦！</h2>
+    <p style="color:var(--muted);font-size:14px;line-height:1.8;max-width:320px;margin:0 auto">看看<span id="rshop-name2">小猫</span>怎么买东西。<br>然后你来试试！</p>
+  </div>
+  <div class="vslot"><div class="vplay"></div><div style="font-weight:500;color:var(--muted)" id="rshop-vlbl">小猫购物视频（请插入）</div><div style="font-size:12px;color:#bbb;margin-top:3px">角色示范如何挑选商品和购物</div></div>
+  <div class="alert ag" style="margin-bottom:14px">
+    💡 购物提示：<br>① 看清楚价格<br>② 点＋加进购物车<br>③ 结账前检查一下
+  </div>
+  <div style="text-align:center;padding-bottom:22px">
+    <button class="btn btn-p btn-lg" onclick="startShopping()">开始购物 🛒</button>
+  </div>
+</div>
+
+<!-- ========== S10: SHOP ========== -->
+<div id="s-shop" class="screen">
+  <div class="topbar">
+    <span id="shop-av" style="font-size:24px">🐱</span>
+    <span style="font-size:15px;font-weight:500;flex:1">熊伯伯超市</span>
+    <div class="cart-icon" onclick="go('s-cart')"><span style="font-size:24px">🛒</span><span class="cbadge" id="ccnt">0</span></div>
+  </div>
+  <div id="sim-balance-bar" style="display:none;background:var(--card);border-radius:12px;padding:10px 14px;margin-bottom:12px;box-shadow:var(--sh)"></div>
+  <div class="tabs">
+    <div class="tab on" onclick="switchZ(0,this)">🍎 水果</div>
+    <div class="tab" onclick="switchZ(1,this)">✏️ 文具</div>
+    <div class="tab" onclick="switchZ(2,this)">🍪 零食</div>
+  </div>
+  <div class="pgrid" id="shop-zone"></div>
+  <div style="text-align:center;margin-top:14px;padding-bottom:22px"><button class="btn btn-p" onclick="go('s-cart')">去结账 🛒</button></div>
+</div>
+
+<!-- ========== S11: CART ========== -->
+<div id="s-cart" class="screen">
+  <button class="back" onclick="go('s-shop')">← 继续购物</button>
+  <div class="topbar"><span id="cart-av" style="font-size:24px">🐱</span><span style="font-size:15px;font-weight:500;flex:1">我的购物车</span></div>
+  <div id="cart-balance-bar" style="display:none;background:var(--card);border-radius:12px;padding:10px 14px;margin-bottom:12px;box-shadow:var(--sh)"></div>
+  <div id="cart-list"></div>
+  <div class="card" id="cart-tot"></div>
+  <button class="btn btn-p btn-full btn-lg" style="margin-top:4px" onclick="go('s-paymethod')">付钱 💳</button>
+  <div style="padding-bottom:22px"></div>
+</div>
+
+<!-- ========== S12: PAY METHOD ========== -->
+<div id="s-paymethod" class="screen">
+  <button class="back" onclick="go('s-cart')">← 返回购物车</button>
+  <div class="topbar"><span id="pm-av" style="font-size:24px">🐱</span><span style="font-size:15px;font-weight:500;flex:1">选择支付方式</span></div>
+  <div class="card" style="text-align:center;margin-bottom:18px">
+    <div style="color:var(--muted);font-size:13px;margin-bottom:5px">需要付</div>
+    <div style="font-size:34px;font-weight:500;color:var(--coral)" id="pm-total">¥0.00</div>
+  </div>
+  <div class="pmcard" onclick="openSim('wechat')">
+    <div class="pmico" style="background:#1AAD19">微</div>
+    <div><div style="font-size:15px;font-weight:500;margin-bottom:2px">微信支付</div><div style="color:var(--muted);font-size:13px">用微信付钱</div></div>
+    <span style="margin-left:auto;color:#ccc;font-size:19px">›</span>
+  </div>
+  <div class="pmcard" onclick="openSim('alipay')">
+    <div class="pmico" style="background:#1677FF;font-weight:700">支</div>
+    <div><div style="font-size:15px;font-weight:500;margin-bottom:2px">支付宝</div><div style="color:var(--muted);font-size:13px">用支付宝付钱</div></div>
+    <span style="margin-left:auto;color:#ccc;font-size:19px">›</span>
+  </div>
+  <div style="padding-bottom:22px"></div>
+</div>
+
+
+<!-- ========== S-BALANCE: PARENT/TEACHER SETUP ========== -->
+<div id="s-balance" class="screen fcenter">
+  <div style="text-align:center;margin-bottom:20px">
+    <div style="font-size:60px;margin-bottom:10px">👨‍🏫</div>
+    <h2 style="font-size:22px;font-weight:500;margin-bottom:6px">家长 / 老师设置</h2>
+    <p style="font-size:14px;color:var(--muted);line-height:1.7">请设置小朋友今天的<br>可用余额</p>
+  </div>
+  <div style="background:var(--card);border-radius:20px;padding:24px 20px;width:100%;max-width:360px;box-shadow:var(--sh);margin-bottom:16px">
+    <div style="font-size:14px;color:var(--muted);margin-bottom:8px">今日余额（元）</div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+      <span style="font-size:28px;font-weight:500;color:var(--coral)">¥</span>
+      <input type="number" id="balance-input" min="1" max="999" step="1" value="50"
+        style="flex:1;font-size:32px;font-weight:300;border:none;outline:none;background:transparent;color:var(--text);font-family:inherit"
+        oninput="previewBalance()">
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <button onclick="setBalance(20)" style="padding:8px 16px;border-radius:20px;border:1.5px solid #ddd;background:#fff;font-size:14px;cursor:pointer;font-family:inherit">¥20</button>
+      <button onclick="setBalance(30)" style="padding:8px 16px;border-radius:20px;border:1.5px solid #ddd;background:#fff;font-size:14px;cursor:pointer;font-family:inherit">¥30</button>
+      <button onclick="setBalance(50)" style="padding:8px 16px;border-radius:20px;border:1.5px solid #ddd;background:#fff;font-size:14px;cursor:pointer;font-family:inherit">¥50</button>
+      <button onclick="setBalance(100)" style="padding:8px 16px;border-radius:20px;border:1.5px solid #ddd;background:#fff;font-size:14px;cursor:pointer;font-family:inherit">¥100</button>
+      <button onclick="setBalance(200)" style="padding:8px 16px;border-radius:20px;border:1.5px solid #ddd;background:#fff;font-size:14px;cursor:pointer;font-family:inherit">¥200</button>
+    </div>
+    <div style="background:var(--gl);border-radius:12px;padding:12px 14px;font-size:13px;color:var(--gd);line-height:1.7" id="balance-preview">
+      小朋友今天有 <strong>¥50.00</strong> 可以用<br>
+      本次购物需要 <strong id="balance-need">¥--</strong><br>
+      <span id="balance-status">✅ 余额够用</span>
+    </div>
+  </div>
+  <div style="display:flex;gap:10px;width:100%;max-width:360px">
+    <button class="btn btn-o" style="flex:1" onclick="go('s-paymethod')">← 返回</button>
+    <button class="btn btn-p" style="flex:1" id="balance-confirm-btn" onclick="confirmBalance()">确认，开始支付 →</button>
+  </div>
+</div>
+<!-- ========== S13: SIMULATOR ========== -->
+<div id="s-sim" class="screen">
+  <button class="back" onclick="go('s-paymethod')">← 返回选择</button>
+  <div style="text-align:center;margin-bottom:8px">
+    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:8px">
+      <button id="sw-wc" class="sw-btn-wc" onclick="simSwitchApp('wechat')" style="padding:8px 20px;border-radius:20px;border:2px solid #1AAD19;background:#f0fff4;color:#1AAD19;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit">微信支付</button>
+      <button id="sw-ap" onclick="simSwitchApp('alipay')" style="padding:8px 20px;border-radius:20px;border:2px solid #ddd;background:#fff;color:var(--muted);font-size:14px;font-weight:500;cursor:pointer;font-family:inherit">支付宝</button>
+    </div>
+    <div style="display:flex;gap:7px;justify-content:center;margin-bottom:6px">
+      <button id="sw-scan" onclick="simSwitchMode('scan')" style="padding:6px 14px;border-radius:18px;border:1.5px solid var(--purple);background:var(--pl);color:var(--pd);font-size:13px;cursor:pointer;font-family:inherit">📷 主动扫码</button>
+      <button id="sw-code" onclick="simSwitchMode('code')" style="padding:6px 14px;border-radius:18px;border:1.5px solid #ddd;background:#fff;color:var(--muted);font-size:13px;cursor:pointer;font-family:inherit">📲 出示付款码</button>
+    </div>
+  </div>
+
+  <div class="sim-wrap">
+    <!-- PHONE (draggable) -->
+    <div class="phone draggable" id="sim-phone">
+      <div class="notch"></div>
+      <div class="pscreen" id="sim-screen">
+        <!-- WC HOME -->
+        <div class="pp on" id="pp-wc-home">
+          <div class="wch"><span class="wchi">☰</span><span class="wcht">微信</span><span class="wchi" onclick="togglePlus()">＋</span></div>
+          <div class="pb" style="background:#ededed">
+            <div style="padding:7px 11px"><div style="background:#fff;border-radius:5px;padding:5px 9px"><span style="font-size:12px;color:#ccc">🔍 搜索</span></div></div>
+            <div class="wci"><div class="wav" style="background:#FFF3E0">🐻</div><div style="flex:1"><div style="font-size:13px;font-weight:500;color:#000">熊伯伯超市</div><div style="font-size:11px;color:#999">今天有特价商品～</div></div><div style="font-size:10px;color:#ccc">刚刚</div></div>
+            <div class="wci"><div class="wav" style="background:#E8F5E9">👨‍👩‍👧</div><div style="flex:1"><div style="font-size:13px;font-weight:500;color:#000">家庭群</div><div style="font-size:11px;color:#999">妈妈：今天乖乖的哦</div></div><div style="font-size:10px;color:#ccc">10:30</div></div>
+          </div>
+          <div class="plusmenu" id="plusmenu" onclick="closePlus()">
+            <div class="plusgrid" onclick="event.stopPropagation()">
+              <div class="plusi" onclick="simGoPage('pp-wc-scan')"><div class="plusi-ico" style="background:#2196F3">📷</div><span class="plusi-lbl">扫一扫</span></div>
+              <div class="plusi"><div class="plusi-ico" style="background:#9C27B0">💸</div><span class="plusi-lbl">转账</span></div>
+              <div class="plusi"><div class="plusi-ico" style="background:#FF5722">🎁</div><span class="plusi-lbl">红包</span></div>
+            </div>
+          </div>
+          <div class="wnav">
+            <div class="wni"><span style="font-size:20px">💬</span><span style="font-size:10px;color:#1AAD19">微信</span></div>
+            <div class="wni"><span style="font-size:20px">👥</span><span style="font-size:10px;color:#888">通讯录</span></div>
+            <div class="wni"><span style="font-size:20px">🔍</span><span style="font-size:10px;color:#888">发现</span></div>
+            <div class="wni" onclick="simGoPage('pp-wc-me')"><span style="font-size:20px">👤</span><span style="font-size:10px;color:#888">我</span></div>
+          </div>
+        </div>
+        <!-- WC SCAN (drag phone to fixed QR) -->
+        <div class="pp" id="pp-wc-scan" style="background:#1AAD19">
+          <div style="padding:26px 13px 9px;display:flex;align-items:center;background:#1AAD19"><span style="color:#fff;font-size:17px;cursor:pointer" onclick="simGoPage('pp-wc-home')">✕</span><span style="color:#fff;font-size:15px;font-weight:500;flex:1;text-align:center">扫一扫</span><span style="color:#fff">⚡</span></div>
+          <div class="scan-hdr">
+            <div class="svf">
+              <div class="sframe" id="wc-scan-frame">
+                <div class="sc tl"></div><div class="sc tr"></div><div class="sc bl"></div><div class="sc br"></div>
+                <div class="scanline" id="scan-beam" style="background:linear-gradient(to right,transparent,#1AAD19,transparent);transform:scaleX(0);transform-origin:center"></div>
+              </div>
+              <div class="scan-overlay" onclick="simStartDragScan('wc')"></div>
+              <div class="scan-clicktip">拖动手机去对准右侧二维码</div>
+            </div>
+          </div>
+        </div>
+        <!-- WC PAY -->
+        <div class="pp" id="pp-wc-pay" style="background:#f5f5f5">
+          <div class="pph" style="background:#1AAD19"><span style="color:#fff;font-size:17px;cursor:pointer" onclick="simGoPage('pp-wc-scan')">‹</span><span style="color:#fff;font-size:15px;font-weight:500;flex:1;text-align:center">付款给商家</span></div>
+          <div class="pb">
+            <div class="pmb"><div class="pmav">🐻</div><div style="font-size:13px;font-weight:500;color:#333">熊伯伯超市</div><div style="font-size:11px;color:#999">微信商户</div></div>
+            <div class="pab">
+              <div style="font-size:12px;color:#999;margin-bottom:5px">付款金额</div>
+              <div style="display:flex;align-items:baseline;gap:3px"><span style="font-size:20px;color:#333">¥</span><div class="pnd" id="wc-nd">0</div></div>
+              <div id="wc-ah" style="font-size:11px;color:#1AAD19;margin-top:5px;display:none">✅ 金额正确！可以付款了</div>
+              <div id="wc-ae" style="font-size:11px;color:#e74c3c;margin-top:5px;display:none">❌ 金额不对，请重新输入</div>
+            </div>
+            <div class="numpad">
+              <div class="nk" onclick="sNP('wc','1')">1</div><div class="nk" onclick="sNP('wc','2')">2</div><div class="nk" onclick="sNP('wc','3')">3</div>
+              <div class="nk" onclick="sNP('wc','4')">4</div><div class="nk" onclick="sNP('wc','5')">5</div><div class="nk" onclick="sNP('wc','6')">6</div>
+              <div class="nk" onclick="sNP('wc','7')">7</div><div class="nk" onclick="sNP('wc','8')">8</div><div class="nk" onclick="sNP('wc','9')">9</div>
+              <div class="nk" onclick="sNP('wc','.')">.</div><div class="nk" onclick="sNP('wc','0')">0</div><div class="nk" style="font-size:13px" onclick="sNP('wc','del')">⌫</div>
+              <div class="nk" onclick="sNP('wc','00')">00</div>
+              <div class="nk nkpay" style="background:#1AAD19" onclick="sConfirm('wc')">付款</div>
+            </div>
+            <div style="padding:0 10px 7px;font-size:11px;color:#999;text-align:center" id="wc-ph"></div>
+          </div>
+          <div class="cov" id="wc-cov">
+            <div class="cs">
+              <div style="font-size:14px;font-weight:500;color:#333;text-align:center;margin-bottom:12px">向 熊伯伯超市 付款</div>
+              <div style="font-size:32px;font-weight:300;color:#333;text-align:center;margin-bottom:3px" id="wc-ca">¥0.00</div>
+              <div style="font-size:12px;color:#999;text-align:center;margin-bottom:9px">微信支付 · 请输入支付密码</div>
+              <div class="pdots"><div class="pdot" id="wc-d0"></div><div class="pdot" id="wc-d1"></div><div class="pdot" id="wc-d2"></div><div class="pdot" id="wc-d3"></div><div class="pdot" id="wc-d4"></div><div class="pdot" id="wc-d5"></div></div>
+              <div class="np2">
+                <div class="nk2" onclick="sPwd('wc')">1</div><div class="nk2" onclick="sPwd('wc')">2</div><div class="nk2" onclick="sPwd('wc')">3</div>
+                <div class="nk2" onclick="sPwd('wc')">4</div><div class="nk2" onclick="sPwd('wc')">5</div><div class="nk2" onclick="sPwd('wc')">6</div>
+                <div class="nk2" onclick="sPwd('wc')">7</div><div class="nk2" onclick="sPwd('wc')">8</div><div class="nk2" onclick="sPwd('wc')">9</div>
+                <div class="nk2" style="background:#d0d0d0;font-size:12px" onclick="sCloseCov('wc')">取消</div><div class="nk2" onclick="sPwd('wc')">0</div><div class="nk2" style="background:#d0d0d0;font-size:13px" onclick="sPwdDel('wc')">⌫</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OVERDRAFT WARNING -->
+          <div class="cov" id="wc-overdraft" style="z-index:90">
+            <div class="cs" style="background:#fff">
+              <div style="text-align:center;padding:8px 0 16px">
+                <div style="font-size:52px;margin-bottom:8px">😟</div>
+                <div style="font-size:18px;font-weight:500;color:var(--coral);margin-bottom:8px">余额不够！</div>
+                <div id="wc-overdraft-msg" style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:16px">你想付的钱比你有的钱多了</div>
+                <div style="background:var(--cl);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--coral);margin-bottom:16px" id="wc-overdraft-detail"></div>
+                <button style="width:100%;background:var(--purple);color:#fff;border:none;border-radius:22px;padding:12px;font-size:15px;cursor:pointer;font-family:inherit" onclick="document.getElementById('wc-overdraft').classList.remove('show');sNP('wc','del');sNP('wc','del');sNP('wc','del');sNP('wc','del');sNP('wc','del');wcN='';document.getElementById('wc-nd').textContent='0';document.getElementById('wc-ah').style.display='none';document.getElementById('wc-ae').style.display='none';">重新输入金额</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- WC PAYCODE -->
+        <div class="pp" id="pp-wc-paycode" style="background:#fff">
+          <div style="background:#1AAD19;padding:26px 13px 9px;display:flex;align-items:center"><span style="color:#fff;font-size:17px;cursor:pointer;width:22px" onclick="simGoPage('pp-wc-me')">‹</span><span style="color:#fff;font-size:15px;font-weight:500;flex:1;text-align:center">付款码</span><span style="width:22px"></span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;padding:12px">
+            <div style="font-size:12px;color:#999;margin-bottom:7px">向收款方展示此码</div>
+            <div class="pcbr" id="wc-br" style="width:210px"></div>
+            <div class="pcqr" id="wc-qr"></div>
+            <div style="font-size:24px;font-weight:300;color:#333;margin:7px 0">¥<span id="wc-pc-amt">--</span></div>
+            <div style="font-size:11px;color:#1AAD19;margin-bottom:13px">🔄 自动刷新中</div>
+            <button style="width:100%;background:#07C160;color:#fff;border:none;border-radius:20px;padding:11px;font-size:14px;cursor:pointer;font-family:inherit" onclick="simStartDragCode('wc')">📟 把手机拖到扫码器前</button>
+          </div>
+          <div class="sucov" id="wc-ssuc" style="background:rgba(7,193,96,0.97)">
+            <div style="font-size:56px;color:#fff">✓</div>
+            <div style="color:#fff;font-size:19px;font-weight:500">支付成功</div>
+            <div style="color:rgba(255,255,255,0.9);font-size:13px" id="wc-ss-amt">¥0.00</div>
+            <div style="background:rgba(255,255,255,0.2);border-radius:9px;padding:10px 14px;color:#fff;font-size:12px;text-align:center;max-width:210px;line-height:1.7;margin-top:7px">✅ 核对金额：支付金额 = 所给金额 ✓</div>
+            <button style="margin-top:14px;background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.6);color:#fff;border-radius:18px;padding:7px 22px;font-size:13px;cursor:pointer;font-family:inherit" onclick="simReset('wc')">完成</button>
+          </div>
+        </div>
+        <!-- WC ME -->
+        <div class="pp" id="pp-wc-me">
+          <div class="wch"><span style="width:22px"></span><span class="wcht">我</span><span style="width:22px"></span></div>
+          <div class="pb" style="background:#f0f0f0">
+            <div style="background:#fff;padding:14px 13px;display:flex;align-items:center;gap:10px;margin-bottom:7px"><div style="width:50px;height:50px;border-radius:7px;background:#EAF3DE;display:flex;align-items:center;justify-content:center;font-size:28px" id="wc-me-av">🐱</div><div><div style="font-size:15px;font-weight:500;color:#000">小朋友</div><div style="font-size:11px;color:#999">微信号: xiaopengyou</div></div></div>
+            <div style="background:#fff;margin-bottom:7px">
+              <div style="padding:11px 13px;border-bottom:0.5px solid #f0f0f0;display:flex;align-items:center;gap:9px;cursor:pointer" onclick="simGoPage('pp-wc-paycode')"><span style="font-size:19px">💳</span><span style="font-size:13px;flex:1;color:#000">付款码</span><span style="color:#ccc">›</span></div>
+              <div style="padding:11px 13px;display:flex;align-items:center;gap:9px"><span style="font-size:19px">💰</span><span style="font-size:13px;flex:1;color:#000">零钱</span><span style="font-size:12px;color:#1AAD19;margin-right:3px" id="wc-balance-display" style="display:none">¥50.00</span><span style="color:#ccc">›</span></div>
+            </div>
+          </div>
+          <div class="wnav">
+            <div class="wni" onclick="simGoPage('pp-wc-home')"><span style="font-size:20px">💬</span><span style="font-size:10px;color:#888">微信</span></div>
+            <div class="wni"><span style="font-size:20px">👥</span><span style="font-size:10px;color:#888">通讯录</span></div>
+            <div class="wni"><span style="font-size:20px">🔍</span><span style="font-size:10px;color:#888">发现</span></div>
+            <div class="wni"><span style="font-size:20px">👤</span><span style="font-size:10px;color:#1AAD19">我</span></div>
+          </div>
+        </div>
+        <!-- WC SUCCESS -->
+        <div class="pp" id="pp-wc-suc">
+          <div class="psuc" style="background:#1AAD19">
+            <div class="pscheck">✓</div>
+            <div style="color:#fff;font-size:19px;font-weight:500">支付成功</div>
+            <div style="color:rgba(255,255,255,0.9);font-size:13px" id="wc-suc-amt">¥0.00</div>
+            <div style="background:rgba(255,255,255,0.2);border-radius:9px;padding:10px 14px;color:#fff;font-size:12px;text-align:center;line-height:1.7;max-width:210px;margin-top:7px">✅ 核对金额：支付金额 = 所给金额 ✓<br>你真棒！</div>
+            <button style="margin-top:14px;background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.6);color:#fff;border-radius:18px;padding:7px 22px;font-size:13px;cursor:pointer;font-family:inherit" onclick="simReset('wc')">完成</button>
+          </div>
+        </div>
+
+        <!-- WC CODE CONFIRM (merchant scans my code) -->
+        <div class="pp" id="pp-wc-codeconfirm" style="background:#f5f5f5">
+          <div class="pph" style="background:#1AAD19"><span style="color:#fff;font-size:17px;cursor:pointer" onclick="simGoPage('pp-wc-paycode')">‹</span><span style="color:#fff;font-size:15px;font-weight:500;flex:1;text-align:center">确认付款</span></div>
+          <div class="pb">
+            <div class="pmb"><div class="pmav">🐻</div><div style="font-size:13px;font-weight:500;color:#333">熊叔叔超市</div><div style="font-size:11px;color:#999">商家扫码你的付款码</div></div>
+            <div class="pab">
+              <div style="font-size:12px;color:#999;margin-bottom:6px">请检查两边是否一样</div>
+              <div style="display:flex;gap:10px;align-items:stretch">
+                <div style="flex:1;background:#fff;border-radius:10px;padding:10px 10px;border:1px solid #eee">
+                  <div style="font-size:11px;color:#999;margin-bottom:4px">🛒 商品总价</div>
+                  <div style="font-size:22px;font-weight:500;color:#333" id="wc-cc-tot">¥0.00</div>
+                </div>
+                <div style="flex:1;background:#fff;border-radius:10px;padding:10px 10px;border:1px solid #eee">
+                  <div style="font-size:11px;color:#999;margin-bottom:4px">💳 你要付</div>
+                  <div style="font-size:22px;font-weight:500;color:#1AAD19" id="wc-cc-pay">¥0.00</div>
+                </div>
+              </div>
+              <div style="margin-top:10px;background:var(--gl);border-radius:10px;padding:10px 12px;font-size:12px;color:var(--gd);line-height:1.7">
+                ✅ 一样：可以确认付款<br>
+                ❌ 不一样：要告诉大人
+              </div>
+              <div style="display:flex;gap:10px;margin-top:12px">
+                <button class="btn btn-o" style="flex:1" onclick="simGoPage('pp-wc-paycode')">返回</button>
+                <button class="btn btn-p" style="flex:1;background:#1AAD19" onclick="simMerchScan('wc');setTimeout(function(){simReset('wc');},900)">确认付款</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- AP HOME -->
+        <div class="pp" id="pp-ap-home" style="background:#f0f4f8">
+          <div class="aph"><span style="font-size:12px;color:rgba(255,255,255,0.8)">支付宝</span><div style="flex:1;margin:0 7px;background:rgba(255,255,255,0.2);border-radius:14px;padding:4px 9px"><span style="font-size:11px;color:rgba(255,255,255,0.8)">🔍 搜索</span></div><span style="color:#fff;font-size:17px">⚙️</span></div>
+          <div class="pb">
+            <div class="apqg">
+              <div class="apai" onclick="simGoPage('pp-ap-scan')"><div class="apai-ico" style="background:#E3F2FD">📷</div><span style="font-size:10px;color:#333">扫一扫</span></div>
+              <div class="apai" onclick="simGoPage('pp-ap-paycode')"><div class="apai-ico" style="background:#FFF3E0">💳</div><span style="font-size:10px;color:#333">付款码</span></div>
+              <div class="apai"><div class="apai-ico" style="background:#F3E5F5">💸</div><span style="font-size:10px;color:#333">转账</span></div>
+              <div class="apai"><div class="apai-ico" style="background:#E8F5E9">🏦</div><span style="font-size:10px;color:#333">充值</span></div>
+              <div class="apai"><div class="apai-ico" style="background:#FCEBD7">🎁</div><span style="font-size:10px;color:#333">红包</span></div>
+              <div class="apai"><div class="apai-ico" style="background:#E8EAF6">🏠</div><span style="font-size:10px;color:#333">缴费</span></div>
+              <div class="apai"><div class="apai-ico" style="background:#FCE4EC">🎫</div><span style="font-size:10px;color:#333">票务</span></div>
+              <div class="apai"><div class="apai-ico" style="background:#E0F7FA">🛒</div><span style="font-size:10px;color:#333">淘宝</span></div>
+            </div>
+            <div style="background:#fff;padding:13px"><div style="font-size:12px;color:#999;margin-bottom:5px">我的余额</div><div style="font-size:24px;font-weight:300;color:#1677FF" id="ap-balance-display" style="display:none">¥ 50.00</div></div>
+          </div>
+          <div class="apnav">
+            <div class="apni"><span style="font-size:20px">🏠</span><span style="font-size:10px;color:#1677FF">首页</span></div>
+            <div class="apni"><span style="font-size:20px">💰</span><span style="font-size:10px;color:#888">财富</span></div>
+            <div class="apni"><span style="font-size:20px">🛒</span><span style="font-size:10px;color:#888">生活</span></div>
+            <div class="apni"><span style="font-size:20px">👤</span><span style="font-size:10px;color:#888">我的</span></div>
+          </div>
+        </div>
+        <!-- AP SCAN (click to scan) -->
+        <div class="pp" id="pp-ap-scan" style="background:#1677FF">
+          <div style="padding:26px 13px 9px;display:flex;align-items:center;background:#1677FF"><span style="color:#fff;font-size:17px;cursor:pointer" onclick="simGoPage('pp-ap-home')">✕</span><span style="color:#fff;font-size:15px;font-weight:500;flex:1;text-align:center">扫一扫</span><span style="color:#fff">⚡</span></div>
+          <div class="scan-hdr">
+            <div class="svf">
+              <div class="sframe" id="scan-frame-ap">
+                <div class="sc tl"></div><div class="sc tr"></div><div class="sc bl"></div><div class="sc br"></div>
+                <div class="scanline" id="scan-beam-ap" style="background:linear-gradient(to right,transparent,#1677FF,transparent);transform:scaleX(0);transform-origin:center"></div>
+              </div>
+              <div class="scan-overlay" onclick="simStartDragScan('ap')"></div>
+              <div class="scan-clicktip">拖动手机去对准右侧二维码</div>
+            </div>
+          </div>
+        </div>
+        <!-- AP PAY -->
+        <div class="pp" id="pp-ap-pay" style="background:#f5f5f5">
+          <div class="pph" style="background:#1677FF"><span style="color:#fff;font-size:17px;cursor:pointer" onclick="simGoPage('pp-ap-scan')">‹</span><span style="color:#fff;font-size:15px;font-weight:500;flex:1;text-align:center">确认付款</span></div>
+          <div class="pb">
+            <div class="pmb"><div class="pmav" style="background:#E3F2FD">🐻</div><div style="font-size:13px;font-weight:500;color:#333">熊伯伯超市</div><div style="font-size:11px;color:#999">支付宝商户</div></div>
+            <div class="pab">
+              <div style="font-size:12px;color:#999;margin-bottom:5px">付款金额</div>
+              <div style="display:flex;align-items:baseline;gap:3px"><span style="font-size:20px;color:#1677FF">¥</span><div class="pnd" id="ap-nd" style="color:#1677FF">0</div></div>
+              <div id="ap-ah" style="font-size:11px;color:#1677FF;margin-top:5px;display:none">✅ 金额正确！可以付款了</div>
+              <div id="ap-ae" style="font-size:11px;color:#e74c3c;margin-top:5px;display:none">❌ 金额不对，请重新输入</div>
+            </div>
+            <div class="numpad">
+              <div class="nk" onclick="sNP('ap','1')">1</div><div class="nk" onclick="sNP('ap','2')">2</div><div class="nk" onclick="sNP('ap','3')">3</div>
+              <div class="nk" onclick="sNP('ap','4')">4</div><div class="nk" onclick="sNP('ap','5')">5</div><div class="nk" onclick="sNP('ap','6')">6</div>
+              <div class="nk" onclick="sNP('ap','7')">7</div><div class="nk" onclick="sNP('ap','8')">8</div><div class="nk" onclick="sNP('ap','9')">9</div>
+              <div class="nk" onclick="sNP('ap','.')">.</div><div class="nk" onclick="sNP('ap','0')">0</div><div class="nk" style="font-size:13px" onclick="sNP('ap','del')">⌫</div>
+              <div class="nk" onclick="sNP('ap','00')">00</div>
+              <div class="nk nkpay" style="background:#1677FF" onclick="sConfirm('ap')">付款</div>
+            </div>
+            <div style="padding:0 10px 7px;font-size:11px;color:#999;text-align:center" id="ap-ph"></div>
+          </div>
+          <div class="cov" id="ap-cov">
+            <div class="cs">
+              <div style="font-size:14px;font-weight:500;color:#333;text-align:center;margin-bottom:12px">向 熊伯伯超市 付款</div>
+              <div style="font-size:32px;font-weight:300;color:#1677FF;text-align:center;margin-bottom:3px" id="ap-ca">¥0.00</div>
+              <div style="font-size:12px;color:#999;text-align:center;margin-bottom:9px">支付宝 · 请输入支付密码</div>
+              <div class="pdots"><div class="pdot" id="ap-d0"></div><div class="pdot" id="ap-d1"></div><div class="pdot" id="ap-d2"></div><div class="pdot" id="ap-d3"></div><div class="pdot" id="ap-d4"></div><div class="pdot" id="ap-d5"></div></div>
+              <div class="np2">
+                <div class="nk2" onclick="sPwd('ap')">1</div><div class="nk2" onclick="sPwd('ap')">2</div><div class="nk2" onclick="sPwd('ap')">3</div>
+                <div class="nk2" onclick="sPwd('ap')">4</div><div class="nk2" onclick="sPwd('ap')">5</div><div class="nk2" onclick="sPwd('ap')">6</div>
+                <div class="nk2" onclick="sPwd('ap')">7</div><div class="nk2" onclick="sPwd('ap')">8</div><div class="nk2" onclick="sPwd('ap')">9</div>
+                <div class="nk2" style="background:#d0d0d0;font-size:12px" onclick="sCloseCov('ap')">取消</div><div class="nk2" onclick="sPwd('ap')">0</div><div class="nk2" style="background:#d0d0d0;font-size:13px" onclick="sPwdDel('ap')">⌫</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OVERDRAFT WARNING -->
+          <div class="cov" id="ap-overdraft" style="z-index:90">
+            <div class="cs" style="background:#fff">
+              <div style="text-align:center;padding:8px 0 16px">
+                <div style="font-size:52px;margin-bottom:8px">😟</div>
+                <div style="font-size:18px;font-weight:500;color:var(--coral);margin-bottom:8px">余额不够！</div>
+                <div id="ap-overdraft-msg" style="font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:16px">你想付的钱比你有的钱多了</div>
+                <div style="background:var(--cl);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--coral);margin-bottom:16px" id="ap-overdraft-detail"></div>
+                <button style="width:100%;background:#1677FF;color:#fff;border:none;border-radius:22px;padding:12px;font-size:15px;cursor:pointer;font-family:inherit" onclick="document.getElementById('ap-overdraft').classList.remove('show');apN='';document.getElementById('ap-nd').textContent='0';document.getElementById('ap-ah').style.display='none';document.getElementById('ap-ae').style.display='none';">重新输入金额</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- AP PAYCODE -->
+        <div class="pp" id="pp-ap-paycode" style="background:#fff">
+          <div style="background:#1677FF;padding:26px 13px 9px;display:flex;align-items:center"><span style="color:#fff;font-size:17px;cursor:pointer;width:22px" onclick="simGoPage('pp-ap-home')">‹</span><span style="color:#fff;font-size:15px;font-weight:500;flex:1;text-align:center">付款码</span><span style="width:22px"></span></div>
+          <div style="flex:1;display:flex;flex-direction:column;align-items:center;padding:12px">
+            <div style="font-size:12px;color:#999;margin-bottom:7px">向收款方展示此码</div>
+            <div class="pcbr" id="ap-br" style="width:210px"></div>
+            <div class="pcqr" id="ap-qr" style="border-color:#1677FF22"></div>
+            <div style="font-size:24px;font-weight:300;color:#1677FF;margin:7px 0">¥<span id="ap-pc-amt">--</span></div>
+            <div style="font-size:11px;color:#1677FF;margin-bottom:13px">🔄 自动刷新中</div>
+            <button style="width:100%;background:#1677FF;color:#fff;border:none;border-radius:20px;padding:11px;font-size:14px;cursor:pointer;font-family:inherit" onclick="simStartDragCode('ap')">📟 把手机拖到扫码器前</button>
+          </div>
+          <div class="sucov" id="ap-ssuc" style="background:rgba(22,119,255,0.97)">
+            <div style="font-size:56px;color:#fff">✓</div>
+            <div style="color:#fff;font-size:19px;font-weight:500">支付成功</div>
+            <div style="color:rgba(255,255,255,0.9);font-size:13px" id="ap-ss-amt">¥0.00</div>
+            <div style="background:rgba(255,255,255,0.2);border-radius:9px;padding:10px 14px;color:#fff;font-size:12px;text-align:center;max-width:210px;line-height:1.7;margin-top:7px">✅ 核对金额：支付金额 = 所给金额 ✓</div>
+            <button style="margin-top:14px;background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.6);color:#fff;border-radius:18px;padding:7px 22px;font-size:13px;cursor:pointer;font-family:inherit" onclick="simReset('ap')">完成</button>
+          </div>
+        </div>
+        <!-- AP SUCCESS -->
+        <div class="pp" id="pp-ap-suc">
+          <div class="psuc" style="background:#1677FF">
+            <div class="pscheck" style="border-color:rgba(255,255,255,0.8)">✓</div>
+            <div style="color:#fff;font-size:19px;font-weight:500">支付成功</div>
+            <div style="color:rgba(255,255,255,0.9);font-size:13px" id="ap-suc-amt">¥0.00</div>
+            <div style="background:rgba(255,255,255,0.2);border-radius:9px;padding:10px 14px;color:#fff;font-size:12px;text-align:center;line-height:1.7;max-width:210px;margin-top:7px">✅ 核对金额：支付金额 = 所给金额 ✓<br>你真棒！</div>
+            <button style="margin-top:14px;background:rgba(255,255,255,0.2);border:1.5px solid rgba(255,255,255,0.6);color:#fff;border-radius:18px;padding:7px 22px;font-size:13px;cursor:pointer;font-family:inherit" onclick="simReset('ap')">完成</button>
+          </div>
+        </div>
+
+        <!-- AP CODE CONFIRM (merchant scans my code) -->
+        <div class="pp" id="pp-ap-codeconfirm" style="background:#f5f5f5">
+          <div class="pph" style="background:#1677FF"><span style="color:#fff;font-size:17px;cursor:pointer" onclick="simGoPage('pp-ap-paycode')">‹</span><span style="color:#fff;font-size:15px;font-weight:500;flex:1;text-align:center">确认付款</span></div>
+          <div class="pb">
+            <div class="pmb"><div class="pmav" style="background:#E3F2FD">🐻</div><div style="font-size:13px;font-weight:500;color:#333">熊叔叔超市</div><div style="font-size:11px;color:#999">商家扫码你的付款码</div></div>
+            <div class="pab">
+              <div style="font-size:12px;color:#999;margin-bottom:6px">请检查两边是否一样</div>
+              <div style="display:flex;gap:10px;align-items:stretch">
+                <div style="flex:1;background:#fff;border-radius:10px;padding:10px 10px;border:1px solid #eee">
+                  <div style="font-size:11px;color:#999;margin-bottom:4px">🛒 商品总价</div>
+                  <div style="font-size:22px;font-weight:500;color:#333" id="ap-cc-tot">¥0.00</div>
+                </div>
+                <div style="flex:1;background:#fff;border-radius:10px;padding:10px 10px;border:1px solid #eee">
+                  <div style="font-size:11px;color:#999;margin-bottom:4px">💳 你要付</div>
+                  <div style="font-size:22px;font-weight:500;color:#1677FF" id="ap-cc-pay">¥0.00</div>
+                </div>
+              </div>
+              <div style="margin-top:10px;background:#f0f6ff;border-radius:10px;padding:10px 12px;font-size:12px;color:#1677FF;line-height:1.7">
+                ✅ 一样：可以确认付款<br>
+                ❌ 不一样：要告诉大人
+              </div>
+              <div style="display:flex;gap:10px;margin-top:12px">
+                <button class="btn btn-o" style="flex:1" onclick="simGoPage('pp-ap-paycode')">返回</button>
+                <button class="btn btn-p" style="flex:1;background:#1677FF" onclick="simMerchScan('ap');setTimeout(function(){simReset('ap');},900)">确认付款</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- (Removed) drag-scan extra phone + QR stand: keep only one clickable phone -->
+    <!-- TARGETS -->
+    <div class="sim-targets hide" id="sim-targets">
+      <div class="sim-qrstand" id="sim-fixed-qr">
+        <div class="sim-qrtitle">🐻 熊叔叔超市</div>
+        <svg id="sim-merch-qr" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" width="140" height="140" aria-label="熊叔叔超市二维码">
+          <rect width="140" height="140" fill="white"/>
+          <rect x="8" y="8" width="34" height="34" rx="3" fill="#111"/>
+          <rect x="98" y="8" width="34" height="34" rx="3" fill="#111"/>
+          <rect x="8" y="98" width="34" height="34" rx="3" fill="#111"/>
+          <rect x="14" y="14" width="22" height="22" rx="2" fill="white"/>
+          <rect x="104" y="14" width="22" height="22" rx="2" fill="white"/>
+          <rect x="14" y="104" width="22" height="22" rx="2" fill="white"/>
+          <rect x="19" y="19" width="12" height="12" rx="1" fill="#111"/>
+          <rect x="109" y="19" width="12" height="12" rx="1" fill="#111"/>
+          <rect x="19" y="109" width="12" height="12" rx="1" fill="#111"/>
+          <!-- fixed pattern -->
+          <g fill="#111">
+            <rect x="52" y="52" width="6" height="6"/><rect x="62" y="52" width="6" height="6"/><rect x="72" y="52" width="6" height="6"/><rect x="82" y="52" width="6" height="6"/>
+            <rect x="52" y="62" width="6" height="6"/><rect x="72" y="62" width="6" height="6"/><rect x="92" y="62" width="6" height="6"/>
+            <rect x="62" y="72" width="6" height="6"/><rect x="82" y="72" width="6" height="6"/><rect x="92" y="72" width="6" height="6"/>
+            <rect x="52" y="82" width="6" height="6"/><rect x="62" y="82" width="6" height="6"/><rect x="72" y="82" width="6" height="6"/>
+            <rect x="92" y="82" width="6" height="6"/>
+            <rect x="52" y="92" width="6" height="6"/><rect x="72" y="92" width="6" height="6"/><rect x="82" y="92" width="6" height="6"/>
+          </g>
+        </svg>
+        <div class="sim-qrnote">固定收款码（不变）</div>
+      </div>
+
+      <div class="sim-scanner" id="sim-scanner">
+        <div class="lbl">🧾 商家扫码器</div>
+        <div class="hole">把手机拖到这里</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.65);margin-top:10px">用于“被扫码支付”</div>
+      </div>
+    </div>
+  </div>
+  <div class="amtset" style="max-width:540px;margin:12px auto">
+    <div style="font-size:13px;font-weight:500;margin-bottom:8px">🎮 设置本次支付金额</div>
+    <div style="display:flex;gap:7px;align-items:center;flex-wrap:wrap">
+      <span style="font-size:13px;color:var(--muted)">商家收：¥</span>
+      <input type="number" id="sim-amt" class="ainput" step="0.01" min="0.01" value="15.50" onchange="simUpdateAmt()">
+      <button class="btn btn-p" style="padding:7px 14px;font-size:13px" onclick="simUpdateAmt()">确认</button>
+      <button class="apre" onclick="simSetAmt(5)">¥5</button>
+      <button class="apre" onclick="simSetAmt(10)">¥10</button>
+      <button class="apre" onclick="simSetAmt(20)">¥20</button>
+      <button class="apre" onclick="simSetAmt(50)">¥50</button>
+    </div>
+  </div>
+  <div style="padding-bottom:22px"></div>
+</div>
+
+<!-- ========== S14: SUCCESS ========== -->
+<div id="s-suc" class="screen fcenter">
+  <div class="suc-wrap">
+    <span class="suc-e" id="suc-av">🐱</span>
+    <h2 style="font-size:22px;font-weight:500;margin-bottom:8px">付钱成功了！🎉</h2>
+    <p style="color:var(--muted);font-size:15px;line-height:1.8" id="suc-msg">你做到了，真棒！</p>
+    <div class="stars">⭐⭐⭐</div>
+    <div class="alert ag"><strong>✅ 核对金额</strong><br>付的钱 = 要付的钱 → 对了！<br>付的钱 ≠ 要付的钱 → 告诉大人！</div>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:18px">
+      <button class="btn btn-p btn-full" onclick="go('s-module')">返回模块选择 📚</button>
+      <button class="btn btn-o btn-full" onclick="go('s-role')">换小伙伴 🔄</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var role={e:'🐱',n:'小猫'};
+var diff='easy';
+var curMod='payment';
+var cart={};
+var curZ=0;
+var laIdx=0,lpIdx=0;
+var simApp='wechat',simMode='scan';
+var simTarget=15.50;
+var wcN='',apN='',wcPwd=0,apPwd=0;
+var voiceOn=true,voiceRate=1,voicePitch=1;
+var zonesBuiltForDiff=null;
+var teacherBalance=50;       // set by teacher/parent
+var showBalance=false;       // only true for hard/vhard
+var overBudgetWarned=false;
+var parentBalance=50;var useBalance=false;
+
+var diffCfg={
+  easy:{lbl:'简单',badge:'bp'},
+  medium:{lbl:'中等',badge:'bp'},
+  hard:{lbl:'较难',badge:'ba'},
+  vhard:{lbl:'困难',badge:'bc'}
+};
+
+var modDests={
+  payment:'s-pay-choose',
+  apply:'s-bear-intro'
+};
+
+var modLabels={payment:'线上支付教学',apply:'购物与支付'};
+
+var zoneTemplates=[
+  {name:'水果区',items:[{id:'apple',n:'苹果',e:'🍎'},{id:'banana',n:'香蕉',e:'🍌'},{id:'grape',n:'葡萄',e:'🍇'},{id:'watermelon',n:'西瓜',e:'🍉'}]},
+  {name:'文具区',items:[{id:'pencil',n:'铅笔',e:'✏️'},{id:'ruler',n:'尺子',e:'📏'},{id:'notebook',n:'笔记本',e:'📓'},{id:'eraser',n:'橡皮',e:'⬜'}]},
+  {name:'零食区',items:[{id:'cookie',n:'饼干',e:'🍪'},{id:'candy',n:'糖果',e:'🍬'},{id:'chips',n:'薯片',e:'🥔'},{id:'chocolate',n:'巧克力',e:'🍫'}]}
+];
+var zones=[];
+
+function genPrice(d,itemId){
+  // Realistic price ranges by item category
+  var fruitBase={apple:3,banana:2,grape:8,watermelon:12};
+  var stationBase={pencil:2,ruler:3,notebook:8,eraser:1};
+  var snackBase={cookie:5,candy:3,chips:6,chocolate:10};
+  var baseMap=Object.assign({},fruitBase,stationBase,snackBase);
+  var base=baseMap[itemId]||5;
+  if(d==='easy'){
+    // Round to nearest easy value: 1,2,3,5,8,10,12
+    var opts=[1,2,3,5,8,10,12,15,20];
+    // Pick closest to base
+    return opts.reduce(function(a,b){return Math.abs(b-base)<Math.abs(a-base)?b:a;});
+  }
+  if(d==='medium'){
+    // Round numbers near base ±30%, multiples of 1
+    var v=Math.round(base*(0.8+Math.random()*0.4));
+    return Math.max(1,Math.min(50,v));
+  }
+  if(d==='hard'){
+    var v=Math.round(base*(0.7+Math.random()*0.6));
+    return Math.max(1,Math.min(100,v));
+  }
+  // vhard: base ± 30% with one decimal
+  var v=base*(0.8+Math.random()*0.4);
+  return Math.max(0.5,Math.round(v*10)/10);
+}
+
+function buildZones(){
+  zonesBuiltForDiff=diff;
+  zones=zoneTemplates.map(function(z){
+    return{name:z.name,items:z.items.map(function(it){return{id:it.id,n:it.n,e:it.e,price:genPrice(diff,it.id)};})};
+  });
+}
+
+// ====== VOICE ======
+function updVoice(){
+  voiceRate=parseFloat(document.getElementById('voice-speed').value);
+  voicePitch=parseFloat(document.getElementById('voice-pitch').value);
+  voiceOn=document.getElementById('voice-on').checked;
+  document.getElementById('speed-val').textContent=voiceRate.toFixed(1)+'x';
+  document.getElementById('pitch-val').textContent=voicePitch.toFixed(1);
+}
+
+function speak(text){
+  if(!voiceOn||!window.speechSynthesis)return;
+  window.speechSynthesis.cancel();
+  var u=new SpeechSynthesisUtterance(text);
+  u.lang='zh-CN';u.rate=voiceRate;u.pitch=voicePitch;
+  window.speechSynthesis.speak(u);
+}
+
+// ====== NAV ======
+function go(id){
+  window.speechSynthesis&&window.speechSynthesis.cancel();
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  var scr=document.getElementById(id);if(scr)scr.classList.add('active');
+  if(id==='s-shop'){if(zones.length===0||zonesBuiltForDiff!==diff)buildZones();renderZ();}
+  if(id==='s-cart')renderCart();
+  if(id==='s-paymethod'){
+    var tot=getTotal();var dec=diff==='vhard'?1:0;
+    document.getElementById('pm-total').textContent='¥'+tot.toFixed(dec);
+    document.getElementById('pm-av').textContent=role.e;
+    document.getElementById('sim-amt').value=tot.toFixed(dec);
+    simTarget=tot;
+    if(showBalance&&tot>teacherBalance){
+      // Show over-budget warning on pay page
+      setTimeout(function(){
+        var w='<div style="background:var(--cl);border-radius:12px;padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--coral)">'
+          +'⚠️ 购物金额（¥'+tot.toFixed(dec)+'）超出余额（¥'+teacherBalance.toFixed(dec)+'）！<br>请回购物车减少商品。</div>';
+        var pm=document.getElementById('s-paymethod');
+        if(pm){var existing=pm.querySelector('.over-budget-warn');if(existing)existing.remove();var div=document.createElement('div');div.className='over-budget-warn';div.innerHTML=w;var topbar=pm.querySelector('.topbar');if(topbar)topbar.insertAdjacentElement('afterend',div);}
+      },100);
+    }
+  }
+  if(id==='s-sim')initSim();
+  if(id==='s-la'){laIdx=0;renderLa();}
+  if(id==='s-lp'){lpIdx=0;renderLp();}
+  if(id==='s-suc'){document.getElementById('suc-av').textContent=role.e;document.getElementById('suc-msg').textContent=role.n+'，你自己完成付钱了！真棒！';speak(role.n+'，你做到了，真棒！');}
+  if(id==='s-diff'){var da=document.getElementById('diff-av');if(da)da.textContent=role.e;speak('选择难度');}
+  if(id==='s-balance'){updateBalancePreview();}
+  if(id==='s-module')speak('开始学习');
+  if(id==='s-role')speak('请选择你的小伙伴');
+}
+
+function pickRole(r,e,n){
+  role={e:e,n:n};
+  document.querySelectorAll('#s-role .diff-card').forEach(c=>c.classList.remove('sel'));
+  event.currentTarget.classList.add('sel');
+  updateRoleUI();
+  speak('你好，我是'+n);
+  setTimeout(function(){go('s-role-intro');},280);
+}
+function startShopping(){
+  zones=[];zonesBuiltForDiff=null;cart={};updCBadge();
+  updateBalanceDisplay();
+  go('s-shop');
+}
+
+function goModule(mod){
+  curMod=mod;
+  var dest=modDests[mod];
+  if(dest)go(dest);
+  else go('s-module');
+}
+
+function pickDiff(d){
+  diff=d;
+  ['easy','medium','hard','vhard'].forEach(function(k){var el=document.getElementById('dc-'+k);if(el)el.classList.remove('sel');});
+  if(d==='easy'||d==='medium'){showBalance=false;teacherBalance=50;}
+  var el=document.getElementById('dc-'+d);if(el)el.classList.add('sel');
+  updateDiffUI();
+  speak(diffCfg[d].lbl+'难度');
+  setTimeout(function(){
+    var needTeacher=(diff==='hard'||diff==='vhard');
+    if(needTeacher)go('s-teacher');
+    else go('s-module');
+  },280);
+}
+
+function updateRoleUI(){
+  var e=role.e,n=role.n;
+  document.getElementById('ri-av').textContent=e;
+  document.getElementById('ri-name').textContent=n;
+  document.getElementById('ri-vlbl').textContent=n+'介绍视频（请插入）';
+  var slbl=document.getElementById('shopv-lbl');if(slbl)slbl.textContent=n+'购物视频（请插入）';
+  ['mod-av','pc-av','la-av','lp-av','shop-av','cart-av','pm-av','wc-me-av','rshop-av'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=e;});
+  ['rshop-name','rshop-name2'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=n;});
+  var rv=document.getElementById('rshop-vlbl');if(rv)rv.textContent=n+'购物视频（请插入）';
+}
+
+function updateDiffUI(){
+  var cfg=diffCfg[diff];
+  ['pc-dbadge','shop-dbadge'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el){el.textContent=cfg.lbl;el.className='dbadge '+cfg.badge;}
+  });
+}
+
+// ====== LEARN STEPS ======
+var laSteps=[
+  {t:'打开扫一扫',d:'在手机上找到"扫一扫"，点一下',tip:'💡 微信：点右上角＋ → 扫一扫\n支付宝：首页直接点扫一扫',video:true},
+  {t:'对准商家二维码',d:'把手机对准商家的二维码',tip:'💡 手机拿稳，框里出现绿色就成功了',video:true},
+  {t:'输入付款金额',d:'看清楚要付多少钱，输入一样的数字',tip:'⚠️ 记住：输入的数字要和商家说的一模一样',video:true},
+  {t:'核对金额',d:'看屏幕上的数字，和商家说的一样吗？',tip:'✅ 正确：支付金额 = 所给金额\n❌ 错误：支付金额 ≠ 所给金额',video:false},
+  {t:'完成支付',d:'数字对了就点"付款"，输入密码，完成！',tip:'🎉 支付成功！记得查看成功通知',video:true}
+];
+var lpSteps=[
+  {t:'打开付款码',d:'找到"付款码"，点一下打开',tip:'💡 微信：点"我" → 付款码\n支付宝：首页直接点"付款码"',video:true},
+  {t:'出示付款码',d:'把手机屏幕给商家看，让商家扫你的码',tip:'💡 屏幕要够亮，不要挡住码',video:true},
+  {t:'等待支付成功',d:'听到"支付成功"或看到屏幕上显示成功',tip:'🎉 商家扫了你的码，钱付出去了',video:true},
+  {t:'核对金额',d:'看一下扣了多少钱，和商家说的一样吗？',tip:'✅ 正确：支付金额 = 所给金额\n❌ 不对时立刻告诉旁边的大人！',video:false}
+];
+
+function renderLS(steps,idx,cid,sid,bid,pvid,nxid){
+  var s=steps[idx];
+  var ph='';
+  steps.forEach(function(st,i){ph+='<div class="spill'+(i<idx?' done':i===idx?' on':'')+'">'+st.t+'</div>';});
+  document.getElementById(sid).innerHTML=ph;
+  document.getElementById(bid).textContent='第'+(idx+1)+'步';
+  var h='<div class="card"><h3 style="font-size:19px;font-weight:500;margin-bottom:7px">'+s.t+'</h3>';
+  h+='<p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:10px">'+s.d+'</p>';
+  if(s.video)h+='<div class="vslot"><div class="vplay"></div><div style="font-weight:500;color:var(--muted)">教学视频（请插入）</div><div style="font-size:12px;color:#bbb;margin-top:3px">'+s.t+'</div></div>';
+  h+='<div class="alert aa">'+s.tip.replace(/\n/g,'<br>')+'</div></div>';
+  document.getElementById(cid).innerHTML=h;
+  document.getElementById(pvid).style.display=idx>0?'inline-block':'none';
+  document.getElementById(nxid).textContent=idx===steps.length-1?'完成学习 ✓':'下一步 →';
+  speak(s.t+'。'+s.d);
+}
+function renderLa(){renderLS(laSteps,laIdx,'la-content','la-steps','la-badge','la-prev','la-next');}
+function laStep(d){if(d===1&&laIdx===laSteps.length-1){go('s-pay-choose');return;}laIdx=Math.max(0,Math.min(laSteps.length-1,laIdx+d));renderLa();}
+function renderLp(){renderLS(lpSteps,lpIdx,'lp-content','lp-steps','lp-badge','lp-prev','lp-next');}
+function lpStep(d){if(d===1&&lpIdx===lpSteps.length-1){go('s-pay-choose');return;}lpIdx=Math.max(0,Math.min(lpSteps.length-1,lpIdx+d));renderLp();}
+
+// ====== SHOP ======
+function switchZ(idx,el){curZ=idx;document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));el.classList.add('on');renderZ();}
+function renderZ(){
+  var z=zones[curZ];
+  var dec=diff==='vhard'?1:0;
+  var h='';
+  z.items.forEach(function(item){
+    var qty=cart[item.id]?cart[item.id].qty:0;
+    h+='<div class="pcard"><div class="pemo" onclick="addC(\''+item.id+'\',\''+item.n+'\',\''+item.e+'\','+item.price+')">'+item.e+'</div>';
+    h+='<div class="pname">'+item.n+'</div><div class="pprice">¥'+item.price.toFixed(dec)+'</div>';
+    h+='<div class="qrow"><button class="qbtn" onclick="chgC(\''+item.id+'\',\''+item.n+'\',\''+item.e+'\','+item.price+',-1)">−</button>';
+    h+='<span class="qnum" id="qn-'+item.id+'">'+qty+'</span>';
+    h+='<button class="qbtn" onclick="chgC(\''+item.id+'\',\''+item.n+'\',\''+item.e+'\','+item.price+',1)">+</button></div></div>';
+  });
+  document.getElementById('shop-zone').innerHTML=h;
+  updCBadge();
+}
+function addC(id,n,e,p){
+  var newTotal=getTotal()+p;
+  if(!checkBudget(n,newTotal))return;
+  if(!cart[id])cart[id]={n:n,e:e,p:p,qty:0};
+  cart[id].qty++;
+  var el=document.getElementById('qn-'+id);if(el)el.textContent=cart[id].qty;
+  updCBadge();updateBalanceDisplay();
+  speak(n+'，加入购物车');
+}
+function chgC(id,n,e,p,d){
+  if(d>0){var newTotal=getTotal()+p;if(!checkBudget(n,newTotal))return;}
+  if(!cart[id])cart[id]={n:n,e:e,p:p,qty:0};
+  cart[id].qty=Math.max(0,cart[id].qty+d);
+  if(cart[id].qty===0)delete cart[id];
+  var el=document.getElementById('qn-'+id);if(el)el.textContent=cart[id]?cart[id].qty:0;
+  updCBadge();updateBalanceDisplay();
+}
+function updCBadge(){var t=Object.values(cart).reduce(function(s,i){return s+i.qty;},0);var el=document.getElementById('ccnt');if(el)el.textContent=t;}
+function getTotal(){return Object.values(cart).reduce(function(s,i){return s+i.qty*i.p;},0);}
+function renderCart(){
+  var dec=diff==='vhard'?1:0;
+  var items=Object.entries(cart);
+  var h='';
+  if(!items.length){h='<div class="card" style="text-align:center;padding:36px 16px;color:var(--muted)"><div style="font-size:44px;margin-bottom:10px">🛒</div><div>还没有选商品，回去选一选吧</div></div>';}
+  else{
+    h='<div class="card" style="margin-bottom:12px">';
+    items.forEach(function(kv){var id=kv[0],it=kv[1];
+      h+='<div class="ci"><span style="font-size:30px">'+it.e+'</span><div style="flex:1"><div style="font-size:14px;font-weight:500">'+it.n+'</div><div style="font-size:13px;color:var(--coral)">¥'+it.p.toFixed(dec)+' × '+it.qty+'</div></div>';
+      h+='<div style="font-size:15px;font-weight:500">¥'+(it.p*it.qty).toFixed(dec)+'</div>';
+      h+='<button style="background:transparent;border:none;color:#ccc;font-size:17px;cursor:pointer;padding:3px" onclick="rmC(\''+id+'\')">×</button></div>';
+    });
+    h+='</div>';
+  }
+  document.getElementById('cart-list').innerHTML=h;
+  var tot=getTotal();
+  document.getElementById('cart-tot').innerHTML='<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:15px;font-weight:500">合计</span><span style="font-size:24px;font-weight:500;color:var(--coral)">¥'+tot.toFixed(diff==='vhard'?1:0)+'</span></div>'
+    +(showBalance?'<div style="border-top:1px solid #f0f0f0;margin-top:10px;padding-top:10px;display:flex;justify-content:space-between;align-items:center"><span style="font-size:13px;color:var(--muted)">余额</span><span style="font-size:15px;font-weight:500;color:'+(tot>teacherBalance?'var(--coral)':'var(--green)')+'">¥'+(teacherBalance-tot).toFixed(diff==='vhard'?1:0)+(tot>teacherBalance?' ⚠️':'')+'</span></div>':'');
+  var cb=document.getElementById('cart-balance-bar');
+  if(cb){if(showBalance){cb.style.display='block';var pct=Math.min(100,tot/teacherBalance*100);var col=pct>90?'var(--coral)':pct>70?'var(--amber)':'var(--green)';cb.innerHTML='<div style="display:flex;justify-content:space-between;margin-bottom:5px"><span style="font-size:13px;font-weight:500">💰 余额</span><span style="font-size:14px;font-weight:500;color:'+col+'">¥'+(teacherBalance-tot).toFixed(2)+' / ¥'+teacherBalance.toFixed(2)+'</span></div><div style="background:#f0f0f0;border-radius:6px;height:8px;overflow:hidden"><div style="background:'+col+';height:100%;width:'+pct+'%;border-radius:6px"></div></div>'+(pct>90?'<div style="font-size:12px;color:var(--coral);margin-top:4px">⚠️ 快超出预算了！</div>':'');}else{cb.style.display='none';}}
+  document.getElementById('cart-av').textContent=role.e;
+  speak('购物车合计'+tot.toFixed(diff==='vhard'?1:0)+'元');
+}
+function rmC(id){delete cart[id];renderCart();updCBadge();}
+
+// ====== SIMULATOR ======
+function openSim(app){
+  simApp=app;
+  if(diff==='hard'||diff==='vhard'){
+    // Show parent balance setup first
+    useBalance=true;
+    updateBalancePreview();
+    go('s-balance');
+  } else {
+    useBalance=false;
+    go('s-sim');
+  }
+}
+function initSim(){
+  simUpdateAmt();
+  simSwitchApp(simApp);
+  genBarcode();
+  setupSimPhoneDrag();
+  simResetPhonePos();
+  simUpdateTargets(simApp==='wechat'?'pp-wc-home':'pp-ap-home');
+  // Show/hide balance based on difficulty
+  var showBal=(diff==='hard'||diff==='vhard')&&useBalance;
+  var dec=diff==='vhard'?1:0;
+  var wbal=document.getElementById('wc-balance-display');
+  var abal=document.getElementById('ap-balance-display');
+  if(wbal){wbal.style.display=showBal?'inline':'none';if(showBal)wbal.textContent='¥'+parentBalance.toFixed(dec);}
+  if(abal){abal.style.display=showBal?'block':'none';if(showBal)abal.textContent='¥ '+parentBalance.toFixed(dec);}
+  // Also show balance in WC ME "零钱" row
+  var wrow=document.getElementById('wc-balance-row');
+  if(wrow)wrow.style.display=showBal?'flex':'none';
+  var arow=document.getElementById('ap-balance-row');
+  if(arow)arow.style.display=showBal?'block':'none';
+}
+function simGoPage(id){
+  document.querySelectorAll('.pp').forEach(p=>p.classList.remove('on'));
+  var target=document.getElementById(id);
+  if(target)target.classList.add('on');
+  simUpdateTargets(id);
+}
+
+function simUpdateTargets(pageId){
+  var targets=document.getElementById('sim-targets');
+  if(!targets)return;
+  var qr=document.getElementById('sim-fixed-qr');
+  var sc=document.getElementById('sim-scanner');
+  if(!qr||!sc)return;
+  var showQr=(pageId==='pp-wc-scan'||pageId==='pp-ap-scan');
+  var showScanner=(pageId==='pp-wc-paycode'||pageId==='pp-ap-paycode'||pageId==='pp-wc-codeconfirm'||pageId==='pp-ap-codeconfirm');
+  targets.classList.toggle('hide',!(showQr||showScanner));
+  qr.style.display=showQr?'block':'none';
+  sc.style.display=showScanner?'block':'none';
+}
+
+// Drag the whole phone and detect "scan success"
+var simDrag={on:false,dx:0,dy:0,mode:null,app:null};
+
+function simResetPhonePos(){
+  var phone=document.getElementById('sim-phone');
+  if(!phone)return;
+  phone.style.transform='translate(0px,0px)';
+}
+
+function simStartDragScan(app){
+  // app: 'wc' or 'ap'
+  simDrag.mode='scan';
+  simDrag.app=app;
+  speak('拖动手机对准二维码');
+  // hint beam
+  var beamId=(app==='ap')?'scan-beam-ap':'scan-beam';
+  var beam=document.getElementById(beamId);
+  if(beam){beam.style.transform='scaleX(1)';setTimeout(function(){beam.style.transform='scaleX(0)';},700);}
+}
+
+function simStartDragCode(app){
+  simDrag.mode='code';
+  simDrag.app=app;
+  speak('把手机拖到扫码器前面');
+}
+
+function simGetTranslate(el){
+  var m=(el.style.transform||'').match(/translate\(([-0-9.]+)px,\s*([-0-9.]+)px\)/);
+  if(!m)return{x:0,y:0};
+  return{x:parseFloat(m[1])||0,y:parseFloat(m[2])||0};
+}
+
+function simSetTranslate(el,x,y){
+  el.style.transform='translate('+x+'px,'+y+'px)';
+}
+
+function simContained(a,b,pad){
+  return a.left>=b.left+pad && a.right<=b.right-pad && a.top>=b.top+pad && a.bottom<=b.bottom-pad;
+}
+
+function simOverlap(a,b,margin){
+  margin=margin||0;
+  return !(a.right<b.left+margin || a.left>b.right-margin || a.bottom<b.top+margin || a.top>b.bottom-margin);
+}
+
+function simCheckScanSuccess(){
+  var phone=document.getElementById('sim-phone');
+  if(!phone||!simDrag.mode||!simDrag.app)return;
+  if(simDrag.mode==='scan'){
+    // require fixed QR fully inside phone scan frame
+    var qr=document.getElementById('sim-merch-qr');
+    if(!qr)return;
+    var frame=document.getElementById(simDrag.app==='wc'?'wc-scan-frame':'scan-frame-ap');
+    // fallback to first .sframe if missing
+    if(!frame)frame=document.querySelector('#'+(simDrag.app==='wc'?'pp-wc-scan':'pp-ap-scan')+' .sframe');
+    if(!frame)return;
+    var qRect=qr.getBoundingClientRect();
+    var fRect=frame.getBoundingClientRect();
+    if(simContained(qRect,fRect,6)){
+      speak('扫码成功，请输入金额');
+      simGoPage(simDrag.app==='wc'?'pp-wc-pay':'pp-ap-pay');
+      if(simDrag.app==='wc'){wcN='';document.getElementById('wc-nd').textContent='0';document.getElementById('wc-ah').style.display='none';document.getElementById('wc-ae').style.display='none';}
+      else{apN='';document.getElementById('ap-nd').textContent='0';document.getElementById('ap-ah').style.display='none';document.getElementById('ap-ae').style.display='none';}
+      simDrag.mode=null;
+    }
+  }else if(simDrag.mode==='code'){
+    var scanner=document.getElementById('sim-scanner');
+    if(!scanner)return;
+    var pRect=phone.getBoundingClientRect();
+    var sRect=scanner.getBoundingClientRect();
+    if(simOverlap(pRect,sRect,18)){
+      // go to code confirm page
+      simGoPage(simDrag.app==='wc'?'pp-wc-codeconfirm':'pp-ap-codeconfirm');
+      simUpdateCodeConfirm(simDrag.app);
+      speak('请核对金额是否一致');
+      simDrag.mode=null;
+    }
+  }
+}
+
+function setupSimPhoneDrag(){
+  var phone=document.getElementById('sim-phone');
+  if(!phone)return;
+  function pos(e){return e.touches?{x:e.touches[0].clientX,y:e.touches[0].clientY}:{x:e.clientX,y:e.clientY};}
+  function start(e){
+    // only allow drag when targets visible
+    var targets=document.getElementById('sim-targets');
+    if(!targets||targets.classList.contains('hide'))return;
+    e.preventDefault();
+    simDrag.on=true;
+    var p=pos(e);
+    var t=simGetTranslate(phone);
+    simDrag.dx=p.x-t.x;
+    simDrag.dy=p.y-t.y;
+  }
+  function move(e){
+    if(!simDrag.on)return;
+    e.preventDefault();
+    var p=pos(e);
+    var x=p.x-simDrag.dx;
+    var y=p.y-simDrag.dy;
+    simSetTranslate(phone,x,y);
+    simCheckScanSuccess();
+  }
+  function end(){simDrag.on=false;}
+  phone.addEventListener('touchstart',start,{passive:false});
+  phone.addEventListener('mousedown',start);
+  document.addEventListener('touchmove',move,{passive:false});
+  document.addEventListener('mousemove',move);
+  document.addEventListener('touchend',end);
+  document.addEventListener('mouseup',end);
+}
+
+
+// ===== BALANCE SETUP =====
+function previewBalance(){
+  var v=parseFloat(document.getElementById('balance-input').value)||0;
+  parentBalance=v;
+  updateBalancePreview();
+}
+function setBalance(v){
+  document.getElementById('balance-input').value=v;
+  parentBalance=v;
+  updateBalancePreview();
+}
+function updateBalancePreview(){
+  var need=getTotal();
+  var dec=diff==='vhard'?1:0;
+  var nd=document.getElementById('balance-need');
+  var st=document.getElementById('balance-status');
+  var btn=document.getElementById('balance-confirm-btn');
+  var prev=document.getElementById('balance-preview');
+  if(nd)nd.textContent='¥'+need.toFixed(dec);
+  if(parentBalance>=need){
+    if(st){st.textContent='✅ 余额够用，可以支付';st.style.color='var(--gd)';}
+    if(prev)prev.style.background='var(--gl)';
+    if(btn){btn.disabled=false;btn.style.opacity='1';}
+  } else {
+    if(st){st.textContent='❌ 余额不够！还差 ¥'+(need-parentBalance).toFixed(dec);st.style.color='var(--coral)';}
+    if(prev)prev.style.background='var(--cl)';
+    if(btn){btn.disabled=false;btn.style.opacity='1';}
+  }
+  // update balance-preview text
+  var prev2=document.getElementById('balance-preview');
+  if(prev2){
+    var dec=diff==='vhard'?1:0;
+    prev2.innerHTML='小朋友今天有 <strong>¥'+parentBalance.toFixed(dec)+'</strong> 可以用<br>本次购物需要 <strong>¥'+need.toFixed(dec)+'</strong><br><span id="balance-status" style="color:'+(parentBalance>=need?'var(--gd)':'var(--coral)')+'"></span>';
+    var st2=document.getElementById('balance-status');
+    if(st2)st2.textContent=parentBalance>=need?'✅ 余额够用，可以支付':'❌ 余额不够！还差 ¥'+(need-parentBalance).toFixed(dec);
+  }
+}
+function confirmBalance(){
+  useBalance=true;
+  updateSimBalance();
+  go('s-sim');
+}
+function updateSimBalance(){
+  var dec=diff==='vhard'?1:0;
+  // update displayed balance in wc and ap
+  var wbal=document.getElementById('wc-balance-display');
+  var abal=document.getElementById('ap-balance-display');
+  if(wbal)wbal.textContent='¥'+parentBalance.toFixed(dec);
+  if(abal)abal.textContent='¥'+parentBalance.toFixed(dec);
+}
+function checkBalanceOnPay(app){
+  if(!useBalance)return true;
+  var v=parseFloat(app==='wc'?wcN:apN);
+  if(isNaN(v))return true;
+  if(v>parentBalance){
+    var dec=diff==='vhard'?1:0;
+    var short=(v-parentBalance).toFixed(dec);
+    var msg=document.getElementById(app+'-overdraft-msg');
+    var det=document.getElementById(app+'-overdraft-detail');
+    if(msg)msg.textContent='你想付 ¥'+v.toFixed(dec)+'，但只有 ¥'+parentBalance.toFixed(dec);
+    if(det)det.innerHTML='还差 <strong>¥'+short+'</strong>，请告诉大人帮你';
+    var overlay=document.getElementById(app+'-overdraft');
+    if(overlay)overlay.classList.add('show');
+    speak('余额不够，还差'+short+'元，请告诉大人');
+    return false;
+  }
+  return true;
+}
+
+// ===== TEACHER SETTINGS =====
+function setTeacherBal(v){
+  document.getElementById('teacher-balance').value=v;
+  updTeacherPreview();
+}
+function updTeacherPreview(){
+  var v=parseFloat(document.getElementById('teacher-balance').value)||50;
+  var el=document.getElementById('teacher-preview');
+  if(el)el.innerHTML='小朋友的余额：<strong>¥'+v.toFixed(2)+'</strong>';
+}
+function confirmTeacherSettings(){
+  teacherBalance=Math.max(1,parseFloat(document.getElementById('teacher-balance').value)||50);
+  showBalance=true;
+  go('s-module');
+}
+
+function getSpent(){return getTotal();}
+
+function checkBudget(itemName,newTotal){
+  if(!showBalance)return true;
+  if(newTotal>teacherBalance){
+    speak('钱不够了！');
+    showBudgetAlert(itemName,newTotal);
+    return false;
+  }
+  return true;
+}
+
+function closeBudgetAlert(){
+  var el=document.getElementById('budget-alert-overlay');
+  if(el)el.remove();
+}
+function showBudgetAlert(itemName,attempted){
+  var remaining=teacherBalance-getTotal();
+  var div=document.createElement('div');
+  div.id='budget-alert-overlay';
+  div.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:999;display:flex;align-items:center;justify-content:center;padding:20px';
+  div.onclick=function(e){if(e.target===div)div.remove();};
+  div.innerHTML='<div style="background:#fff;border-radius:20px;padding:24px;max-width:320px;width:100%;text-align:center;box-shadow:0 8px 40px rgba(0,0,0,0.2)">'
+    +'<div style="font-size:52px;margin-bottom:12px">⚠️</div>'
+    +'<div style="font-size:18px;font-weight:500;margin-bottom:8px;color:var(--coral)">钱不够了！</div>'
+    +'<div style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:16px">'
+    +'余额：¥'+teacherBalance.toFixed(2)+'<br>'
+    +'已花：¥'+getTotal().toFixed(2)+'<br>'
+    +'还剩：¥'+Math.max(0,remaining).toFixed(2)
+    +'</div>'
+    +'<div style="background:var(--cl);border-radius:10px;padding:10px;font-size:13px;color:var(--coral);margin-bottom:14px">'
+    +'这件商品超出预算了<br>请选少一点</div>'
+    +'<button style="background:var(--purple);color:#fff;border:none;border-radius:20px;padding:10px 28px;font-size:15px;cursor:pointer;font-family:inherit" onclick="closeBudgetAlert()">好的</button>'
+    +'</div>';
+  document.body.appendChild(div);
+}
+
+function updateBalanceDisplay(){
+  var el=document.getElementById('sim-balance-bar');
+  if(!el)return;
+  if(!showBalance){el.style.display='none';return;}
+  el.style.display='block';
+  var spent=getTotal();
+  var pct=Math.min(100,spent/teacherBalance*100);
+  var color=pct>90?'var(--coral)':pct>70?'var(--amber)':'var(--green)';
+  el.innerHTML='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">'
+    +'<span style="font-size:13px;font-weight:500">💰 余额</span>'
+    +'<span style="font-size:15px;font-weight:500;color:'+color+'">¥'+(teacherBalance-spent).toFixed(2)+' / ¥'+teacherBalance.toFixed(2)+'</span>'
+    +'</div>'
+    +'<div style="background:#f0f0f0;border-radius:6px;height:8px;overflow:hidden">'
+    +'<div style="background:'+color+';height:100%;width:'+pct+'%;border-radius:6px;transition:width 0.3s"></div>'
+    +'</div>'
+    +(pct>90?'<div style="font-size:12px;color:var(--coral);margin-top:5px">⚠️ 快超出预算了！</div>':'');
+}
+
+// (Removed) drag scan extra phone/QR interaction
+function simSwitchApp(app){
+  simApp=app;
+  var wc=document.getElementById('sw-wc'),ap=document.getElementById('sw-ap');
+  if(app==='wechat'){wc.style.cssText='padding:8px 20px;border-radius:20px;border:2px solid #1AAD19;background:#f0fff4;color:#1AAD19;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit';ap.style.cssText='padding:8px 20px;border-radius:20px;border:2px solid #ddd;background:#fff;color:var(--muted);font-size:14px;font-weight:500;cursor:pointer;font-family:inherit';document.querySelectorAll('.pp').forEach(p=>p.classList.remove('on'));document.getElementById('pp-wc-home').classList.add('on');var dw=document.getElementById('drag-scene-wrap');var sq=document.getElementById('static-qr-stand');if(dw)dw.style.display='none';if(sq)sq.style.display='flex';}
+  else{ap.style.cssText='padding:8px 20px;border-radius:20px;border:2px solid #1677FF;background:#f0f6ff;color:#1677FF;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit';wc.style.cssText='padding:8px 20px;border-radius:20px;border:2px solid #ddd;background:#fff;color:var(--muted);font-size:14px;font-weight:500;cursor:pointer;font-family:inherit';document.querySelectorAll('.pp').forEach(p=>p.classList.remove('on'));document.getElementById('pp-ap-home').classList.add('on');var dw=document.getElementById('drag-scene-wrap');var sq=document.getElementById('static-qr-stand');if(dw)dw.style.display='none';if(sq)sq.style.display='flex';}
+}
+function simSwitchMode(mode){
+  simMode=mode;
+  var sc=document.getElementById('sw-scan'),cd=document.getElementById('sw-code');
+  if(mode==='scan'){
+    sc.style.cssText='padding:6px 14px;border-radius:18px;border:1.5px solid var(--purple);background:var(--pl);color:var(--pd);font-size:13px;cursor:pointer;font-family:inherit';
+    cd.style.cssText='padding:6px 14px;border-radius:18px;border:1.5px solid #ddd;background:#fff;color:var(--muted);font-size:13px;cursor:pointer;font-family:inherit';
+    simGoPage(simApp==='wechat'?'pp-wc-home':'pp-ap-home');
+  }else{
+    cd.style.cssText='padding:6px 14px;border-radius:18px;border:1.5px solid var(--green);background:var(--gl);color:var(--gd);font-size:13px;cursor:pointer;font-family:inherit';
+    sc.style.cssText='padding:6px 14px;border-radius:18px;border:1.5px solid #ddd;background:#fff;color:var(--muted);font-size:13px;cursor:pointer;font-family:inherit';
+    // realistic entry point: WeChat paycode in "Me", Alipay paycode shortcut on home
+    if(simApp==='wechat') simGoPage('pp-wc-me');
+    else simGoPage('pp-ap-home');
+  }
+  simResetPhonePos();
+}
+function simUpdateAmt(){var v=parseFloat(document.getElementById('sim-amt').value);if(!isNaN(v)&&v>0){simTarget=Math.round(v*100)/100;['qr-amt-lbl','qr-amt-lbl2'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent='收款：¥'+simTarget.toFixed(2);});['wc-ph','ap-ph'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent='商家要收 ¥'+simTarget.toFixed(2)+'，输入这个数字';});['wc-pc-amt','ap-pc-amt'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent=simTarget.toFixed(2);});['wc-ss-amt','ap-ss-amt','wc-suc-amt','ap-suc-amt'].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent='¥'+simTarget.toFixed(2);});}}
+function simSetAmt(v){document.getElementById('sim-amt').value=v;simUpdateAmt();}
+function togglePlus(){document.getElementById('plusmenu').classList.toggle('show');}
+function closePlus(){document.getElementById('plusmenu').classList.remove('show');}
+function simTriggerScan(app){
+  var beamId=(app==='ap')?'scan-beam-ap':'scan-beam';
+  var beam=document.getElementById(beamId);
+  if(beam){beam.style.transform='scaleX(1)';}
+  var okEl=document.getElementById(app+'-scan-ok');
+  if(okEl)okEl.style.opacity='1';
+  speak('正在扫码，请稍等');
+  setTimeout(function(){
+    if(beam)beam.style.transform='scaleX(0)';
+    simGoPage(app==='wc'?'pp-wc-pay':'pp-ap-pay');
+    if(app==='wc'){
+      wcN='';document.getElementById('wc-nd').textContent='0';document.getElementById('wc-ah').style.display='none';document.getElementById('wc-ae').style.display='none';
+    }else{
+      apN='';document.getElementById('ap-nd').textContent='0';document.getElementById('ap-ah').style.display='none';document.getElementById('ap-ae').style.display='none';
+    }
+    if(okEl)okEl.style.opacity='0';
+    speak('扫码成功，请输入金额');
+  },1100);
+}
+
+function simUpdateCodeConfirm(app){
+  var dec=diff==='vhard'?1:0;
+  var tot=getTotal();
+  // keep pay amount equal to total for code pay flow
+  if(app==='wc'){
+    var t=document.getElementById('wc-cc-tot');var p=document.getElementById('wc-cc-pay');
+    if(t)t.textContent='¥'+tot.toFixed(dec);
+    if(p)p.textContent='¥'+tot.toFixed(dec);
+  }else{
+    var t=document.getElementById('ap-cc-tot');var p=document.getElementById('ap-cc-pay');
+    if(t)t.textContent='¥'+tot.toFixed(dec);
+    if(p)p.textContent='¥'+tot.toFixed(dec);
+  }
+}
+function npl(n,k){if(k==='del')return n.length>0?n.slice(0,-1):'';if(k==='.'&&n.includes('.'))return n;if(n.includes('.')&&n.split('.')[1].length>=2)return n;if(k==='00')return n===''?n:n+'00';if(n==='0'&&k!=='.')return k;return n+k;}
+function sNP(app,k){if(app==='wc'){wcN=npl(wcN,k);document.getElementById('wc-nd').textContent=wcN||'0';chkAmt('wc');}else{apN=npl(apN,k);document.getElementById('ap-nd').textContent=apN||'0';chkAmt('ap');}}
+function chkAmt(app){var n=app==='wc'?wcN:apN,v=parseFloat(n);var h=document.getElementById(app+'-ah'),e=document.getElementById(app+'-ae');if(isNaN(v)||n===''){h.style.display='none';e.style.display='none';return;}if(Math.abs(v-simTarget)<0.005){h.style.display='block';e.style.display='none';speak('金额正确');}else{h.style.display='none';e.style.display='block';}}
+function sConfirm(app){var v=parseFloat(app==='wc'?wcN:apN);if(isNaN(v)||v<=0)return;document.getElementById(app+'-ca').textContent='¥'+v.toFixed(2);document.getElementById(app+'-cov').classList.add('show');if(app==='wc')wcPwd=0;else apPwd=0;updPwdDots(app);speak('请输入六位支付密码');}
+function sCloseCov(app){document.getElementById(app+'-cov').classList.remove('show');}
+function updPwdDots(app){var cnt=app==='wc'?wcPwd:apPwd;for(var i=0;i<6;i++){var d=document.getElementById(app+'-d'+i);if(d)d.className='pdot'+(i<cnt?' f':'');}}
+function sPwd(app){if(app==='wc'){wcPwd++;updPwdDots('wc');if(wcPwd>=6)setTimeout(function(){finPay('wc');},280);}else{apPwd++;updPwdDots('ap');if(apPwd>=6)setTimeout(function(){finPay('ap');},280);}}
+function sPwdDel(app){if(app==='wc'){wcPwd=Math.max(0,wcPwd-1);updPwdDots('wc');}else{apPwd=Math.max(0,apPwd-1);updPwdDots('ap');}}
+function finPay(app){var v=parseFloat(app==='wc'?wcN:apN);sCloseCov(app);document.getElementById(app+'-suc-amt').textContent='¥'+v.toFixed(2);simGoPage(app==='wc'?'pp-wc-suc':'pp-ap-suc');speak('支付成功！你真棒！');}
+function simMerchScan(app){document.getElementById(app+'-ssuc').classList.add('show');speak('商家扫码成功，支付完成！');}
+function simReset(app){if(app==='wc'){wcN='';wcPwd=0;document.getElementById('wc-ssuc').classList.remove('show');simGoPage('pp-wc-home');}else{apN='';apPwd=0;document.getElementById('ap-ssuc').classList.remove('show');simGoPage('pp-ap-home');}go('s-suc');}
+function genBarcode(){['wc-br','ap-br'].forEach(function(id){var el=document.getElementById(id);if(!el)return;var h='';for(var i=0;i<60;i++){var w=Math.random()>0.5?'2':'1';var bg=Math.random()>0.3?'#1a1a1a':'#fff';h+='<div style="flex:'+w+';background:'+bg+';border-radius:1px;height:100%"></div>';}el.innerHTML=h;});['wc-qr','ap-qr'].forEach(function(id){var el=document.getElementById(id);if(!el)return;var p=[1,1,1,1,1,1,1,0,1,0,1,0,0,0,1,0,1,1,1,1,1,1,1,1,0,1,0,0,0,1,0,0,0,1,0,0,0,0,1,0,0,0,1,0,0,0,1,0,1,0,0,0,1,0,0,0,1,0,1,0,0,0,1,0,0,0,1,0,1,1,1,1,1,1,1,0,1,0,1,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,0,1];var h='';for(var i=0;i<100;i++){var f=p[i%p.length]&&Math.random()>0.3;h+='<div class="pcqrc" style="background:'+(f?'#1a1a1a':'#fff')+'"></div>';}el.innerHTML=h;});}
+function genMerchQR(){['merch-qr-svg','merch-qr-svg2'].forEach(function(svgId){var svg=document.getElementById(svgId);if(!svg)return;var s='<rect width="140" height="140" fill="white"/>';s+='<rect x="8" y="8" width="35" height="35" rx="3" fill="#1a1a1a"/><rect x="13" y="13" width="25" height="25" rx="2" fill="white"/><rect x="18" y="18" width="15" height="15" rx="1" fill="#1a1a1a"/>';s+='<rect x="97" y="8" width="35" height="35" rx="3" fill="#1a1a1a"/><rect x="102" y="13" width="25" height="25" rx="2" fill="white"/><rect x="107" y="18" width="15" height="15" rx="1" fill="#1a1a1a"/>';s+='<rect x="8" y="97" width="35" height="35" rx="3" fill="#1a1a1a"/><rect x="13" y="102" width="25" height="25" rx="2" fill="white"/><rect x="18" y="107" width="15" height="15" rx="1" fill="#1a1a1a"/>';var cells=[52,57,62,67,72,77,82,87,92,97,102,107,112,117,122,127];var rows=[8,13,18,23,28,33,38,43,48,52,57,62,67,72,77,82,87,92,97,102,107,112,117,122,127];rows.forEach(function(y){cells.forEach(function(x){if(x<=42&&y<=42)return;if(x>=92&&y<=42)return;if(x<=42&&y>=92)return;if(Math.random()>0.52)s+='<rect x="'+x+'" y="'+y+'" width="5" height="5" fill="#1a1a1a"/>';});});for(var i=52;i<=87;i+=10){s+='<rect x="'+i+'" y="47" width="5" height="5" fill="#1a1a1a"/>';s+='<rect x="47" y="'+i+'" width="5" height="5" fill="#1a1a1a"/>';}svg.innerHTML=s;});}
+updateRoleUI();
+</script>
+</body>
+</html>
