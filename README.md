@@ -1,4 +1,7 @@
 # What's New
+## Version 26.4.0.2
+- **Style**: Add a new style to the prompt in shopping-challenge.
+---
 ## Version 26.4.0.1
 - **Fix**: Fix the mistake on wrong-answer prompts in Cash Payment and synchronized update of voice reading script.
 ---
