@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: '1元',
             valueText: '1',
             unitChar: '元',
-            colorName: '镍白色',
+            colorName: '银色',
             colorKey: 'nickel',
             shapeKey: 'circle',
             shapeName: '圆形',
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: '5角',
             valueText: '5',
             unitChar: '角',
-            colorName: '镍白色',
+            colorName: '银色',
             colorKey: 'nickel',
             shapeKey: 'polygon11',
             shapeName: '多边形',
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: '1角',
             valueText: '1',
             unitChar: '角',
-            colorName: '镍白色',
+            colorName: '银色',
             colorKey: 'nickel',
             shapeKey: 'circle',
             shapeName: '圆形',
@@ -111,13 +111,36 @@ document.addEventListener('DOMContentLoaded', () => {
         completionText: document.getElementById('coin-completion-text')
     };
 
+    function toChineseNumeral(numberText) {
+        const num = parseInt(numberText, 10);
+        const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+
+        if (Number.isNaN(num)) return numberText;
+        if (num < 10) return digits[num];
+        if (num === 10) return '十';
+        if (num < 20) return `十${digits[num % 10]}`;
+        if (num < 100) {
+            const tens = Math.floor(num / 10);
+            const ones = num % 10;
+            return `${digits[tens]}十${ones === 0 ? '' : digits[ones]}`;
+        }
+        if (num === 100) return '一百';
+        return numberText;
+    }
+
+    function normalizeSpeechText(text) {
+        if (typeof text !== 'string') return text;
+        return text.replace(/\d+/g, match => toChineseNumeral(match));
+    }
+
     function setReaderText(text) {
-        if (reader) reader.textContent = text;
+        if (reader) reader.textContent = normalizeSpeechText(text);
     }
 
     function speakFeedback(text) {
-        if (window.voiceCore) window.voiceCore.speakText(text);
-        setReaderText(text);
+        const speechText = normalizeSpeechText(text);
+        if (window.voiceCore) window.voiceCore.speakText(speechText);
+        setReaderText(speechText);
     }
 
     function getTeachingPageText(pageNum) {

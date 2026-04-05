@@ -1,24 +1,8 @@
-# Children Shopping Instruction Website (Remake)
-- [ ] Quest 1: UI Redesigning
-  - [x] Home Page
-  - [x] Setting Page
-  - [ ] Catalogs Page
-  - [ ] Course Page
-  - [ ] Reward Page
-  - [ ] Contact Page
-- [ ] Quest 2: Service Reimage
-  - [x] Home Page
-  - [x] Setting Page
-  - [x] Catalog Page
-- [ ] Quest 3: New Feature
-  - [ ] Courses Page
-    - [ ] Teaching Page
-      - [ ] RMB Recognition has more content on color, numbers, and background.
-    - [ ] Exercise Page
-      - [ ] According to RMB Recognition, there are more exercises on color, numbers, and background.
-      - [ ] RMB Exchange is also important, which needs to be various exercises. E.g., 5*10 RMB = ? RMB, 50 RNB = ?*10 RMB, etc.
-      - [ ] Shopping Page
-        - [ ] Delete something unrelated under the shopping page.
-        - [ ] Add chosen number of goods to the goods straightly, instead of adding one by one.
-  - [ ] Reward Page
-  - [ ] Contact Page
+# What's New
+## Version 26.4.0.0
+- **Doc**: Rewrite README.md to provide a clearer overview of the updated content and features in this version.
+- **Feature**: Add a price-setting page for the Cash Payment allowing users to set the price on their own.
+- **Fix**: Fix the issue of reader error on number "1" in RMB Currency Recognition.
+- **Fix**: Fixed the description text for switching between "整/零" mode to match its actual effect in Cash Payment.
+- **Style**: Optimize the user interface of Cash Payment for better usability.
+- **Upgrade**: Improve the user experience of learning numbers and portraits in teaching section of RMB Currency Recognition.

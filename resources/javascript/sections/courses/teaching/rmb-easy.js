@@ -135,12 +135,34 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // --- Voice / Reader helpers ---
+    function toChineseNumeral(numberText) {
+        const num = parseInt(numberText, 10);
+        const digits = ['零', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+
+        if (Number.isNaN(num)) return numberText;
+        if (num < 10) return digits[num];
+        if (num === 10) return '十';
+        if (num < 20) return `十${digits[num % 10]}`;
+        if (num < 100) {
+            const tens = Math.floor(num / 10);
+            const ones = num % 10;
+            return `${digits[tens]}十${ones === 0 ? '' : digits[ones]}`;
+        }
+        if (num === 100) return '一百';
+        return numberText;
+    }
+
+    function normalizeSpeechText(text) {
+        if (typeof text !== 'string') return text;
+        return text.replace(/\d+/g, match => toChineseNumeral(match));
+    }
+
     function setReaderText(text) {
-        if (reader) reader.textContent = text;
+        if (reader) reader.textContent = normalizeSpeechText(text);
     }
 
     function speakFeedback(text) {
-        if (window.voiceCore) window.voiceCore.speakText(text);
+        if (window.voiceCore) window.voiceCore.speakText(normalizeSpeechText(text));
     }
 
     function getTeachingPageText(pageNum) {
@@ -369,10 +391,14 @@ document.addEventListener('DOMContentLoaded', () => {
         if (colorValue) colorValue.textContent = rmb.valueText;
         document.getElementById('teaching-color-name').textContent = rmb.colorName;
         document.getElementById('teaching-value-large').src = rmb.value;
+        const valueFrontRef = document.getElementById('teaching-value-front-reference');
+        if (valueFrontRef) valueFrontRef.src = rmb.front;
         document.getElementById('teaching-value-number').textContent = rmb.valueText;
         const valueCircle = document.getElementById('teaching-value-circle');
         if (valueCircle) valueCircle.textContent = rmb.valueCircleText;
         document.getElementById('teaching-portrait-large').src = rmb.portrait;
+        const portraitFrontRef = document.getElementById('teaching-portrait-front-reference');
+        if (portraitFrontRef) portraitFrontRef.src = rmb.front;
         const portraitDesc = document.getElementById('teaching-portrait-description');
         if (portraitDesc) portraitDesc.textContent = `${rmb.name}人民币正面印有毛泽东的头像，位于钞票右侧`;
         document.getElementById('teaching-landscape-large').src = rmb.landscape;

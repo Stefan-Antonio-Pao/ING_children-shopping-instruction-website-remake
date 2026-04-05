@@ -19,57 +19,85 @@
         <button id="play-page-btn" class="toolbar-btn" title="朗读页面">读</button>
     </div>
 
-    <nav class="navbar" id="category-navbar">
-        <a href="#" class="nav-item active" data-category="fruits">水果</a>
-        <a href="#" class="nav-item" data-category="snacks">零食</a>
-        <a href="#" class="nav-item" data-category="study-tools">文具</a>
-    </nav>
+    <div id="practice-view">
+        <nav class="navbar" id="category-navbar">
+            <a href="#" class="nav-item active" data-category="fruits">水果</a>
+            <a href="#" class="nav-item" data-category="snacks">零食</a>
+            <a href="#" class="nav-item" data-category="study-tools">文具</a>
+        </nav>
 
-    <div class="item-strip" id="item-strip"></div>
+        <div class="item-strip" id="item-strip"></div>
 
-    <h1 class="main-title">现金支付教学</h1>
+        <h1 class="main-title">现金支付练习</h1>
 
-    <div class="content-card">
-        <div class="cash-canvas">
-            <section class="good-display">
-                <div class="good-image-wrap">
-                    <img id="good-image" src="" alt="当前商品">
-                </div>
-                <div class="good-switch-row">
-                    <button class="nav-btn" id="prev-good-btn" type="button">上一个</button>
-                    <div class="price-tag" id="price-tag">0元</div>
-                    <button class="nav-btn" id="next-good-btn" type="button">下一个</button>
-                </div>
-            </section>
+        <div class="content-card">
+            <div class="cash-canvas">
+                <section class="good-display">
+                    <div class="good-image-wrap">
+                        <img id="good-image" src="" alt="当前商品">
+                    </div>
+                    <div class="good-switch-row">
+                        <button class="nav-btn" id="prev-good-btn" type="button">上一个</button>
+                        <div class="price-tag" id="price-tag">0元</div>
+                        <button class="nav-btn" id="next-good-btn" type="button">下一个</button>
+                    </div>
+                </section>
 
-            <section class="money-counter-panel">
-                <div class="money-counter" id="money-counter" aria-label="支付区"></div>
-                <div class="result-message" id="result-message">将右侧的人民币拖动到此处</div>
-            </section>
+                <section class="money-counter-panel">
+                    <div class="money-counter" id="money-counter" aria-label="支付区"></div>
+                    <div class="result-message" id="result-message">将右侧的人民币拖动到此处</div>
+                </section>
 
-            <section class="money-bank" id="money-bank">
-                <div class="bank-section">
-                    <h3>纸币</h3>
-                    <div class="money-grid bills" id="bill-bank"></div>
-                </div>
-                <div class="bank-section">
-                    <h3>硬币</h3>
-                    <div class="money-grid coins" id="coin-bank"></div>
-                </div>
-            </section>
+                <section class="money-bank" id="money-bank">
+                    <div class="bank-section">
+                        <h3>纸币</h3>
+                        <div class="money-grid bills" id="bill-bank"></div>
+                    </div>
+                    <div class="bank-section">
+                        <h3>硬币</h3>
+                        <div class="money-grid coins" id="coin-bank"></div>
+                    </div>
+                </section>
+            </div>
         </div>
+
+        <div class="unified-navigation action-controls">
+            <button class="nav-btn" id="reset-btn" type="button">重置</button>
+            <button class="nav-btn" id="check-btn" type="button">核对</button>
+            <button class="nav-btn" id="mode-toggle-btn" type="button">支持找零：是</button>
+            <button class="nav-btn" id="open-price-setting-btn" type="button">价格设置</button>
+            <button class="nav-btn" id="label-toggle-btn" type="button">名称提示：关</button>
+        </div>
+
+        <footer>
+            <button class="end-btn" onclick="window.location.href='exercises-catalog.html'">返回课程选择</button>
+        </footer>
     </div>
 
-    <div class="unified-navigation action-controls">
-        <button class="nav-btn" id="reset-btn" type="button">重置</button>
-        <button class="nav-btn" id="check-btn" type="button">核对</button>
-        <button class="nav-btn" id="mode-toggle-btn" type="button">整/零</button>
-        <button class="nav-btn" id="label-toggle-btn" type="button">名称提示：关</button>
-    </div>
+    <div id="price-setting-view" class="hidden">
+        <nav class="navbar" id="price-preset-navbar">
+            <button class="nav-item" type="button" data-preset="preset1">价格预设1</button>
+            <button class="nav-item" type="button" data-preset="preset2">价格预设2</button>
+            <button class="nav-item" type="button" data-preset="preset3">价格预设3</button>
+        </nav>
 
-    <footer>
-        <button class="end-btn" onclick="window.location.href='exercises-catalog.html'">返回课程选择</button>
-    </footer>
+        <h1 class="main-title">商品价格设置</h1>
+
+        <div class="content-card price-setting-card">
+            <div class="price-setting-canvas" id="price-setting-canvas"></div>
+        </div>
+
+        <div class="unified-navigation action-controls">
+            <button class="nav-btn" id="setting-reset-btn" type="button">重置</button>
+            <button class="nav-btn" id="setting-save-btn" type="button">保存</button>
+            <button class="nav-btn" id="setting-apply-btn" type="button">不保存并返回练习</button>
+            <button class="nav-btn" id="setting-decimal-toggle-btn" type="button">含小数：关</button>
+        </div>
+
+        <footer>
+            <button class="end-btn" id="setting-cancel-btn" type="button">使用此预设进行练习</button>
+        </footer>
+    </div>
 </div>
 </body>
 </html>
