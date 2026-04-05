@@ -570,22 +570,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            if (userMoney < target) {
-                const remain = target - userMoney;
-                const remainText = formatFenToYuan(remain, preset.allowDecimal);
-                const text = `整额模式需要与商品价格完全相同。当前价格是${targetText}，还差${remainText}。`;
+            if (userMoney > target) {
+                const extra = userMoney - target;
+                const extraText = formatFenToYuan(extra, preset.allowDecimal);
+                const text = `当前模式不支持找零。当前价格是${targetText}，你多付了${extraText}。请调整为刚好相同金额。`;
                 setResultMessage(text, 'error');
                 speakFeedback(text);
-                state.insufficientCount += 1;
                 return;
             }
-
-            const extra = userMoney - target;
-            const extraText = formatFenToYuan(extra, preset.allowDecimal);
-            const text = `整额模式不能多付。当前价格是${targetText}，你多付了${extraText}。请调整为刚好相同金额。`;
-            setResultMessage(text, 'error');
-            speakFeedback(text);
-            return;
         }
 
         if (userMoney >= target) {
