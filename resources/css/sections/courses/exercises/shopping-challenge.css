@@ -597,6 +597,19 @@
     white-space: pre-line;
 }
 
+.cashier-amount-hint {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--c-blue);
+    background: var(--c-blue-lt);
+    border: 2px solid var(--c-border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    text-align: center;
+    letter-spacing: .01em;
+    line-height: 1.5;
+}
+
 .checkout-amount {
     text-align: center;
     font-size: 2.2rem;

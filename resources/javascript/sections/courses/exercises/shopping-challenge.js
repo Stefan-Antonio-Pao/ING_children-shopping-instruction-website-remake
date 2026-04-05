@@ -93,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         payBankCoins: document.getElementById('pay-bank-coins'),
         payBankCoinsSection: document.getElementById('pay-bank-coins-section'),
         payInstruction: document.getElementById('pay-instruction'),
+        payAmountHint: document.getElementById('pay-amount-hint'),
         payAmountText: document.getElementById('pay-amount-text'),
         payCheckBtn: document.getElementById('pay-check-btn'),
         payMessage: document.getElementById('pay-message'),
@@ -103,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
         returnBankCoins: document.getElementById('return-bank-coins'),
         returnBankCoinsSection: document.getElementById('return-bank-coins-section'),
         returnInstruction: document.getElementById('return-instruction'),
+        returnAmountHint: document.getElementById('return-amount-hint'),
         returnAmountText: document.getElementById('return-amount-text'),
         returnAmountMask: document.getElementById('return-amount-mask'),
         toggleReturnMaskBtn: document.getElementById('toggle-return-mask-btn'),
@@ -803,10 +805,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderCashierPanels() {
         refs.payAmountText.textContent = fmtFen(state.totalPriceFen);
-        refs.payInstruction.textContent = `当前需要支付，请将人民币拖入左侧灰色区域以支付。\n应付金额：${fmtFen(state.totalPriceFen)}`;
+        refs.payInstruction.textContent = `当前需要支付，请将人民币拖入左侧灰色区域以支付。`;
+        // refs.payAmountHint.textContent = `应付金额：${fmtFen(state.totalPriceFen)}`;
+        refs.payAmountHint.textContent = `应付金额：`;
 
         refs.returnAmountText.textContent = fmtFen(state.needReturnFen);
-        refs.returnInstruction.textContent = `当前需要找零，请将人民币拖入左侧灰色区域以获得找零。\n商品总价：${fmtFen(state.totalPriceFen)}｜你支付了：${fmtFen(state.paidFen)}`;
+        refs.returnInstruction.textContent = `当前需要找零，请将人民币拖入左侧灰色区域以获得找零。`;
+        refs.returnAmountHint.textContent = `商品总价：${fmtFen(state.totalPriceFen)}｜你支付了：${fmtFen(state.paidFen)}`;
 
         refs.returnAmountMask.classList.toggle('hidden', !state.showReturnMask);
     }
