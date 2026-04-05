@@ -153,7 +153,12 @@ document.addEventListener('DOMContentLoaded', () => {
             mode: null,
             counterId: null,
             droppedInside: false
-        }
+        },
+
+        dragSetInitCounts: {},
+        dragSetRemainingCounts: {},
+        limitDragCounterItems: [],
+        limitDragDragCtx: { counterId: null, droppedInside: false }
     };
 
     function setReaderText(text) {
@@ -323,6 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const modes = [
                 { key: 'manual', text: '手动输入' },
                 { key: 'random', text: '随机生成' },
+                { key: 'drag-set', text: '手动币种设置' },
                 { key: 'none', text: '不限制消费' }
             ];
             modes.forEach((mode) => {
@@ -331,6 +337,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.className = `strip-btn ${state.limitMode === mode.key ? 'active' : ''}`;
                 btn.textContent = mode.text;
                 btn.addEventListener('click', () => {
+                    if (state.limitMode === 'drag-set' && mode.key !== 'drag-set') {
+                        state.limitDragCounterItems = [];
+                        state.dragSetInitCounts = {};
+                        state.totalLimitFen = null;
+                    }
                     state.limitMode = mode.key;
                     renderLimitConfig();
                     renderStrip();
@@ -410,6 +421,33 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        if (state.limitMode === 'drag-set') {
+            refs.limitConfigBox.innerHTML = `
+                <div class="drag-set-config">
+                    <h3>手动币种设置</h3>
+                    <p>将你想要携带的现金拖入下方钱包，离开时系统以此作为消费预算。</p>
+                    <div class="drag-set-wallet" id="drag-set-wallet">
+                        <div class="counter-zone-label">💰 我的钱包</div>
+                    </div>
+                    <div class="drag-set-total" id="drag-set-total">携带总额：¥0</div>
+                    <div class="drag-set-bank-wrap">
+                        <div class="drag-set-bank-section">
+                            <h4>💴 纸币</h4>
+                            <div class="drag-set-bank-grid" id="drag-set-bank-bills"></div>
+                        </div>
+                        <div class="drag-set-bank-section" id="drag-set-coins-section">
+                            <h4>🪙 硬币</h4>
+                            <div class="drag-set-bank-grid" id="drag-set-bank-coins"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            renderLimitDragBank();
+            renderLimitDragCounter();
+            bindLimitDragCounter();
+            return;
+        }
+
         state.totalLimitFen = null;
         refs.limitConfigBox.innerHTML = `
             <h3>当前模式：不限制消费</h3>
@@ -417,6 +455,135 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
         regenerateGoodsForCurrentLimit();
         renderLimitProcess();
+    }
+
+    /* ---------- drag-set limit config helpers ---------- */
+
+    function refreshLimitDragState() {
+        const counts = {};
+        let total = 0;
+        state.limitDragCounterItems.forEach((item) => {
+            const den = getDenById(item.denominationId);
+            if (!den) return;
+            counts[item.denominationId] = (counts[item.denominationId] || 0) + 1;
+            total += den.valueFen;
+        });
+        state.dragSetInitCounts = counts;
+        state.totalLimitFen = total > 0 ? total : null;
+        const totalEl = document.getElementById('drag-set-total');
+        if (totalEl) totalEl.textContent = `携带总额：${total > 0 ? fmtFen(total) : '¥0'}`;
+        renderLimitProcess();
+    }
+
+    function renderLimitDragBank() {
+        const active = getActiveDenominations();
+        const billList = active.filter((d) => d.type === 'bill');
+        const coinList = active.filter((d) => d.type !== 'bill');
+        const billsEl = document.getElementById('drag-set-bank-bills');
+        const coinsEl = document.getElementById('drag-set-bank-coins');
+        const coinsSection = document.getElementById('drag-set-coins-section');
+        if (!billsEl) return;
+
+        const makeBankItem = (den, typeClass) => `
+            <div class="bank-money ${typeClass} drag-set-bank-item" draggable="true" data-den-id="${den.id}">
+                <img src="${den.image}" alt="${den.label}">
+                <div class="money-label">${den.label}</div>
+            </div>
+        `;
+
+        billsEl.innerHTML = billList.map((den) => makeBankItem(den, 'bill')).join('');
+        if (coinList.length && coinsEl && coinsSection) {
+            coinsSection.style.display = 'block';
+            coinsEl.innerHTML = coinList.map((den) => makeBankItem(den, 'coin')).join('');
+        } else if (coinsSection) {
+            coinsSection.style.display = 'none';
+        }
+
+        document.querySelectorAll('.drag-set-bank-item').forEach((el) => {
+            el.addEventListener('dragstart', (event) => {
+                state.limitDragDragCtx.droppedInside = false;
+                event.dataTransfer.setData(dragMime, JSON.stringify({ source: 'drag-set-bank', denominationId: el.dataset.denId }));
+            });
+        });
+    }
+
+    function renderLimitDragCounter() {
+        const walletEl = document.getElementById('drag-set-wallet');
+        if (!walletEl) return;
+        Array.from(walletEl.querySelectorAll('.counter-money')).forEach((el) => el.remove());
+
+        state.limitDragCounterItems.forEach((item) => {
+            const den = getDenById(item.denominationId);
+            if (!den) return;
+            const el = document.createElement('div');
+            el.className = `counter-money ${den.type}`;
+            el.style.left = `${item.x}px`;
+            el.style.top = `${item.y}px`;
+            el.draggable = true;
+            el.dataset.id = item.id;
+            const img = document.createElement('img');
+            img.src = den.image;
+            img.alt = den.label;
+            el.appendChild(img);
+
+            el.addEventListener('dragstart', (event) => {
+                state.limitDragDragCtx.counterId = item.id;
+                state.limitDragDragCtx.droppedInside = false;
+                event.dataTransfer.setData(dragMime, JSON.stringify({ source: 'drag-set-counter', id: item.id }));
+            });
+            el.addEventListener('dragend', () => {
+                if (state.limitDragDragCtx.counterId === item.id && !state.limitDragDragCtx.droppedInside) {
+                    state.limitDragCounterItems = state.limitDragCounterItems.filter((it) => it.id !== item.id);
+                    renderLimitDragCounter();
+                    refreshLimitDragState();
+                }
+                state.limitDragDragCtx.counterId = null;
+                state.limitDragDragCtx.droppedInside = false;
+            });
+            walletEl.appendChild(el);
+        });
+    }
+
+    function bindLimitDragCounter() {
+        const walletEl = document.getElementById('drag-set-wallet');
+        if (!walletEl) return;
+        walletEl.addEventListener('dragover', (event) => { event.preventDefault(); });
+        walletEl.addEventListener('drop', (event) => {
+            event.preventDefault();
+            const raw = event.dataTransfer.getData(dragMime);
+            if (!raw) return;
+            let payload = null;
+            try { payload = JSON.parse(raw); } catch { return; }
+
+            if (payload.source === 'drag-set-bank') {
+                const den = getDenById(payload.denominationId);
+                if (!den) return;
+                const rect = walletEl.getBoundingClientRect();
+                const size = getDenSize(den.type);
+                const x = clamp(event.clientX - rect.left - size.w / 2, 0, Math.max(0, rect.width - size.w));
+                const y = clamp(event.clientY - rect.top - size.h / 2, 0, Math.max(0, rect.height - size.h));
+                state.limitDragCounterItems.push({
+                    id: `limit-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+                    denominationId: payload.denominationId,
+                    x, y
+                });
+                state.limitDragDragCtx.droppedInside = true;
+                renderLimitDragCounter();
+                refreshLimitDragState();
+            }
+            if (payload.source === 'drag-set-counter') {
+                state.limitDragDragCtx.droppedInside = true;
+                const target = state.limitDragCounterItems.find((it) => it.id === payload.id);
+                if (!target) return;
+                const den = getDenById(target.denominationId);
+                if (!den) return;
+                const rect = walletEl.getBoundingClientRect();
+                const size = getDenSize(den.type);
+                target.x = clamp(event.clientX - rect.left - size.w / 2, 0, Math.max(0, rect.width - size.w));
+                target.y = clamp(event.clientY - rect.top - size.h / 2, 0, Math.max(0, rect.height - size.h));
+                renderLimitDragCounter();
+            }
+        });
     }
 
     function renderLimitProcess() {
@@ -576,6 +743,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     const next = getCounterStore(mode).filter((it) => it.id !== entry.id);
                     setCounterStore(mode, next);
                     renderCounter(mode);
+                    if (mode === 'pay' && state.limitMode === 'drag-set') {
+                        state.dragSetRemainingCounts[entry.denominationId] = (state.dragSetRemainingCounts[entry.denominationId] || 0) + 1;
+                        renderBank('pay');
+                    }
                 }
                 state.dragCtx.mode = null;
                 state.dragCtx.counterId = null;
@@ -602,6 +773,10 @@ document.addEventListener('DOMContentLoaded', () => {
             y
         });
         renderCounter(mode);
+        if (mode === 'pay' && state.limitMode === 'drag-set') {
+            state.dragSetRemainingCounts[denominationId] = Math.max(0, (state.dragSetRemainingCounts[denominationId] || 0) - 1);
+            renderBank('pay');
+        }
     }
 
     function moveMoney(mode, itemId, clientX, clientY) {
@@ -656,25 +831,32 @@ document.addEventListener('DOMContentLoaded', () => {
         const billList = active.filter((d) => d.type === 'bill');
         const coinList = active.filter((d) => d.type !== 'bill');
 
-        bills.innerHTML = billList.map((den) => `
-            <div class="bank-money bill" draggable="true" data-denomination="${den.id}" data-mode="${mode}">
-                <img src="${den.image}" alt="${den.label}">
-            </div>
-        `).join('');
+        const isDragSetPay = state.limitMode === 'drag-set' && mode === 'pay';
+
+        const makeBankItem = (den, typeClass) => {
+            const rem = isDragSetPay ? (state.dragSetRemainingCounts[den.id] || 0) : null;
+            const depleted = isDragSetPay && rem === 0;
+            return `
+                <div class="bank-money ${typeClass}${depleted ? ' depleted' : ''}"
+                     ${depleted ? '' : `draggable="true"`}
+                     data-denomination="${den.id}" data-mode="${mode}">
+                    <img src="${den.image}" alt="${den.label}">
+                    ${isDragSetPay ? `<span class="den-count-badge">${rem}</span>` : ''}
+                </div>
+            `;
+        };
+
+        bills.innerHTML = billList.map((den) => makeBankItem(den, 'bill')).join('');
 
         if (coinList.length) {
             coinSection.style.display = 'block';
-            coins.innerHTML = coinList.map((den) => `
-                <div class="bank-money coin" draggable="true" data-denomination="${den.id}" data-mode="${mode}">
-                    <img src="${den.image}" alt="${den.label}">
-                </div>
-            `).join('');
+            coins.innerHTML = coinList.map((den) => makeBankItem(den, 'coin')).join('');
         } else {
             coinSection.style.display = 'none';
             coins.innerHTML = '';
         }
 
-        document.querySelectorAll(`.bank-money[draggable=\"true\"][data-mode=\"${mode}\"]`).forEach((el) => {
+        document.querySelectorAll(`.bank-money[draggable="true"][data-mode="${mode}"]`).forEach((el) => {
             el.addEventListener('dragstart', (event) => {
                 const denominationId = el.dataset.denomination;
                 state.dragCtx.mode = mode;
@@ -761,6 +943,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mode === 'pay') {
             state.payFailCount = 0;
             setCheckoutMsg('pay', '请先把钱拖入左侧灰色区域。', null);
+            if (state.limitMode === 'drag-set') {
+                state.dragSetRemainingCounts = { ...state.dragSetInitCounts };
+            }
+            renderBank('pay');
             return;
         }
         state.returnFailCount = 0;
@@ -843,6 +1029,10 @@ document.addEventListener('DOMContentLoaded', () => {
             state.payFailCount = 0;
             setCheckoutMsg('pay', '请先把钱拖入左侧灰色区域。', null);
             setNextVisible('pay', false);
+            if (state.limitMode === 'drag-set') {
+                state.dragSetRemainingCounts = { ...state.dragSetInitCounts };
+            }
+            renderBank('pay');
         }
         if (page === 'page5') {
             state.returnFailCount = 0;
@@ -885,6 +1075,9 @@ document.addEventListener('DOMContentLoaded', () => {
         state.paidFen = 0;
         state.needReturnFen = 0;
         state.showReturnMask = true;
+        state.dragSetInitCounts = {};
+        state.dragSetRemainingCounts = {};
+        state.limitDragCounterItems = [];
 
         seedGoods();
         renderLimitConfig();
@@ -909,7 +1102,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         refs.confirmLimitBtn.addEventListener('click', () => {
             if (level.requiresLimit && state.limitMode !== 'none' && !Number.isFinite(state.totalLimitFen)) {
-                speak('请先设置有效金额。');
+                if (state.limitMode === 'drag-set') {
+                    speak('请先将人民币拖入钱包区域以设置携带金额。');
+                } else {
+                    speak('请先设置有效金额。');
+                }
                 return;
             }
             setActivePage('page1');

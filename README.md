@@ -1,6 +1,9 @@
 # What's New
+## Version 26.4.1.0
+- **Upgrade**: Add a new limitation mode in Shopping Challenge, allowing users to set total-limitation and usable-currencies-limitation via dragging currencies.
+---
 ## Version 26.4.0.2
-- **Style**: Add a new style to the prompt in shopping-challenge.
+- **Style**: Add a new style to the prompt in Shopping Challenge.
 ---
 ## Version 26.4.0.1
 - **Fix**: Fix the mistake on wrong-answer prompts in Cash Payment and synchronized update of voice reading script.
