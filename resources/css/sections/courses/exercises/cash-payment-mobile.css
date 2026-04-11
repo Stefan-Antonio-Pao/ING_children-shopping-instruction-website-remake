@@ -1,0 +1,316 @@
+/* =============================================================
+   Cash Payment – Mobile  (cash-payment-mobile.css)
+   Mobile-first. No page-settings.css dependency.
+   ============================================================= */
+
+*, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+    margin: 0; padding: 0; height: 100%;
+    overflow: hidden;
+    font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #c8dff0;
+}
+
+.hidden { display: none !important; }
+
+/* ── Mobile page wrapper ── */
+.mobile-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    background: #e6f0f8;
+}
+
+/* ============================================================
+   HEADER  [end-btn] [flex] [set-btn] [flex] [read-btn]
+   ============================================================ */
+.mobile-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 6px 14px;
+    background: #ffffff;
+    border-bottom: 2px solid #d7e6f6;
+    height: 56px;
+}
+
+.m-header-spacer { flex: 1; }
+
+.m-header-btn {
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    border: none; border-radius: 50%;
+    font-size: 14px; font-weight: bold;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+    -webkit-user-select: none; user-select: none;
+}
+.m-header-btn:active { transform: scale(0.88); opacity: 0.75; }
+.m-end-btn  { background: #fdeceb; color: #b0362f; }
+.m-set-btn  { background: #9eb8db; color: #ffffff; }
+.m-read-btn { background: #76c893; color: #ffffff; }
+
+/* ============================================================
+   PRACTICE CANVAS  (ratio 1 : 1 : 2)
+   ============================================================ */
+.mobile-canvas {
+    flex: 1; min-height: 0;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+}
+
+/* ── Good Display (flex 1) ── */
+.m-good-display {
+    flex: 1; min-height: 0;
+    display: flex; align-items: center;
+    background: #ffffff;
+    border-bottom: 2px solid #e2e8f0;
+    padding: 6px 4px; gap: 2px;
+}
+.m-arrow-btn {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    border: none; border-radius: 50%;
+    background: #d7e6f6; color: #2c4a7c;
+    font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    -webkit-user-select: none; user-select: none;
+    transition: background 0.15s;
+}
+.m-arrow-btn:active { background: #9eb8db; transform: scale(0.9); }
+
+.m-good-center {
+    flex: 1; min-width: 0; min-height: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 4px; padding: 4px 2px; overflow: hidden;
+}
+.m-good-img-wrap {
+    flex: 1; min-height: 0; width: 100%;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+}
+#good-image { max-width: 88%; max-height: 100%; object-fit: contain; }
+.m-price-tag {
+    flex-shrink: 0;
+    font-size: 1.2rem; font-weight: bold; color: #2c4a7c;
+    background: #f6fbff; border: 2px dashed #9eb8db;
+    border-radius: 10px; padding: 2px 14px;
+}
+.m-good-name { flex-shrink: 0; font-size: 0.82rem; color: #6a8ab4; font-weight: bold; }
+
+/* ── Money Counter Panel (flex 1) ── */
+.m-money-counter-panel {
+    flex: 1; min-height: 0;
+    display: flex; flex-direction: column;
+    background: #f6fbff;
+    border-bottom: 2px solid #e2e8f0;
+    padding: 5px 10px; gap: 4px; overflow: hidden;
+}
+.m-counter-header { flex-shrink: 0; display: flex; align-items: center; gap: 4px; }
+.m-counter-label { font-size: 0.8rem; color: #6a8ab4; }
+.m-counter-total { font-size: 0.95rem; font-weight: bold; color: #2c4a7c; }
+
+.m-counter-items {
+    flex: 1; min-height: 0;
+    display: flex; flex-wrap: wrap;
+    gap: 4px; align-content: flex-start;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+}
+.m-counter-chip {
+    display: inline-flex; align-items: center; gap: 3px;
+    background: #e0edfb; border-radius: 8px;
+    padding: 2px 5px 2px 3px;
+}
+.m-counter-chip img {
+    height: 26px; width: auto; max-width: 56px;
+    object-fit: contain; border-radius: 3px; display: block;
+}
+.m-chip-count { font-size: 12px; font-weight: bold; color: #2c4a7c; }
+
+.m-result-message {
+    flex-shrink: 0;
+    font-size: 0.8rem; font-weight: bold; color: #4f4f4f;
+    background: #f7f7f7; border-radius: 8px;
+    padding: 4px 8px; white-space: pre-line;
+    min-height: 26px; line-height: 1.4;
+}
+.m-result-message.success { color: #1f7a41; background: #e8f8ee; }
+.m-result-message.error   { color: #b0362f; background: #fdeceb; }
+
+/* ── Money Bank (flex 2) ── */
+.m-money-bank {
+    flex: 2; min-height: 0;
+    display: flex; flex-direction: column;
+    background: #ffffff; border-top: 1px solid #e2e8f0;
+    overflow: hidden;
+}
+.m-bank-pager {
+    flex: 1; min-height: 0;
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.m-bank-pager::-webkit-scrollbar { display: none; }
+
+.money-page {
+    flex-shrink: 0; width: 100%;
+    scroll-snap-align: start; scroll-snap-stop: always;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: space-evenly;
+    padding: 8px 16px; gap: 8px;
+}
+.m-money-card {
+    width: 100%; max-width: 440px;
+    display: flex; align-items: center; gap: 14px;
+    background: #f9fcff; border: 2px solid #d7e6f6;
+    border-radius: 12px; padding: 8px 16px;
+}
+.m-money-card-img {
+    flex-shrink: 0;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    width: 104px;
+}
+.m-money-card-img .bill-img { width: 104px; height: 50px; object-fit: contain; border-radius: 4px; display: block; }
+.m-money-card-img .coin-img { width: 50px;  height: 50px; object-fit: contain; display: block; }
+.m-money-label { font-size: 11px; color: #6a8ab4; font-weight: bold; }
+.m-money-label.label-hidden { display: none; }
+
+.m-money-controls { flex: 1; display: flex; align-items: center; justify-content: center; gap: 16px; }
+
+.m-minus-btn, .m-plus-btn {
+    flex-shrink: 0;
+    width: 42px; height: 42px;
+    border: none; border-radius: 50%;
+    font-size: 24px; font-weight: bold; line-height: 1;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.12s ease;
+    -webkit-user-select: none; user-select: none;
+}
+.m-plus-btn  { background: #76c893; color: #ffffff; }
+.m-minus-btn { background: #fdeceb; color: #b0362f; }
+.m-plus-btn:active                { transform: scale(0.88); }
+.m-minus-btn:active:not(:disabled){ transform: scale(0.88); }
+.m-minus-btn:disabled             { opacity: 0.25; cursor: default; }
+
+.m-count-display {
+    font-size: 1.5rem; font-weight: bold; color: #2c4a7c;
+    min-width: 34px; text-align: center; flex-shrink: 0;
+}
+
+.m-pager-dots {
+    flex-shrink: 0;
+    display: flex; justify-content: center; align-items: center;
+    gap: 7px; padding: 3px 0 6px;
+}
+.m-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #cdd9e8; transition: background 0.2s; }
+.m-dot.active { background: #2c4a7c; }
+
+/* ============================================================
+   FOOTER (Practice)
+   ============================================================ */
+.mobile-footer {
+    flex-shrink: 0;
+    display: flex; gap: 14px; justify-content: center; align-items: center;
+    padding: 8px 16px; background: #ffffff;
+    border-top: 2px solid #d7e6f6; height: 60px;
+}
+.m-footer-btn {
+    padding: 10px 30px;
+    background: #9eb8db; color: #ffffff;
+    border: none; border-radius: 25px;
+    font-size: 16px; font-weight: bold; cursor: pointer;
+    white-space: nowrap;
+    transition: transform 0.12s ease;
+    -webkit-user-select: none; user-select: none;
+}
+.m-footer-btn:active { transform: scale(0.94); opacity: 0.85; }
+.m-footer-btn-primary { background: #76c893; }
+
+/* ============================================================
+   SETTING PAGE
+   ============================================================ */
+.m-setting-title-bar {
+    flex-shrink: 0; text-align: center;
+    color: #2c4a7c; font-size: 1.05rem; font-weight: bold;
+    padding: 7px 12px; background: #f6fbff;
+    border-bottom: 1px solid #d7e6f6;
+}
+.m-setting-ctrls {
+    flex-shrink: 0; background: #ffffff;
+    padding: 8px 12px; display: flex; flex-direction: column; gap: 6px;
+    border-bottom: 2px solid #d7e6f6;
+}
+.m-ctrl-row { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
+
+.m-preset-btn {
+    flex: 1; padding: 8px 8px; border: none; border-radius: 20px;
+    font-size: 13px; font-weight: bold; cursor: pointer;
+    background: #334e68; color: #ffffff;
+    transition: background 0.2s;
+    -webkit-user-select: none; user-select: none;
+}
+.m-preset-btn.active,
+#price-preset-navbar .nav-item.active { background: #76c893; }
+
+.m-ctrl-btn {
+    padding: 7px 11px; background: #334e68; color: #ffffff;
+    border: none; border-radius: 20px;
+    font-size: 12px; font-weight: bold; cursor: pointer;
+    white-space: nowrap; transition: opacity 0.15s;
+    -webkit-user-select: none; user-select: none;
+}
+.m-ctrl-btn:active  { opacity: 0.75; }
+.m-ctrl-btn-accent  { background: #76c893; }
+
+/* Setting canvas – Apple Finder list view */
+.m-setting-canvas {
+    flex: 1; min-height: 0;
+    overflow-y: auto; -webkit-overflow-scrolling: touch;
+    padding: 8px 12px;
+    display: flex; flex-direction: column; gap: 5px;
+}
+.m-price-list-item {
+    flex-shrink: 0; display: flex; align-items: center; gap: 10px;
+    padding: 7px 12px; background: #f9fcff;
+    border: 1px solid #d7e6f6; border-radius: 10px;
+}
+.m-price-list-img  { width: 34px; height: 34px; object-fit: cover; border-radius: 6px; flex-shrink: 0; display: block; }
+.m-price-list-name { font-weight: bold; color: #2c4a7c; font-size: 14px; flex-shrink: 0; width: 46px; }
+.m-price-list-spacer { flex: 1; min-width: 4px; }
+.m-price-list-input {
+    width: 72px; border: 2px solid #9eb8db; border-radius: 8px;
+    padding: 4px 6px; font-size: 14px; color: #2c4a7c;
+    text-align: right; flex-shrink: 0;
+    -webkit-appearance: none; appearance: none;
+}
+.m-price-list-unit { font-weight: bold; color: #2c4a7c; font-size: 14px; flex-shrink: 0; }
+
+.m-setting-footer {
+    flex-shrink: 0; display: flex; gap: 6px; flex-wrap: wrap;
+    justify-content: center; align-items: center;
+    padding: 7px 12px; background: #ffffff;
+    border-top: 2px solid #d7e6f6; min-height: 56px;
+}
+
+/* ============================================================
+   DESKTOP – show as phone frame centred on wide screens
+   ============================================================ */
+@media (min-width: 600px) {
+    body { display: flex; justify-content: center; align-items: center; background: #c8dff0; }
+    .mobile-page {
+        width: 420px; max-width: 420px;
+        height: 812px; max-height: 100dvh; max-height: 100vh;
+        border-radius: 32px; overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    }
+}
+

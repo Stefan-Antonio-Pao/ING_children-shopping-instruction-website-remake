@@ -74,7 +74,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             level: "medium",
                             name: "现金支付",
                             description: "学习如何使用现金进行购物支付",
-                            url: "cash-payment-template.html"
+                            url: "cash-payment-template.html",
+                            mobileUrl: "cash-payment-template-mobile.html"
                         }
                     ]
                 },
@@ -181,9 +182,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Render difficulty levels
         renderDifficultyLevels(course);
-
-        // Update course info
-        updateCourseInfo(course);
     }
 
     // Render difficulty levels
@@ -216,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update course info - REMOVED as no longer needed
 
-    // Handle difficulty click - now shows difficulty description
+    // Handle difficulty click - shows description + start buttons
     function handleDifficultyClick(course, difficulty, event) {
         selectedDifficulty = difficulty;
 
@@ -229,8 +227,34 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show description container
         if (descriptionContainer && descriptionText && startBtn) {
             descriptionText.textContent = difficulty.description;
-            startBtn.textContent = `【开始】${course.name} - ${difficulty.name}`;
-            startBtn.onclick = () => startCourse(course, difficulty);
+
+            if (difficulty.mobileUrl) {
+                // Show "(桌面端)" label on the existing button
+                startBtn.textContent = `【开始】${course.name} - ${difficulty.name}（桌面端）`;
+                startBtn.onclick = () => startCourse(course, difficulty);
+
+                // Create or reuse mobile button
+                let mobileBtn = document.getElementById('start-mobile-btn');
+                if (!mobileBtn) {
+                    mobileBtn = document.createElement('button');
+                    mobileBtn.id = 'start-mobile-btn';
+                    mobileBtn.className = 'start-course-btn start-mobile-btn';
+                    startBtn.after(mobileBtn);
+                }
+                mobileBtn.textContent = `【开始】${course.name} - ${difficulty.name}（移动端）`;
+                mobileBtn.onclick = () => {
+                    if (window.speechSynthesis) window.speechSynthesis.cancel();
+                    window.location.href = difficulty.mobileUrl;
+                };
+                mobileBtn.style.display = '';
+            } else {
+                // Normal single button (desktop only)
+                startBtn.textContent = `【开始】${course.name} - ${difficulty.name}`;
+                startBtn.onclick = () => startCourse(course, difficulty);
+                const mobileBtn = document.getElementById('start-mobile-btn');
+                if (mobileBtn) mobileBtn.style.display = 'none';
+            }
+
             descriptionContainer.style.display = 'flex';
         }
     }

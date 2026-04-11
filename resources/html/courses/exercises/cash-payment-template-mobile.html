@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>现金支付练习</title>
+    <link rel="stylesheet" href="../../../css/sections/courses/exercises/cash-payment-mobile.css">
+    <script src="../../../javascript/general/page-cleaner.js"></script>
+    <script src="../../../javascript/sections/settings/voice-setting/voice-core.js"></script>
+    <script src="../../../javascript/general/page-reader.js"></script>
+    <script src="../../../javascript/sections/courses/exercises/cash-payment-mobile.js"></script>
+</head>
+<body>
+<reader style="display: none" id="page-reader-text"></reader>
+
+<!-- ======== PRACTICE VIEW ======== -->
+<div id="practice-view" class="mobile-page">
+
+    <!-- Header: [返回] ── [设置] ── [读]  (Apple Keynotes toolbar) -->
+    <header class="mobile-header">
+        <button id="end-btn" class="m-header-btn m-end-btn" aria-label="返回课程选择">返回</button>
+        <div class="m-header-spacer"></div>
+        <button id="set-btn" class="m-header-btn m-set-btn" aria-label="价格设置">设置</button>
+        <div class="m-header-spacer"></div>
+        <button id="play-page-btn" class="m-header-btn m-read-btn" aria-label="朗读页面">读</button>
+    </header>
+
+    <!-- Canvas: good-display(1) : money-counter(1) : money-bank(2) -->
+    <div class="mobile-canvas">
+
+        <!-- Good Display (ratio 1) -->
+        <section class="m-good-display" id="good-display">
+            <button id="prev-good-btn" class="m-arrow-btn" aria-label="上一个商品">&#9664;</button>
+            <div class="m-good-center">
+                <div class="m-good-img-wrap">
+                    <img id="good-image" src="" alt="当前商品">
+                </div>
+                <div id="price-tag" class="m-price-tag">0元</div>
+                <div id="good-name" class="m-good-name"></div>
+            </div>
+            <button id="next-good-btn" class="m-arrow-btn" aria-label="下一个商品">&#9654;</button>
+        </section>
+
+        <!-- Money Counter (ratio 1) — display only -->
+        <section class="m-money-counter-panel">
+            <div class="m-counter-header">
+                <span class="m-counter-label">已选金额：</span>
+                <span id="counter-total" class="m-counter-total">¥0.00</span>
+            </div>
+            <div id="money-counter" class="m-counter-items" aria-label="已放入货币"></div>
+            <div id="result-message" class="m-result-message">点击下方人民币进行支付</div>
+        </section>
+
+        <!-- Money Bank (ratio 2) — horizontal snap pager, 2 per page -->
+        <section class="m-money-bank" id="money-bank">
+            <div id="money-pager" class="m-bank-pager" aria-label="人民币选择区"></div>
+            <div id="pager-dots" class="m-pager-dots" aria-hidden="true"></div>
+        </section>
+
+    </div>
+
+    <!-- Footer: 重置 / 核对 -->
+    <footer class="mobile-footer">
+        <button id="reset-btn" class="m-footer-btn" type="button">重置</button>
+        <button id="check-btn" class="m-footer-btn m-footer-btn-primary" type="button">核对</button>
+    </footer>
+</div>
+
+<!-- ======== SETTING PAGE ======== -->
+<div id="setting-page" class="mobile-page hidden">
+
+    <!-- Header: [返回] ── (spacer) ── [读] -->
+    <header class="mobile-header">
+        <button id="setting-end-btn" class="m-header-btn m-end-btn" aria-label="返回练习">返回</button>
+        <div class="m-header-spacer"></div>
+        <button id="setting-play-btn" class="m-header-btn m-read-btn" aria-label="朗读页面">读</button>
+    </header>
+
+    <!-- Title bar -->
+    <div class="m-setting-title-bar">商品价格设置</div>
+
+    <!-- Controls (3 rows) -->
+    <div class="m-setting-ctrls">
+        <!-- Row 1: Price preset tabs -->
+        <div class="m-ctrl-row" id="price-preset-navbar">
+            <button class="m-preset-btn nav-item" type="button" data-preset="preset1">价格预设1</button>
+            <button class="m-preset-btn nav-item" type="button" data-preset="preset2">价格预设2</button>
+            <button class="m-preset-btn nav-item" type="button" data-preset="preset3">价格预设3</button>
+        </div>
+        <!-- Row 2: Mode toggles -->
+        <div class="m-ctrl-row">
+            <button id="mode-toggle-btn"            class="m-ctrl-btn" type="button">支持找零：是</button>
+            <button id="label-toggle-btn"           class="m-ctrl-btn" type="button">名称提示：关</button>
+            <button id="setting-decimal-toggle-btn" class="m-ctrl-btn" type="button">含小数：关</button>
+        </div>
+        <!-- Row 3: Actions -->
+        <div class="m-ctrl-row">
+            <button id="setting-reset-btn"  class="m-ctrl-btn"              type="button">重置</button>
+            <button id="setting-save-btn"   class="m-ctrl-btn"              type="button">保存</button>
+            <button id="setting-apply-btn"  class="m-ctrl-btn"              type="button">不保存返回</button>
+            <button id="setting-cancel-btn" class="m-ctrl-btn m-ctrl-btn-accent" type="button">使用此预设</button>
+        </div>
+    </div>
+
+    <!-- Canvas: scrollable goods list -->
+    <div id="price-setting-canvas" class="m-setting-canvas"></div>
+
+    <!-- Footer (mirrors Row 3) -->
+    <footer class="m-setting-footer">
+        <button class="m-footer-btn"              id="setting-footer-reset-btn"  type="button">重置</button>
+        <button class="m-footer-btn"              id="setting-footer-save-btn"   type="button">保存</button>
+        <button class="m-footer-btn"              id="setting-footer-apply-btn"  type="button">不保存返回</button>
+        <button class="m-footer-btn m-footer-btn-primary" id="setting-footer-cancel-btn" type="button">使用此预设</button>
+    </footer>
+
+</div>
+
+</body>
+</html>
+
