@@ -1,3 +1,8 @@
+# Links
+![Website QR Code](website-qrcode.png)
+
+[Click here to get our website directly.](https://children-shopping-instruction-websi.vercel.app/)
+
 # What's New
 ## Version 26.4.1.0
 - **Upgrade**: Add a new limitation mode in Shopping Challenge, allowing users to set total-limitation and usable-currencies-limitation via dragging currencies.

@@ -355,7 +355,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // =====================================================================
     function buildPagerPages() {
         const pages = [];
-        for (let i = 0; i < denominations.length; i += 2) pages.push(denominations.slice(i, i + 2));
+        for (let i = 0; i < denominations.length; i += 3) pages.push(denominations.slice(i, i + 3));
         return pages;
     }
 

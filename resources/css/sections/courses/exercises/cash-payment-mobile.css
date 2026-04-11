@@ -55,7 +55,7 @@ html, body {
 .m-read-btn { background: #76c893; color: #ffffff; }
 
 /* ============================================================
-   PRACTICE CANVAS  (ratio 1 : 1 : 2)
+   PRACTICE CANVAS  (ratio 1.4 : 0.7 : 2)
    ============================================================ */
 .mobile-canvas {
     flex: 1; min-height: 0;
@@ -63,20 +63,21 @@ html, body {
     overflow: hidden;
 }
 
-/* ── Good Display (flex 1) ── */
+/* ── Good Display (flex 1.4 – slightly taller) ── */
 .m-good-display {
-    flex: 1; min-height: 0;
+    flex: 1.4; min-height: 0;
     display: flex; align-items: center;
     background: #ffffff;
     border-bottom: 2px solid #e2e8f0;
-    padding: 6px 4px; gap: 2px;
+    padding: 4px 4px; gap: 2px;
+    overflow: hidden;
 }
 .m-arrow-btn {
     flex-shrink: 0;
-    width: 36px; height: 36px;
+    width: 32px; height: 32px;
     border: none; border-radius: 50%;
     background: #d7e6f6; color: #2c4a7c;
-    font-size: 16px; cursor: pointer;
+    font-size: 14px; cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     -webkit-user-select: none; user-select: none;
     transition: background 0.15s;
@@ -87,25 +88,27 @@ html, body {
     flex: 1; min-width: 0; min-height: 0;
     display: flex; flex-direction: column;
     align-items: center; justify-content: center;
-    gap: 4px; padding: 4px 2px; overflow: hidden;
+    gap: 3px; padding: 4px 2px;
 }
 .m-good-img-wrap {
-    flex: 1; min-height: 0; width: 100%;
+    /* Fixed height so max-height on <img> has a concrete reference */
+    flex-shrink: 0;
+    width: 100%; height: 80px;
     display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
 }
-#good-image { max-width: 88%; max-height: 100%; object-fit: contain; }
+#good-image { max-width: 72%; max-height: 80px; object-fit: contain; display: block; }
 .m-price-tag {
     flex-shrink: 0;
-    font-size: 1.2rem; font-weight: bold; color: #2c4a7c;
+    font-size: 1rem; font-weight: bold; color: #2c4a7c;
     background: #f6fbff; border: 2px dashed #9eb8db;
-    border-radius: 10px; padding: 2px 14px;
+    border-radius: 8px; padding: 1px 10px;
+    line-height: 1.4;
 }
-.m-good-name { flex-shrink: 0; font-size: 0.82rem; color: #6a8ab4; font-weight: bold; }
+.m-good-name { flex-shrink: 0; font-size: 0.75rem; color: #6a8ab4; font-weight: bold; }
 
-/* ── Money Counter Panel (flex 1) ── */
+/* ── Money Counter Panel (flex 0.7 – slightly shorter) ── */
 .m-money-counter-panel {
-    flex: 1; min-height: 0;
+    flex: 0.7; min-height: 0;
     display: flex; flex-direction: column;
     background: #f6fbff;
     border-bottom: 2px solid #e2e8f0;
@@ -165,31 +168,32 @@ html, body {
     scroll-snap-align: start; scroll-snap-stop: always;
     display: flex; flex-direction: column;
     align-items: center; justify-content: space-evenly;
-    padding: 8px 16px; gap: 8px;
+    padding: 6px 14px; gap: 6px;
 }
 .m-money-card {
     width: 100%; max-width: 440px;
-    display: flex; align-items: center; gap: 14px;
+    display: flex; align-items: center; gap: 10px;
     background: #f9fcff; border: 2px solid #d7e6f6;
-    border-radius: 12px; padding: 8px 16px;
+    border-radius: 10px; padding: 5px 12px;
 }
 .m-money-card-img {
     flex-shrink: 0;
-    display: flex; flex-direction: column; align-items: center; gap: 3px;
-    width: 104px;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+    width: 88px;
 }
-.m-money-card-img .bill-img { width: 104px; height: 50px; object-fit: contain; border-radius: 4px; display: block; }
-.m-money-card-img .coin-img { width: 50px;  height: 50px; object-fit: contain; display: block; }
-.m-money-label { font-size: 11px; color: #6a8ab4; font-weight: bold; }
+/* Compact image sizes for 3-per-page layout */
+.m-money-card-img .bill-img { width: 88px; height: 42px; object-fit: contain; border-radius: 3px; display: block; }
+.m-money-card-img .coin-img { width: 42px; height: 42px; object-fit: contain; display: block; }
+.m-money-label { font-size: 10px; color: #6a8ab4; font-weight: bold; }
 .m-money-label.label-hidden { display: none; }
 
-.m-money-controls { flex: 1; display: flex; align-items: center; justify-content: center; gap: 16px; }
+.m-money-controls { flex: 1; display: flex; align-items: center; justify-content: center; gap: 12px; }
 
 .m-minus-btn, .m-plus-btn {
     flex-shrink: 0;
-    width: 42px; height: 42px;
+    width: 36px; height: 36px;
     border: none; border-radius: 50%;
-    font-size: 24px; font-weight: bold; line-height: 1;
+    font-size: 20px; font-weight: bold; line-height: 1;
     cursor: pointer;
     display: flex; align-items: center; justify-content: center;
     transition: transform 0.12s ease;
@@ -202,8 +206,8 @@ html, body {
 .m-minus-btn:disabled             { opacity: 0.25; cursor: default; }
 
 .m-count-display {
-    font-size: 1.5rem; font-weight: bold; color: #2c4a7c;
-    min-width: 34px; text-align: center; flex-shrink: 0;
+    font-size: 1.25rem; font-weight: bold; color: #2c4a7c;
+    min-width: 30px; text-align: center; flex-shrink: 0;
 }
 
 .m-pager-dots {
@@ -244,32 +248,69 @@ html, body {
     padding: 7px 12px; background: #f6fbff;
     border-bottom: 1px solid #d7e6f6;
 }
-.m-setting-ctrls {
-    flex-shrink: 0; background: #ffffff;
-    padding: 8px 12px; display: flex; flex-direction: column; gap: 6px;
-    border-bottom: 2px solid #d7e6f6;
-}
-.m-ctrl-row { display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; }
 
+/* Ctrls section – white card with border (desktop navbar style) */
+.m-setting-ctrls {
+    flex-shrink: 0;
+    background: #ffffff;
+    border-bottom: 2px solid #d7e6f6;
+    padding: 0;
+    display: flex; flex-direction: column;
+}
+
+/* Each row acts like a navbar bar */
+.m-ctrl-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0;
+    padding: 6px 12px;
+    border-bottom: 1px solid #e8f0f8;
+}
+.m-ctrl-row:last-child { border-bottom: none; }
+
+/* Preset buttons → nav-item pill style */
 .m-preset-btn {
-    flex: 1; padding: 8px 8px; border: none; border-radius: 20px;
-    font-size: 13px; font-weight: bold; cursor: pointer;
-    background: #334e68; color: #ffffff;
-    transition: background 0.2s;
+    flex: 1;
+    padding: 7px 6px;
+    border: none;
+    border-radius: 50px;
+    background: transparent;
+    color: #334e68;
+    font-size: 13px; font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s, color 0.2s;
     -webkit-user-select: none; user-select: none;
 }
 .m-preset-btn.active,
-#price-preset-navbar .nav-item.active { background: #76c893; }
+#price-preset-navbar .nav-item.active {
+    background: #76c893;
+    color: #ffffff;
+}
+.m-preset-btn:not(.active):hover { background: #eaf7f0; }
 
+/* Toggle & action buttons → outlined nav-btn style */
 .m-ctrl-btn {
-    padding: 7px 11px; background: #334e68; color: #ffffff;
-    border: none; border-radius: 20px;
-    font-size: 12px; font-weight: bold; cursor: pointer;
-    white-space: nowrap; transition: opacity 0.15s;
+    padding: 6px 12px;
+    background: transparent;
+    color: #334e68;
+    border: 2px solid #d7e6f6;
+    border-radius: 50px;
+    font-size: 12px; font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
     -webkit-user-select: none; user-select: none;
+    margin: 2px 3px;
 }
 .m-ctrl-btn:active  { opacity: 0.75; }
-.m-ctrl-btn-accent  { background: #76c893; }
+.m-ctrl-btn-accent  {
+    background: #76c893;
+    color: #ffffff;
+    border-color: #76c893;
+}
 
 /* Setting canvas – Apple Finder list view */
 .m-setting-canvas {
