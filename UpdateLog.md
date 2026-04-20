@@ -1,0 +1,27 @@
+# What's New
+## Version 26.4.1.3
+- **Doc**: Update README.md to introduce the demo videos.
+- **Doc**: Separate updating logs out of README.md and newly writte in UpdateLog.md.
+---
+## Version 26.4.1.2
+- **Upgrade**: Update the mobile version of the Cash Payment, improving the user interface.
+---
+## Version 26.4.1.1
+- **Feature**: Add a mobile version of the Cash Payment, allowing users to access and use the feature on their mobile devices for a more convenient experience.
+---
+## Version 26.4.1.0
+- **Upgrade**: Add a new limitation mode in Shopping Challenge, allowing users to set total-limitation and usable-currencies-limitation via dragging currencies.
+---
+## Version 26.4.0.2
+- **Style**: Add a new style to the prompt in Shopping Challenge.
+---
+## Version 26.4.0.1
+- **Fix**: Fix the mistake on wrong-answer prompts in Cash Payment and synchronized update of voice reading script.
+---
+## Version 26.4.0.0
+- **Doc**: Rewrite README.md to provide a clearer overview of the updated content and features in this version.
+- **Feature**: Add a price-setting page for the Cash Payment allowing users to set the price on their own.
+- **Fix**: Fix the issue of reader error on number "1" in RMB Currency Recognition.
+- **Fix**: Fixed the description text for switching between "整/零" mode to match its actual effect in Cash Payment.
+- **Style**: Optimize the user interface of Cash Payment for better usability.
+- **Upgrade**: Improve the user experience of learning numbers and portraits in teaching section of RMB Currency Recognition.
